@@ -1,4 +1,4 @@
-* {
+
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -1069,7 +1069,4 @@ footer {
   }
 
   .product-image {
-    height: 125px;
-  }
-
-  }
+    height: 125px

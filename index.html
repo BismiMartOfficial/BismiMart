@@ -1,970 +1,970 @@
-button onclick="searchProducts()">🔍</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>BismiMart - Online Marketplace</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <meta name="description"
+        content="BismiMart - Online marketplace for mobiles, electronics, fashion and more.">
+</head>
+
+<body>
+
+<!-- =====================================================
+     TOP BAR
+===================================================== -->
+
+<div class="topbar">
+  <div>🛡️ Welcome to BismiMart</div>
+
+  <div class="top-links">
+    <span onclick="showScreen('orders')">📦 Track Order</span>
+    <span onclick="showScreen('account')">🏪 Become a Seller</span>
+    <span>❓ Help Center</span>
+  </div>
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="header">
+
+  <div class="logo-area" onclick="showScreen('home')">
+
+    <div class="logo-icon">B</div>
+
+    <div>
+      <div class="logo">BismiMart</div>
+      <div class="tagline">Sab Kuch, Aasaan!</div>
+    </div>
+
+  </div>
+
+
+  <!-- SEARCH -->
+
+  <div class="search-box">
+
+    <select id="categorySelect">
+      <option value="All">All Categories</option>
+      <option value="Mobiles">Mobiles</option>
+      <option value="Electronics">Electronics</option>
+      <option value="Fashion">Fashion</option>
+      <option value="Home">Home & Living</option>
+      <option value="Beauty">Beauty</option>
+      <option value="Grocery">Grocery</option>
+    </select>
+
+    <input
+      id="searchInput"
+      type="text"
+      placeholder="Search products, brands and more..."
+      onkeydown="if(event.key==='Enter') searchProducts()"
+    >
+
+    <button onclick="searchProducts()">🔍</button>
+
+  </div>
+
+
+  <!-- HEADER ACTIONS -->
+
+  <div class="header-actions">
+
+    <div class="action" onclick="showScreen('wishlist')">
+      <span class="action-icon">♡</span>
+      <small>Wishlist</small>
+    </div>
+
+    <div class="action" onclick="showScreen('account')">
+      <span class="action-icon">♙</span>
+      <small>Account</small>
+    </div>
+
+    <div class="action" onclick="showScreen('cart')">
+
+      <span class="action-icon">🛒</span>
+
+      <span id="cartCount" class="cart-count">0</span>
+
+      <small>Cart</small>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- =====================================================
+     NAVIGATION
+===================================================== -->
+
+<nav class="navigation">
+
+  <button
+    class="category-button"
+    onclick="showScreen('categories')">
+    ☰ Categories
+  </button>
+
+  <a href="#" class="active" onclick="showScreen('home')">
+    Home
+  </a>
+
+  <a href="#"
+     onclick="showScreen('home'); setTimeout(()=>scrollToSection('flash-sale'),100)">
+    ⚡ Flash Sale
+  </a>
+
+  <a href="#"
+     onclick="showScreen('home'); setTimeout(()=>scrollToSection('products'),100)">
+    Top Products
+  </a>
+
+  <a href="#" onclick="showScreen('categories')">
+    Categories
+  </a>
+
+  <a href="#" onclick="showScreen('home'); setTimeout(()=>scrollToSection('vouchers'),100)">
+    Vouchers
+  </a>
+
+  <a href="#" onclick="showScreen('account')">
+    Sell on BismiMart
+  </a>
+
+</nav>
+
+
+<!-- =====================================================
+     MAIN APP
+===================================================== -->
+
+<main>
+
+
+<!-- =====================================================
+     HOME SCREEN
+===================================================== -->
+
+<section id="homeScreen" class="app-screen">
+
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <p class="hero-small">
+        WELCOME TO BISMI MART
+      </p>
+
+      <h1>
+        Everything You Need,
+        <br>
+        <span>All in One Place.</span>
+      </h1>
+
+      <p class="hero-text">
+        Shop mobiles, electronics, fashion,
+        home products and much more.
+      </p>
+
+      <button
+        class="primary-button"
+        onclick="scrollToSection('products')">
+        Shop Now →
+      </button>
 
     </div>
 
 
-    <!-- HEADER ACTIONS -->
-    <div class="header-actions">
+    <div class="hero-products">
 
-      <div class="action" onclick="showMessage('Wishlist')">
-        <span class="action-icon">♡</span>
-        <small>Wishlist</small>
+      <div class="circle"></div>
+
+      <div class="hero-item phone">📱</div>
+
+      <div class="hero-item headphones">🎧</div>
+
+      <div class="hero-item bag">👜</div>
+
+      <div class="hero-item shoes">👟</div>
+
+    </div>
+
+
+    <div class="benefit benefit-one">
+      🚚
+      <div>
+        <b>Free Delivery</b>
+        <br>
+        <small>Orders above Rs. 1999</small>
+      </div>
+    </div>
+
+    <div class="benefit benefit-two">
+      🔄
+      <div>
+        <b>Easy Returns</b>
+        <br>
+        <small>7 Days Return</small>
+      </div>
+    </div>
+
+    <div class="benefit benefit-three">
+      🔒
+      <div>
+        <b>Secure Payments</b>
+        <br>
+        <small>100% Secure</small>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- CATEGORIES -->
+
+  <section class="section">
+
+    <div class="section-title">
+
+      <h2>Shop by Category</h2>
+
+      <a href="#" onclick="showScreen('categories')">
+        View All →
+      </a>
+
+    </div>
+
+
+    <div class="categories">
+
+      <div class="category-card"
+           onclick="filterCategory('Mobiles')">
+        <div class="category-icon">📱</div>
+        <b>Mobiles</b>
       </div>
 
-      <div class="action" onclick="showMessage('Account')">
-        <span class="action-icon">♙</span>
-        <small>Account</small>
+      <div class="category-card"
+           onclick="filterCategory('Electronics')">
+        <div class="category-icon">🎧</div>
+        <b>Electronics</b>
       </div>
 
-      <div class="action cart-action" onclick="showCart()">
-        <span class="action-icon">🛒</span>
-        <span id="cartCount" class="cart-count">0</span>
-        <small>Cart</small>
+      <div class="category-card"
+           onclick="filterCategory('Fashion')">
+        <div class="category-icon">👕</div>
+        <b>Fashion</b>
+      </div>
+
+      <div class="category-card"
+           onclick="filterCategory('Home')">
+        <div class="category-icon">🛋️</div>
+        <b>Home & Living</b>
+      </div>
+
+      <div class="category-card"
+           onclick="filterCategory('Beauty')">
+        <div class="category-icon">💄</div>
+        <b>Beauty</b>
+      </div>
+
+      <div class="category-card"
+           onclick="filterCategory('Grocery')">
+        <div class="category-icon">🛒</div>
+        <b>Grocery</b>
+      </div>
+
+      <div class="category-card">
+        <div class="category-icon">⚽</div>
+        <b>Sports</b>
+      </div>
+
+      <div class="category-card">
+        <div class="category-icon">🧸</div>
+        <b>Toys & Kids</b>
+      </div>
+
+      <div class="category-card"
+           onclick="showScreen('categories')">
+        <div class="category-icon">•••</div>
+        <b>More</b>
       </div>
 
     </div>
 
-  </header>
+  </section>
 
 
-  <!-- NAVIGATION -->
-  <nav class="navigation">
+  <!-- PROMOTIONS -->
 
-    <button class="category-button">
-      ☰ &nbsp; Categories
-    </button>
+  <section class="promotions" id="flash-sale">
 
-    <a class="active" href="#">Home</a>
-    <a href="#flash-sale">⚡ Flash Sale</a>
-    <a href="#products">Top Products</a>
-    <a href="#categories">Categories</a>
-    <a href="#vouchers">Vouchers</a>
-    <a href="#seller">Sell on BismiMart</a>
+    <div class="promo flash">
 
-  </nav>
+      <div>
 
+        <h2>FLASH SALE ⚡</h2>
 
-  <main>
+        <p>Up to <b>60% OFF</b></p>
 
+        <div class="timer">
 
-    <!-- HERO SECTION -->
-    <section class="hero">
+          <span id="hours">02</span> :
+          <span id="minutes">45</span> :
+          <span id="seconds">30</span>
 
-      <div class="hero-content">
+        </div>
 
-        <p class="hero-small">
-          WELCOME TO BISMI MART
-        </p>
-
-        <h1>
-          Everything You Need,
-          <br>
-          <span>All in One Place.</span>
-        </h1>
-
-        <p class="hero-text">
-          Shop electronics, fashion, home essentials
-          and much more at the best prices.
-        </p>
-
-        <button class="primary-button"
-                onclick="scrollToProducts()">
+        <button onclick="scrollToSection('products')">
           Shop Now →
         </button>
 
       </div>
 
+      <div class="promo-icon">🎧</div>
 
-      <div class="hero-products">
+    </div>
 
-        <div class="circle"></div>
 
-        <div class="hero-item phone">📱</div>
-        <div class="hero-item headphones">🎧</div>
-        <div class="hero-item bag">👜</div>
-        <div class="hero-item shoes">👟</div>
-
-      </div>
-
-
-      <div class="benefit benefit-one">
-        🚚
-        <div>
-          <b>Free Delivery</b>
-          <br>
-          <small>Orders above Rs. 1999</small>
-        </div>
-      </div>
-
-      <div class="benefit benefit-two">
-        🔄
-        <div>
-          <b>Easy Returns</b>
-          <br>
-          <small>7 Days Return Policy</small>
-        </div>
-      </div>
-
-      <div class="benefit benefit-three">
-        🔒
-        <div>
-          <b>Secure Payments</b>
-          <br>
-          <small>100% Secure</small>
-        </div>
-      </div>
-
-    </section>
-
-
-    <!-- CATEGORIES -->
-    <section class="section" id="categories">
-
-      <div class="section-title">
-
-        <h2>Shop by Category</h2>
-
-        <a href="#">View All →</a>
-
-      </div>
-
-
-      <div class="categories">
-
-        <div class="category-card"
-             onclick="filterCategory('Mobiles')">
-          <div class="category-icon">📱</div>
-          <b>Mobiles</b>
-        </div>
-
-        <div class="category-card"
-             onclick="filterCategory('Electronics')">
-          <div class="category-icon">🎧</div>
-          <b>Electronics</b>
-        </div>
-
-        <div class="category-card"
-             onclick="filterCategory('Fashion')">
-          <div class="category-icon">👕</div>
-          <b>Fashion</b>
-        </div>
-
-        <div class="category-card"
-             onclick="filterCategory('Home')">
-          <div class="category-icon">🛋️</div>
-          <b>Home & Living</b>
-        </div>
-
-        <div class="category-card"
-             onclick="filterCategory('Beauty')">
-          <div class="category-icon">💄</div>
-          <b>Beauty</b>
-        </div>
-
-        <div class="category-card"
-             onclick="filterCategory('Grocery')">
-          <div class="category-icon">🛒</div>
-          <b>Grocery</b>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">⚽</div>
-          <b>Sports</b>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">🧸</div>
-          <b>Toys & Kids</b>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">•••</div>
-          <b>More</b>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- PROMOTIONS -->
-    <section class="promotions" id="flash-sale">
-
-      <div class="promo flash">
-
-        <div>
-          <h2>FLASH SALE ⚡</h2>
-
-          <p>Up to <b>60% OFF</b></p>
-
-          <div class="timer">
-            <span id="hours">02</span> :
-            <span id="minutes">45</span> :
-            <span id="seconds">30</span>
-          </div>
-
-          <button onclick="scrollToProducts()">
-            Shop Now →
-          </button>
-        </div>
-
-        <div class="promo-icon">🎧</div>
-
-      </div>
-
-
-      <div class="promo delivery">
-
-        <div>
-          <h2>FREE DELIVERY</h2>
-
-          <p>
-            On orders above
-            <b>Rs. 1999</b>
-          </p>
-
-          <button onclick="scrollToProducts()">
-            Shop Now →
-          </button>
-        </div>
-
-        <div class="promo-icon">🚚</div>
-
-      </div>
-
-
-      <div class="promo voucher" id="vouchers">
-
-        <div>
-          <h2>BISMIMART VOUCHERS</h2>
-
-          <p>Save More with Exclusive Vouchers</p>
-
-          <button onclick="showMessage('Vouchers')">
-            Get Vouchers →
-          </button>
-        </div>
-
-        <div class="promo-icon">🎁</div>
-
-      </div>
-
-    </section>
-
-
-    <!-- PRODUCTS -->
-    <section class="section" id="products">
-
-      <div class="section-title">
-
-        <h2>Popular Products</h2>
-
-        <a href="#">View All →</a>
-
-      </div>
-
-
-      <div class="products" id="productList">
-
-
-        <!-- PRODUCT 1 -->
-        <div class="product-card" data-category="Mobiles">
-
-          <div class="discount">-15%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">
-            📱
-          </div>
-
-          <div class="product-info">
-
-            <h3>Vivo Y17s</h3>
-
-            <p>4GB RAM • 128GB</p>
-
-            <div class="price">
-              Rs. 39,999
-            </div>
-
-            <div class="old-price">
-              Rs. 46,999
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(124)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="addToCart('Vivo Y17s',39999)">
-              Add to Cart
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 2 -->
-        <div class="product-card" data-category="Mobiles">
-
-          <div class="discount">-20%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">
-            📱
-          </div>
-
-          <div class="product-info">
-
-            <h3>Realme Narzo 60x</h3>
-
-            <p>6GB RAM • 128GB</p>
-
-            <div class="price">
-              Rs. 37,999
-            </div>
-
-            <div class="old-price">
-              Rs. 47,999
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(98)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="addToCart('Realme Narzo 60x',37999)">
-              Add to Cart
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 3 -->
-        <div class="product-card" data-category="Electronics">
-
-          <div class="discount">-25%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">
-            ⌚
-          </div>
-
-          <div class="product-info">
-
-            <h3>Mi Smart Band 8</h3>
-
-            <p>1.62″ AMOLED Display</p>
-
-            <div class="price">
-              Rs. 6,499
-            </div>
-
-            <div class="old-price">
-              Rs. 8,699
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(76)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="addToCart('Mi Smart Band 8',6499)">
-              Add to Cart
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 4 -->
-        <div class="product-card" data-category="Electronics">
-
-          <div class="discount">-18%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">
-            🎧
-          </div>
-
-          <div class="product-info">
-
-            <h3>boAt Airdopes 141</h3>
-
-            <p>Wireless Earbuds</p>
-
-            <div class="price">
-              Rs. 3,199
-            </div>
-
-            <div class="old-price">
-              Rs. 3,899
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(211)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="addToCart('boAt Airdopes 141',3199)">
-              Add to Cart
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 5 -->
-        <div class="product-card" data-category="Fashion">
-
-          <div class="discount">-30%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">
-            👟
-          </div>
-
-          <div class="product-info">
-
-            <h3>Nike Running Shoes</h3>
-
-            <p>Comfortable & Light</p>
-
-            <div class="price">
-              Rs. 4,899
-            </div>
-
-            <div class="old-price">
-              Rs. 6,999
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(142)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="addToCart('Nike Running Shoes',4899)">
-              Add to Cart
-            </button>
-
-          </div>
-
-        </div>
-
-
-      </div>
-
-    </section>
-
-
-    <!-- WHY BISMI MART -->
-    <section class="why-section">
-
-      <div class="section-title">
-        <h2>Why Shop With BismiMart?</h2>
-      </div>
-
-
-      <div class="why-grid">
-
-        <div class="why-card">
-          <div>🛡️</div>
-          <b>100% Genuine Products</b>
-          <small>Sourced Directly</small>
-        </div>
-
-        <div class="why-card">
-          <div>🔄</div>
-          <b>7 Days Easy Returns</b>
-          <small>Hassle Free Returns</small>
-        </div>
-
-        <div class="why-card">
-          <div>🔐</div>
-          <b>Secure Payments</b>
-          <small>Multiple Options</small>
-        </div>
-
-        <div class="why-card">
-          <div>🚚</div>
-          <b>Fast Delivery</b>
-          <small>All Over Pakistan</small>
-        </div>
-
-        <div class="why-card">
-          <div>🎧</div>
-          <b>24/7 Customer Support</b>
-          <small>We're Here For You</small>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- SELLER -->
-    <section class="seller-section" id="seller">
+    <div class="promo delivery">
 
       <div>
-        <h2>Want to Sell on BismiMart?</h2>
+
+        <h2>FREE DELIVERY</h2>
 
         <p>
-          Start your online business and reach customers
-          all over Pakistan.
+          On orders above <b>Rs. 1999</b>
         </p>
-      </div>
 
-      <button onclick="showMessage('Seller registration')">
-        Become a Seller →
-      </button>
-
-    </section>
-
-
-    <!-- NEWSLETTER -->
-    <section class="newsletter">
-
-      <div class="newsletter-text">
-
-        <div class="mail-icon">✉️</div>
-
-        <div>
-          <h2>Stay Updated with BismiMart</h2>
-
-          <p>
-            Subscribe to get the latest deals and offers.
-          </p>
-        </div>
-
-      </div>
-
-
-      <div class="subscribe">
-
-        <input
-          type="email"
-          id="email"
-          placeholder="Enter your email address"
-        >
-
-        <button onclick="subscribeEmail()">
-          Subscribe
+        <button onclick="scrollToSection('products')">
+          Shop Now →
         </button>
 
       </div>
 
-    </section>
+      <div class="promo-icon">🚚</div>
 
-  </main>
-
-
-  <!-- FOOTER -->
-  <footer>
-
-    <div class="footer-grid">
+    </div>
 
 
-      <div class="footer-brand">
+    <div class="promo voucher" id="vouchers">
 
-        <div class="footer-logo">
-          <span>B</span>
-          BismiMart
+      <div>
+
+        <h2>BISMIMART VOUCHERS</h2>
+
+        <p>Save More with Exclusive Vouchers</p>
+
+        <button onclick="showMessage('Voucher')">
+          Get Vouchers →
+        </button>
+
+      </div>
+
+      <div class="promo-icon">🎁</div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PRODUCTS -->
+
+  <section class="section" id="products">
+
+    <div class="section-title">
+
+      <h2>Popular Products</h2>
+
+      <a href="#" onclick="showScreen('categories')">
+        View All →
+      </a>
+
+    </div>
+
+
+    <div class="products" id="productList">
+
+
+      <!-- PRODUCT 1 -->
+
+      <div class="product-card"
+           data-category="Mobiles"
+           data-name="Vivo Y17s">
+
+        <div class="discount">-15%</div>
+
+        <button class="heart"
+                onclick="addWishlist(event,this)">
+          ♡
+        </button>
+
+        <div class="product-image">
+          📱
         </div>
+
+        <div class="product-info">
+
+          <h3>Vivo Y17s</h3>
+
+          <p>4GB RAM • 128GB</p>
+
+          <div class="price">
+            Rs. 39,999
+          </div>
+
+          <div class="old-price">
+            Rs. 46,999
+          </div>
+
+          <div class="rating">
+            ⭐⭐⭐⭐⭐
+            <small>(124)</small>
+          </div>
+
+          <button
+            class="cart-button"
+            onclick="openProduct('Vivo Y17s',39999,'Mobiles','📱')">
+            View Product
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCT 2 -->
+
+      <div class="product-card"
+           data-category="Mobiles"
+           data-name="Realme Narzo 60x">
+
+        <div class="discount">-20%</div>
+
+        <button class="heart"
+                onclick="addWishlist(event,this)">
+          ♡
+        </button>
+
+        <div class="product-image">
+          📱
+        </div>
+
+        <div class="product-info">
+
+          <h3>Realme Narzo 60x</h3>
+
+          <p>6GB RAM • 128GB</p>
+
+          <div class="price">
+            Rs. 37,999
+          </div>
+
+          <div class="old-price">
+            Rs. 47,999
+          </div>
+
+          <div class="rating">
+            ⭐⭐⭐⭐⭐
+            <small>(98)</small>
+          </div>
+
+          <button
+            class="cart-button"
+            onclick="openProduct('Realme Narzo 60x',37999,'Mobiles','📱')">
+            View Product
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCT 3 -->
+
+      <div class="product-card"
+           data-category="Electronics"
+           data-name="Mi Smart Band 8">
+
+        <div class="discount">-25%</div>
+
+        <button class="heart"
+                onclick="addWishlist(event,this)">
+          ♡
+        </button>
+
+        <div class="product-image">
+          ⌚
+        </div>
+
+        <div class="product-info">
+
+          <h3>Mi Smart Band 8</h3>
+
+          <p>1.62″ AMOLED Display</p>
+
+          <div class="price">
+            Rs. 6,499
+          </div>
+
+          <div class="old-price">
+            Rs. 8,699
+          </div>
+
+          <div class="rating">
+            ⭐⭐⭐⭐⭐
+            <small>(76)</small>
+          </div>
+
+          <button
+            class="cart-button"
+            onclick="openProduct('Mi Smart Band 8',6499,'Electronics','⌚')">
+            View Product
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCT 4 -->
+
+      <div class="product-card"
+           data-category="Electronics"
+           data-name="boAt Airdopes 141">
+
+        <div class="discount">-18%</div>
+
+        <button class="heart"
+                onclick="addWishlist(event,this)">
+          ♡
+        </button>
+
+        <div class="product-image">
+          🎧
+        </div>
+
+        <div class="product-info">
+
+          <h3>boAt Airdopes 141</h3>
+
+          <p>Wireless Earbuds</p>
+
+          <div class="price">
+            Rs. 3,199
+          </div>
+
+          <div class="old-price">
+            Rs. 3,899
+          </div>
+
+          <div class="rating">
+            ⭐⭐⭐⭐⭐
+            <small>(211)</small>
+          </div>
+
+          <button
+            class="cart-button"
+            onclick="openProduct('boAt Airdopes 141',3199,'Electronics','🎧')">
+            View Product
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- PRODUCT 5 -->
+
+      <div class="product-card"
+           data-category="Fashion"
+           data-name="Nike Running Shoes">
+
+        <div class="discount">-30%</div>
+
+        <button class="heart"
+                onclick="addWishlist(event,this)">
+          ♡
+        </button>
+
+        <div class="product-image">
+          👟
+        </div>
+
+        <div class="product-info">
+
+          <h3>Nike Running Shoes</h3>
+
+          <p>Comfortable & Light</p>
+
+          <div class="price">
+            Rs. 4,899
+          </div>
+
+          <div class="old-price">
+            Rs. 6,999
+          </div>
+
+          <div class="rating">
+            ⭐⭐⭐⭐⭐
+            <small>(142)</small>
+          </div>
+
+          <button
+            class="cart-button"
+            onclick="openProduct('Nike Running Shoes',4899,'Fashion','👟')">
+            View Product
+          </button>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </section>
+
+
+  <!-- WHY BISMI MART -->
+
+  <section class="why-section">
+
+    <div class="section-title">
+      <h2>Why Shop With BismiMart?</h2>
+    </div>
+
+    <div class="why-grid">
+
+      <div class="why-card">
+        <div>🛡️</div>
+        <b>Genuine Products</b>
+        <small>Quality Products</small>
+      </div>
+
+      <div class="why-card">
+        <div>🔄</div>
+        <b>7 Days Returns</b>
+        <small>Easy Returns</small>
+      </div>
+
+      <div class="why-card">
+        <div>🔐</div>
+        <b>Secure Payments</b>
+        <small>Safe Checkout</small>
+      </div>
+
+      <div class="why-card">
+        <div>🚚</div>
+        <b>Fast Delivery</b>
+        <small>Across Pakistan</small>
+      </div>
+
+      <div class="why-card">
+        <div>🎧</div>
+        <b>Customer Support</b>
+        <small>We're Here For You</small>
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- SELLER -->
+
+  <section class="seller-section">
+
+    <div>
+
+      <h2>Want to Sell on BismiMart?</h2>
+
+      <p>
+        Start your online business and reach customers
+        all over Pakistan.
+      </p>
+
+    </div>
+
+    <button onclick="showScreen('account')">
+      Become a Seller →
+    </button>
+
+  </section>
+
+
+  <!-- NEWSLETTER -->
+
+  <section class="newsletter">
+
+    <div class="newsletter-text">
+
+      <div class="mail-icon">✉️</div>
+
+      <div>
+
+        <h2>Stay Updated with BismiMart</h2>
 
         <p>
-          BismiMart is your trusted online marketplace
-          for quality products at the best prices.
+          Get latest deals and offers.
         </p>
 
-        <div class="socials">
-          <span>f</span>
-          <span>◎</span>
-          <span>▶</span>
-          <span>♪</span>
+      </div>
+
+    </div>
+
+
+    <div class="subscribe">
+
+      <input
+        id="email"
+        type="email"
+        placeholder="Enter your email"
+      >
+
+      <button onclick="subscribeEmail()">
+        Subscribe
+      </button>
+
+    </div>
+
+  </section>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUCT DETAILS SCREEN
+===================================================== -->
+
+<section id="productScreen"
+         class="app-screen"
+         style="display:none;">
+
+  <div class="section">
+
+    <button
+      onclick="showScreen('home')"
+      style="border:none;background:none;font-size:15px;margin-bottom:20px;">
+      ← Back to Shopping
+    </button>
+
+
+    <div style="
+      background:white;
+      border-radius:15px;
+      padding:30px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:35px;
+      align-items:center;
+    ">
+
+
+      <div style="
+        min-height:350px;
+        background:#fafafa;
+        border-radius:12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size:150px;
+      "
+      id="detailImage">
+        📱
+      </div>
+
+
+      <div>
+
+        <p style="color:#ff5a00;font-weight:bold;">
+          BISMI MART
+        </p>
+
+        <h1 id="detailName"
+            style="font-size:32px;margin:10px 0;">
+          Product
+        </h1>
+
+        <div style="margin:10px 0;">
+          ⭐⭐⭐⭐⭐
+          <span style="color:#777;">
+            4.8/5
+          </span>
+        </div>
+
+        <p id="detailCategory"
+           style="color:#777;margin-bottom:15px;">
+          Category
+        </p>
+
+        <div id="detailPrice"
+             style="
+               color:#ff5a00;
+               font-size:28px;
+               font-weight:bold;
+               margin:15px 0;
+             ">
+          Rs. 0
+        </div>
+
+        <p style="color:#555;margin-bottom:20px;">
+          High quality product available on
+          BismiMart. Order now and get fast delivery.
+        </p>
+
+
+        <div style="
+          display:flex;
+          gap:10px;
+          margin-bottom:20px;
+        ">
+
+          <button
+            onclick="addCurrentProductToCart()"
+            style="
+              flex:1;
+              border:none;
+              background:#ff5a00;
+              color:white;
+              padding:14px;
+              border-radius:7px;
+              font-weight:bold;
+            ">
+            🛒 Add to Cart
+          </button>
+
+          <button
+            onclick="buyCurrentProduct()"
+            style="
+              flex:1;
+              border:1px solid #ff5a00;
+              background:white;
+              color:#ff5a00;
+              padding:14px;
+              border-radius:7px;
+              font-weight:bold;
+            ">
+            Buy Now
+          </button>
+
+        </div>
+
+
+        <div style="
+          border-top:1px solid #eee;
+          padding-top:18px;
+          display:grid;
+          gap:10px;
+          color:#555;
+          font-size:13px;
+        ">
+
+          <div>🚚 Fast Delivery</div>
+          <div>🔄 7 Days Return</div>
+          <div>🔒 Secure Payment</div>
+
         </div>
 
       </div>
 
-
-      <div>
-        <h3>Quick Links</h3>
-
-        <a href="#">Home</a>
-        <a href="#products">Products</a>
-        <a href="#categories">Categories</a>
-        <a href="#flash-sale">Flash Sale</a>
-        <a href="#vouchers">Vouchers</a>
-      </div>
-
-
-      <div>
-        <h3>Customer Care</h3>
-
-        <a href="#">Help Center</a>
-        <a href="#">Track Order</a>
-        <a href="#">Returns & Refunds</a>
-        <a href="#">Contact Us</a>
-        <a href="#">Privacy Policy</a>
-      </div>
-
-
-      <div>
-        <h3>For Sellers</h3>
-
-        <a href="#seller">Become a Seller</a>
-        <a href="#">Seller Center</a>
-        <a href="#">Seller Policies</a>
-        <a href="#">How to Sell</a>
-      </div>
-
-
-      <div>
-        <h3>Contact Us</h3>
-
-        <p>📞 021-12345678</p>
-        <p>✉️ support@bismimart.pk</p>
-        <p>📍 Karachi, Pakistan</p>
-      </div>
-
-
     </div>
 
+  </div>
 
-    <div class="footer-bottom">
-
-      <span>
-        © 2026 BismiMart. All Rights Reserved.
-      </span>
-
-      <span>
-        💳 VISA &nbsp; Mastercard &nbsp; Easypaisa &nbsp; JazzCash
-      </span>
-
-    </div>
-
-  </footer>
+</section>
 
 
-  <!-- CART POPUP -->
-  <div id="cartPopup" class="popup">
+<!-- =====================================================
+     CART SCREEN
+===================================================== -->
 
-    <div class="popup-box">
+<section id="cartScreen"
+         class="app-screen"
+         style="display:none;">
 
-      <button class="close"
-              onclick="closeCart()">
-        ×
+  <div class="section">
+
+    <div class="section-title">
+
+      <h2>🛒 Shopping Cart</h2>
+
+      <button
+        onclick="showScreen('home')"
+        style="
+          border:none;
+          background:none;
+          color:#ff5a00;
+          font-weight:bold;
+        ">
+        Continue Shopping
       </button>
 
-      <h2>🛒 Your Cart</h2>
+    </div>
 
-      <div id="cartItems">
-        Your cart is empty.
-      </div>
 
-      <div class="cart-total">
-        Total: Rs. <span id="cartTotal">0</span>
-      </div>
+    <div id="cartPageItems"
+         style="
+           background:white;
+           border-radius:12px;
+           padding:20px;
+         ">
+    </div>
 
-      <button class="checkout"
-              onclick="checkout()">
-        Proceed to Checkout
+
+    <div style="
+      margin-top:20px;
+      background:white;
+      padding:25px;
+      border-radius:12px;
+    ">
+
+      <h2>
+        Total:
+        Rs.
+        <span id="cartPageTotal">0</span>
+      </h2>
+
+      <button
+        onclick="goCheckout()"
+        style="
+          margin-top:15px;
+          width:100%;
+          max-width:400px;
+          border:none;
+          background:#ff5a00;
+          color:white;
+          padding:14px;
+          border-radius:7px;
+          font-weight:bold;
+        ">
+        Proceed to Checkout →
       </button>
 
     </div>
 
   </div>
 
+</section>
 
-  <!-- JAVASCRIPT -->
-  <script>
 
-    let cart = [];
-    let total = 0;
+<!-- =====================================================
+     CHECKOUT SCREEN
+===================================================== -->
 
+<section id="checkoutScreen"
+         class="app-screen"
+         style="display:none;">
 
-    // ADD TO CART
-    function addToCart(name, price) {
-
-      cart.push({
-        name: name,
-        price: price
-      });
-
-      total += price;
-
-      document.getElementById("cartCount").innerText =
-        cart.length;
-
-      alert(name + " added to cart!");
-
-    }
-
-
-    // SHOW CART
-    function showCart() {
-
-      const popup =
-        document.getElementById("cartPopup");
-
-      const items =
-        document.getElementById("cartItems");
-
-      if (cart.length === 0) {
-
-        items.innerHTML =
-          "<p>Your cart is empty.</p>";
-
-      } else {
-
-        let html = "";
-
-        cart.forEach((item, index) => {
-
-          html += `
-            <div class="cart-item">
-              <span>${item.name}</span>
-              <b>Rs. ${item.price.toLocaleString()}</b>
-            </div>
-          `;
-
-        });
-
-        items.innerHTML = html;
-
-      }
-
-      document.getElementById("cartTotal").innerText =
-        total.toLocaleString();
-
-      popup.style.display = "flex";
-
-    }
-
-
-    // CLOSE CART
-    function closeCart() {
-
-      document.getElementById("cartPopup").style.display =
-        "none";
-
-    }
-
-
-    // CHECKOUT
-    function checkout() {
-
-      if (cart.length === 0) {
-
-        alert("Your cart is empty.");
-
-        return;
-
-      }
-
-      alert(
-        "Checkout system will be connected with payment gateway."
-      );
-
-    }
-
-
-    // WISHLIST
-    function addWishlist(button) {
-
-      button.classList.toggle("liked");
-
-      if (button.classList.contains("liked")) {
-
-        button.innerHTML = "♥";
-
-      } else {
-
-        button.innerHTML = "♡";
-
-      }
-
-    }
-
-
-    // SEARCH
-    function searchProducts() {
-
-      const search =
-        document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase();
-
-      const products =
-        document.querySelectorAll(".product-card");
-
-      products.forEach(product => {
-
-        const name =
-          product
-          .querySelector("h3")
-          .innerText
-          .toLowerCase();
-
-        if (name.includes(search) || search === "") {
-
-          product.style.display = "block";
-
-        } else {
-
-          product.style.display = "none";
-
-        }
-
-      });
-
-      scrollToProducts();
-
-    }
-
-
-    // CATEGORY FILTER
-    function filterCategory(category) {
-
-      const products =
-        document.querySelectorAll(".product-card");
-
-      products.forEach(product => {
-
-        const productCategory =
-          product.getAttribute("data-category");
-
-        if (
-          productCategory === category ||
-          category === "All"
-        ) {
-
-          product.style.display = "block";
-
-        } else {
-
-          product.style.display = "none";
-
-        }
-
-      });
-
-      scrollToProducts();
-
-    }
-
-
-    // SCROLL PRODUCTS
-    function scrollToProducts() {
-
-      document
-        .getElementById("products")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
-
-    }
-
-
-    // MESSAGE
-    function showMessage(message) {
-
-      alert(
-        message +
-        " feature is coming soon."
-      );
-
-    }
-
-
-    // EMAIL
-    function subscribeEmail() {
-
-      const email =
-        document
-        .getElementById("email")
-        .value;
-
-      if (!email) {
-
-        alert("Please enter your email.");
-
-        return;
-
-      }
-
-      alert(
-        "Thank you! You are subscribed to BismiMart."
-      );
-
-      document.getElementById("email").value = "";
-
-    }
-
-
-    // FLASH SALE TIMER
-    let timeLeft = 2 * 60 * 60 + 45 * 60 + 30;
-
-    setInterval(function() {
-
-      if (timeLeft <= 0) {
-        return;
-      }
-
-      timeLeft--;
-
-      const hours =
-        Math.floor(timeLeft / 3600);
-
-      const minutes =
-        Math.floor((timeLeft % 3600) / 60);
-
-      const seconds =
-        timeLeft % 60;
-
-      document.getElementById("hours").innerText =
-        String(hours).padStart(2, "0");
-
-      document.getElementById("minutes").innerText =
-        String(minutes).padStart(2, "0");
-
-      document.getElementById("seconds").innerText =
-        String(seconds).padStart(2, "0");
-
-    }, 1000);
-
-
-  </script>
-
-</body>
-          </html
+  <div

@@ -1,1 +1,21 @@
-
+{
+  "name": "bismimart",
+  "version": "1.0.0",
+  "description": "BismiMart - Online Marketplace Website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "bismimart",
+    "marketplace",
+    "ecommerce",
+    "online-shopping"
+  ],
+  "author": "BismiMart",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

@@ -1,474 +1,1012 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>BismiMart - Online Marketplace</title>
-
-  <link rel="stylesheet" href="style.css">
-
-  <style>
-    /* APP SCREENS */
-
-    .app-screen {
-      display: none;
-    }
-
-    .app-screen.active-screen {
-      display: block;
-    }
-
-    .app-container {
-      min-height: 500px;
-    }
-
-    .mobile-nav {
-      display: none;
-    }
-
-    .screen-header {
-      width: 92%;
-      max-width: 1400px;
-      margin: 25px auto;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .back-button {
-      border: none;
-      background: #f2f2f2;
-      padding: 11px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .screen-header h2 {
-      font-size: 25px;
-    }
-
-    .product-detail {
-      width: 92%;
-      max-width: 1200px;
-      margin: 30px auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 35px;
-    }
-
-    .detail-image {
-      min-height: 450px;
-      border-radius: 18px;
-      background: #fafafa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 180px;
-    }
-
-    .detail-info {
-      padding: 20px;
-    }
-
-    .detail-info h1 {
-      font-size: 34px;
-      margin-bottom: 15px;
-    }
-
-    .detail-price {
-      color: #ff5a00;
-      font-size: 30px;
-      font-weight: bold;
-      margin: 20px 0;
-    }
-
-    .detail-description {
-      color: #666;
-      line-height: 1.7;
-      margin-bottom: 25px;
-    }
-
-    .quantity-box {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 20px 0;
-    }
-
-    .quantity-box button {
-      width: 38px;
-      height: 38px;
-      border: 1px solid #ddd;
-      background: white;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 20px;
-    }
-
-    .quantity-box span {
-      min-width: 30px;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .big-button {
-      width: 100%;
-      border: none;
-      background: #ff5a00;
-      color: white;
-      padding: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .secondary-button {
-      width: 100%;
-      border: 1px solid #ff5a00;
-      background: white;
-      color: #ff5a00;
-      padding: 15px;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    /* CART */
-
-    .cart-page {
-      width: 92%;
-      max-width: 1100px;
-      margin: 30px auto;
-    }
-
-    .cart-product {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 20px;
-      border: 1px solid #eee;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      background: white;
-    }
-
-    .cart-product-image {
-      width: 100px;
-      height: 100px;
-      background: #fafafa;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      font-size: 55px;
-    }
-
-    .cart-product-info {
-      flex: 1;
-    }
-
-    .cart-product-info h3 {
-      margin-bottom: 8px;
-    }
-
-    .cart-product-info p {
-      color: #777;
-    }
-
-    .cart-product-price {
-      color: #ff5a00;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .remove-button {
-      border: none;
-      background: #ffe9e4;
-      color: #e43d20;
-      padding: 9px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    .cart-summary {
-      margin-top: 25px;
-      border: 1px solid #eee;
-      border-radius: 12px;
-      padding: 25px;
-      background: white;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      margin: 12px 0;
-    }
-
-    .summary-total {
-      border-top: 1px solid #eee;
-      padding-top: 15px;
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    /* CHECKOUT */
-
-    .checkout-page {
-      width: 92%;
-      max-width: 1100px;
-      margin: 30px auto;
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 25px;
-    }
-
-    .checkout-box {
-      border: 1px solid #eee;
-      border-radius: 12px;
-      padding: 25px;
-      background: white;
-    }
-
-    .checkout-box h2 {
-      margin-bottom: 20px;
-    }
-
-    .checkout-box label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      margin: 15px 0 7px;
-    }
-
-    .checkout-box input,
-    .checkout-box textarea,
-    .checkout-box select {
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 7px;
-      padding: 13px;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .checkout-box textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .payment-option {
-      border: 1px solid #ddd;
-      padding: 14px;
-      border-radius: 8px;
-      margin: 10px 0;
-      cursor: pointer;
-    }
-
-    .payment-option input {
-      width: auto;
-      margin-right: 8px;
-    }
-
-    /* ORDERS */
-
-    .orders-page {
-      width: 92%;
-      max-width: 1100px;
-      margin: 30px auto;
-    }
-
-    .order-card {
-      border: 1px solid #eee;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 15px;
-      background: white;
-    }
-
-    .order-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-
-    .order-status {
-      color: #198b3d;
-      font-weight: bold;
-    }
-
-    .empty-box {
-      text-align: center;
-      padding: 60px 20px;
-      border: 1px dashed #ddd;
-      border-radius: 12px;
-      color: #777;
-    }
-
-    /* ACCOUNT */
-
-    .account-page {
-      width: 92%;
-      max-width: 900px;
-      margin: 30px auto;
-    }
-
-    .account-card {
-      background: white;
-      border: 1px solid #eee;
-      border-radius: 15px;
-      padding: 30px;
-    }
-
-    .account-avatar {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background: #ff5a00;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 35px;
-      font-weight: bold;
-      margin-bottom: 15px;
-    }
-
-    .account-menu {
-      margin-top: 25px;
-      display: grid;
-      gap: 10px;
-    }
-
-    .account-menu button {
-      text-align: left;
-      padding: 15px;
-      border: 1px solid #eee;
-      background: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    /* MOBILE BOTTOM NAV */
-
-    .mobile-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      border-top: 1px solid #ddd;
-      z-index: 9998;
-      padding: 8px 5px;
-      justify-content: space-around;
-    }
-
-    .mobile-nav button {
-      border: none;
-      background: none;
-      font-size: 11px;
-      color: #555;
-      cursor: pointer;
-    }
-
-    .mobile-nav button span {
-      display: block;
-      font-size: 21px;
-      margin-bottom: 3px;
-    }
-
-    @media (max-width: 650px) {
-
-      .product-detail {
-        grid-template-columns: 1fr;
-      }
-
-      .detail-image {
-        min-height: 300px;
-        font-size: 120px;
-      }
-
-      .detail-info h1 {
-        font-size: 26px;
-      }
-
-      .checkout-page {
-        grid-template-columns: 1fr;
-      }
-
-      .cart-product {
-        align-items: flex-start;
-      }
-
-      .cart-product-image {
-        width: 70px;
-        height: 70px;
-        font-size: 40px;
-      }
-
-      .mobile-nav {
-        display: flex;
-      }
-
-      body {
-        padding-bottom: 65px;
-      }
-
-      .order-top {
-        display: block;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>BismiMart - Shopping App</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --orange:#ff5a00;
+  --orange2:#ff7a00;
+  --bg:#f5f6f8;
+  --white:#fff;
+  --text:#222;
+  --muted:#777;
+  --border:#e8e8e8;
+  --green:#16a34a;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding-bottom:72px;
+}
+
+button,input,select{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.app{
+  max-width:600px;
+  margin:auto;
+  min-height:100vh;
+  background:#f5f6f8;
+  box-shadow:0 0 30px rgba(0,0,0,.08);
+}
+
+/* TOP HEADER */
+
+.top-header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:white;
+  padding:12px 14px 10px;
+  border-bottom:1px solid var(--border);
+}
+
+.header-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo-box{
+  width:46px;
+  height:46px;
+  background:linear-gradient(135deg,#ff4b00,#ff7900);
+  color:white;
+  border-radius:13px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:28px;
+  font-weight:900;
+  flex-shrink:0;
+}
+
+.logo-text{
+  flex:1;
+}
+
+.logo-text strong{
+  display:block;
+  font-size:20px;
+}
+
+.logo-text small{
+  color:#777;
+  font-size:10px;
+}
+
+.header-icon{
+  width:38px;
+  height:38px;
+  border:0;
+  background:#f5f5f5;
+  border-radius:50%;
+  font-size:20px;
+  position:relative;
+}
+
+.badge{
+  position:absolute;
+  right:-3px;
+  top:-3px;
+  background:#ff3b00;
+  color:white;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  font-size:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+.search{
+  margin-top:10px;
+  display:flex;
+  background:#f3f4f6;
+  border:2px solid var(--orange);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.search input{
+  width:100%;
+  border:0;
+  outline:none;
+  padding:12px;
+  background:transparent;
+  font-size:14px;
+}
+
+.search button{
+  width:48px;
+  border:0;
+  background:var(--orange);
+  color:white;
+  font-size:18px;
+}
+
+/* SCREENS */
+
+.screen{
+  display:none;
+  min-height:calc(100vh - 150px);
+}
+
+.screen.active{
+  display:block;
+}
+
+.screen-title{
+  padding:18px 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:white;
+  border-bottom:1px solid var(--border);
+}
+
+.screen-title h2{
+  font-size:20px;
+}
+
+.back{
+  border:0;
+  background:#f2f2f2;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:20px;
+}
+
+/* HOME */
+
+.hero{
+  margin:14px;
+  border-radius:20px;
+  overflow:hidden;
+  padding:24px 20px;
+  min-height:340px;
+  background:linear-gradient(135deg,#fff0e7,#fff8f2);
+  position:relative;
+}
+
+.hero small{
+  color:var(--orange);
+  font-weight:bold;
+  letter-spacing:2px;
+}
+
+.hero h1{
+  font-size:31px;
+  line-height:1.12;
+  margin-top:12px;
+  position:relative;
+  z-index:2;
+}
+
+.hero h1 span{
+  color:var(--orange);
+}
+
+.hero p{
+  color:#666;
+  line-height:1.6;
+  margin-top:15px;
+  max-width:340px;
+}
+
+.shop-btn{
+  border:0;
+  background:var(--orange);
+  color:white;
+  padding:13px 22px;
+  border-radius:9px;
+  font-weight:bold;
+  margin-top:18px;
+  font-size:15px;
+}
+
+.hero-circle{
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:#ff9b4d;
+  right:-25px;
+  bottom:-30px;
+}
+
+.hero-product{
+  position:absolute;
+  z-index:2;
+  font-size:55px;
+}
+
+.hp1{right:95px;bottom:125px}
+.hp2{right:20px;bottom:105px}
+.hp3{right:145px;bottom:35px}
+.hp4{right:55px;bottom:25px}
+
+/* SECTION */
+
+.section{
+  padding:10px 14px 4px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:8px 4px 13px;
+}
+
+.section-head h2{
+  font-size:21px;
+}
+
+.see{
+  color:var(--orange);
+  font-size:13px;
+  font-weight:bold;
+  border:0;
+  background:none;
+}
+
+/* CATEGORIES */
+
+.category-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.category{
+  background:white;
+  border:1px solid #eee;
+  border-radius:15px;
+  padding:16px 5px;
+  text-align:center;
+  transition:.2s;
+}
+
+.category:active{
+  transform:scale(.96);
+}
+
+.category-icon{
+  font-size:35px;
+  margin-bottom:8px;
+}
+
+.category b{
+  font-size:13px;
+}
+
+/* PROMOS */
+
+.promo-row{
+  display:flex;
+  overflow-x:auto;
+  gap:12px;
+  padding:8px 14px 15px;
+  scrollbar-width:none;
+}
+
+.promo-row::-webkit-scrollbar{
+  display:none;
+}
+
+.promo{
+  min-width:270px;
+  border-radius:17px;
+  padding:18px;
+  min-height:145px;
+  position:relative;
+  overflow:hidden;
+}
+
+.promo h3{
+  color:#e84b19;
+  font-size:20px;
+}
+
+.promo p{
+  margin-top:8px;
+  color:#555;
+}
+
+.promo button{
+  border:0;
+  background:var(--orange);
+  color:white;
+  padding:9px 15px;
+  border-radius:7px;
+  margin-top:13px;
+  font-weight:bold;
+}
+
+.promo-icon{
+  position:absolute;
+  right:18px;
+  bottom:12px;
+  font-size:60px;
+}
+
+.p1{background:#fff0ea}
+.p2{background:#eaf7ff}
+.p3{background:#fff7dd}
+
+/* PRODUCTS */
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.product{
+  background:white;
+  border-radius:13px;
+  overflow:hidden;
+  border:1px solid #eee;
+  position:relative;
+}
+
+.product-img{
+  height:145px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#fafafa;
+  font-size:72px;
+  position:relative;
+}
+
+.discount{
+  position:absolute;
+  left:7px;
+  top:7px;
+  background:#ffebe4;
+  color:#e84518;
+  padding:4px 6px;
+  font-size:10px;
+  font-weight:bold;
+  border-radius:5px;
+  z-index:2;
+}
+
+.wish{
+  position:absolute;
+  right:7px;
+  top:7px;
+  border:0;
+  background:white;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  font-size:18px;
+  z-index:3;
+  box-shadow:0 2px 7px #ddd;
+}
+
+.product-info{
+  padding:10px;
+}
+
+.product-info h3{
+  font-size:14px;
+  line-height:1.3;
+  min-height:36px;
+}
+
+.product-info p{
+  color:#888;
+  font-size:11px;
+  margin:5px 0;
+}
+
+.price{
+  color:var(--orange);
+  font-weight:bold;
+  font-size:17px;
+}
+
+.old{
+  color:#aaa;
+  text-decoration:line-through;
+  font-size:11px;
+  margin-top:3px;
+}
+
+.rating{
+  font-size:11px;
+  margin-top:5px;
+}
+
+.view-btn{
+  width:100%;
+  border:0;
+  background:var(--orange);
+  color:white;
+  border-radius:7px;
+  padding:9px;
+  margin-top:8px;
+  font-weight:bold;
+}
+
+/* PRODUCT DETAIL */
+
+.detail{
+  padding:14px;
+}
+
+.detail-image{
+  background:white;
+  border-radius:18px;
+  height:300px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:140px;
+}
+
+.detail-card{
+  background:white;
+  margin-top:12px;
+  border-radius:16px;
+  padding:17px;
+}
+
+.detail-card h1{
+  font-size:23px;
+  line-height:1.3;
+}
+
+.detail-price{
+  color:var(--orange);
+  font-size:27px;
+  font-weight:bold;
+  margin:12px 0;
+}
+
+.detail-old{
+  text-decoration:line-through;
+  color:#aaa;
+}
+
+.info-row{
+  display:flex;
+  gap:8px;
+  margin:12px 0;
+  flex-wrap:wrap;
+}
+
+.info-chip{
+  background:#f4f4f4;
+  padding:8px 10px;
+  border-radius:7px;
+  font-size:12px;
+}
+
+.quantity{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  margin:18px 0;
+}
+
+.quantity button{
+  width:38px;
+  height:38px;
+  border:1px solid #ddd;
+  background:white;
+  border-radius:8px;
+  font-size:20px;
+}
+
+.quantity span{
+  font-weight:bold;
+}
+
+.action-row{
+  display:flex;
+  gap:8px;
+}
+
+.action-btn{
+  flex:1;
+  padding:14px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+.add{
+  border:1px solid var(--orange);
+  color:var(--orange);
+  background:white;
+}
+
+.buy{
+  border:0;
+  color:white;
+  background:var(--orange);
+}
+
+/* CART */
+
+.cart-list{
+  padding:14px;
+}
+
+.cart-item{
+  background:white;
+  border-radius:14px;
+  padding:12px;
+  display:flex;
+  gap:10px;
+  margin-bottom:10px;
+  align-items:center;
+}
+
+.cart-img{
+  width:75px;
+  height:75px;
+  border-radius:10px;
+  background:#f7f7f7;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:40px;
+}
+
+.cart-info{
+  flex:1;
+}
+
+.cart-info h3{
+  font-size:14px;
+}
+
+.cart-info p{
+  color:#888;
+  font-size:11px;
+  margin:4px 0;
+}
+
+.cart-price{
+  color:var(--orange);
+  font-weight:bold;
+}
+
+.cart-actions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  margin-top:6px;
+}
+
+.small-btn{
+  border:1px solid #ddd;
+  background:white;
+  width:28px;
+  height:28px;
+  border-radius:6px;
+}
+
+.delete{
+  border:0;
+  background:#ffe9e4;
+  color:#e43d20;
+  padding:6px;
+  border-radius:5px;
+}
+
+.summary{
+  background:white;
+  margin:0 14px 20px;
+  padding:17px;
+  border-radius:14px;
+}
+
+.summary-line{
+  display:flex;
+  justify-content:space-between;
+  margin:9px 0;
+  color:#666;
+}
+
+.total{
+  border-top:1px solid #eee;
+  padding-top:12px;
+  display:flex;
+  justify-content:space-between;
+  font-size:19px;
+  font-weight:bold;
+}
+
+.checkout-btn{
+  width:100%;
+  margin-top:14px;
+  border:0;
+  background:var(--orange);
+  color:white;
+  padding:14px;
+  border-radius:9px;
+  font-weight:bold;
+}
+
+/* CHECKOUT */
+
+.form{
+  padding:14px;
+}
+
+.form-box{
+  background:white;
+  border-radius:15px;
+  padding:16px;
+  margin-bottom:12px;
+}
+
+.form-box h3{
+  margin-bottom:14px;
+}
+
+.form label{
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  margin:12px 0 5px;
+}
+
+.form input,
+.form textarea,
+.form select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  outline:none;
+}
+
+.form textarea{
+  min-height:80px;
+}
+
+.payment{
+  border:1px solid #ddd;
+  padding:13px;
+  border-radius:9px;
+  margin:8px 0;
+}
+
+.payment input{
+  width:auto;
+  margin-right:7px;
+}
+
+/* ORDERS */
+
+.orders{
+  padding:14px;
+}
+
+.order{
+  background:white;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:10px;
+}
+
+.order-head{
+  display:flex;
+  justify-content:space-between;
+}
+
+.status{
+  color:var(--green);
+  font-weight:bold;
+  font-size:12px;
+}
+
+.order-product{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+  border-top:1px solid #eee;
+  padding-top:12px;
+}
+
+.order-img{
+  width:55px;
+  height:55px;
+  background:#f7f7f7;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  border-radius:8px;
+  font-size:30px;
+}
+
+/* ACCOUNT */
+
+.account{
+  padding:14px;
+}
+
+.profile{
+  background:linear-gradient(135deg,#ff5a00,#ff8a32);
+  color:white;
+  padding:22px;
+  border-radius:17px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.avatar{
+  width:62px;
+  height:62px;
+  border-radius:50%;
+  background:white;
+  color:var(--orange);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:bold;
+}
+
+.menu{
+  margin-top:12px;
+  background:white;
+  border-radius:15px;
+  overflow:hidden;
+}
+
+.menu button{
+  width:100%;
+  text-align:left;
+  padding:16px;
+  border:0;
+  background:white;
+  border-bottom:1px solid #eee;
+  font-size:14px;
+}
+
+.menu button:last-child{
+  border-bottom:0;
+}
+
+/* WISHLIST */
+
+.wishlist{
+  padding:14px;
+}
+
+/* LOGIN */
+
+.login{
+  padding:20px;
+}
+
+.login-box{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+}
+
+.login-box h1{
+  margin-bottom:7px;
+}
+
+.login-box p{
+  color:#777;
+  margin-bottom:20px;
+}
+
+.login-box input{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  margin:7px 0;
+}
+
+.login-main{
+  width:100%;
+  border:0;
+  padding:14px;
+  background:var(--orange);
+  color:white;
+  border-radius:8px;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+/* SELLER */
+
+.seller{
+  padding:14px;
+}
+
+.seller-banner{
+  background:linear-gradient(135deg,#ff5a00,#ff8b3d);
+  color:white;
+  border-radius:18px;
+  padding:25px;
+  text-align:center;
+}
+
+.seller-card{
+  background:white;
+  border-radius:15px;
+  padding:18px;
+  margin-top:12px;
+}
+
+.seller-card input{
+  width:100%;
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:8px;
+  margin:7px 0;
+}
+
+/* EMPTY */
+
+.empty{
+  background:white;
+  margin:14px;
+  padding:55px 20px;
+  text-align:center;
+  border-radius:15px;
+}
+
+.empty-icon{
+  font-size:55px;
+  margin-bottom:10px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav{
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:0;
+  width:100%;
+  max-width:600px;
+  height:70px;
+  background:white;
+  border-top:1px solid #ddd;
+  z-index:2000;
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  box-shadow:0 -3px 15px rgba(0,0,0,.07);
+}
+
+.bottom-nav button{
+  border:0;
+  background:white;
+  color:#777;
+  font-size:10px;
+  position:relative;
+}
+
+.bottom-nav button span{
+  display:block;
+  font-size:22px;
+  margin-bottom:3px;
+}
+
+.bottom-nav button.active{
+  color:var(--orange);
+  font-weight:bold;
+}
+
+/* TOAST */
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:85px;
+  transform:translateX(-50%) translateY(20px);
+  background:#222;
+  color:white;
+  padding:12px 17px;
+  border-radius:8px;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  z-index:5000;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* RESPONSIVE */
+
+@media(min-width:601px){
+  .app{
+    max-width:1100px;
+  }
+
+  .bottom-nav{
+    max-width:1100px;
+  }
+
+  .product-grid{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+  .category-grid{
+    grid-template-columns:repeat(6,1fr);
+  }
+}
+</style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
-<div class="topbar">
-  <div>🛡️ Welcome to BismiMart</div>
-
-  <div class="top-links">
-    <span>🏠 Help Center</span>
-    <span onclick="showScreen('ordersScreen')">📦 Track Order</span>
-    <span>🏪 Become a Seller</span>
-  </div>
-</div>
-
+<div class="app">
 
 <!-- HEADER -->
-<header class="header">
 
-  <div class="logo-area" onclick="showScreen('homeScreen')" style="cursor:pointer;">
+<header class="top-header">
 
-    <div class="logo-icon">B</div>
+  <div class="header-row">
 
-    <div>
-      <div class="logo">BismiMart</div>
-      <div class="tagline">Sab Kuch, Aasaan!</div>
+    <div class="logo-box">B</div>
+
+    <div class="logo-text">
+      <strong>BismiMart</strong>
+      <small>Sab Kuch, Aasaan!</small>
     </div>
+
+    <button class="header-icon" onclick="openScreen('wishlistScreen')">
+      ♡
+    </button>
+
+    <button class="header-icon" onclick="openScreen('cartScreen')">
+      🛒
+      <span class="badge" id="cartBadge">0</span>
+    </button>
 
   </div>
 
-
-  <div class="search-box">
-
-    <select id="categorySelect">
-      <option>All Categories</option>
-      <option>Mobiles</option>
-      <option>Electronics</option>
-      <option>Fashion</option>
-      <option>Home & Living</option>
-      <option>Beauty</option>
-      <option>Grocery</option>
-    </select>
+  <div class="search">
 
     <input
-      type="text"
       id="searchInput"
+      type="text"
       placeholder="Search products..."
       onkeydown="if(event.key==='Enter') searchProducts()"
     >
@@ -477,572 +1015,316 @@
 
   </div>
 
+</header>
 
-  <div class="header-actions">
 
-    <div class="action" onclick="showScreen('accountScreen')">
-      <span class="action-icon">♙</span>
-      <small>Account</small>
+<!-- ================= HOME ================= -->
+
+<section id="homeScreen" class="screen active">
+
+  <div class="hero">
+
+    <small>WELCOME TO BISMI MART</small>
+
+    <h1>
+      Everything You Need,
+      <br>
+      <span>All in One Place.</span>
+    </h1>
+
+    <p>
+      Shop mobiles, electronics, fashion,
+      home products and much more.
+    </p>
+
+    <button class="shop-btn" onclick="scrollProducts()">
+      Shop Now →
+    </button>
+
+    <div class="hero-circle"></div>
+
+    <div class="hero-product hp1">📱</div>
+    <div class="hero-product hp2">🎧</div>
+    <div class="hero-product hp3">👜</div>
+    <div class="hero-product hp4">👟</div>
+
+  </div>
+
+
+  <!-- CATEGORIES -->
+
+  <div class="section">
+
+    <div class="section-head">
+
+      <h2>Shop by Category</h2>
+
+      <button class="see" onclick="openScreen('categoriesScreen')">
+        See All
+      </button>
+
     </div>
 
-    <div class="action cart-action" onclick="showScreen('cartScreen')">
-      <span class="action-icon">🛒</span>
-      <span id="cartCount" class="cart-count">0</span>
-      <small>Cart</small>
+    <div class="category-grid">
+
+      <div class="category" onclick="filterCategory('Mobiles')">
+        <div class="category-icon">📱</div>
+        <b>Mobiles</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Electronics')">
+        <div class="category-icon">🎧</div>
+        <b>Electronics</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Fashion')">
+        <div class="category-icon">👕</div>
+        <b>Fashion</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Home')">
+        <div class="category-icon">🛋️</div>
+        <b>Home</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Beauty')">
+        <div class="category-icon">💄</div>
+        <b>Beauty</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Grocery')">
+        <div class="category-icon">🛒</div>
+        <b>Grocery</b>
+      </div>
+
     </div>
 
   </div>
 
-</header>
 
+  <!-- PROMOTIONS -->
 
-<!-- NAVIGATION -->
-<nav class="navigation">
+  <div class="promo-row">
 
-  <button class="category-button" onclick="showScreen('homeScreen')">
-    ☰ Categories
-  </button>
+    <div class="promo p1">
 
-  <a href="#" class="active" onclick="showScreen('homeScreen')">
-    Home
-  </a>
+      <h3>FLASH SALE ⚡</h3>
 
-  <a href="#products" onclick="showScreen('homeScreen')">
-    ⚡ Flash Sale
-  </a>
+      <p>Up to <b>60% OFF</b></p>
 
-  <a href="#products" onclick="showScreen('homeScreen')">
-    Top Products
-  </a>
-
-  <a href="#categories" onclick="showScreen('homeScreen')">
-    Categories
-  </a>
-
-  <a href="#" onclick="showScreen('cartScreen')">
-    🛒 Cart
-  </a>
-
-  <a href="#" onclick="showScreen('accountScreen')">
-    Account
-  </a>
-
-</nav>
-
-
-<div class="app-container">
-
-
-<!-- ================= HOME SCREEN ================= -->
-
-<section id="homeScreen" class="app-screen active-screen">
-
-  <main>
-
-    <!-- HERO -->
-    <section class="hero">
-
-      <div class="hero-content">
-
-        <p class="hero-small">
-          WELCOME TO BISMI MART
-        </p>
-
-        <h1>
-          Everything You Need,
-          <br>
-          <span>All in One Place.</span>
-        </h1>
-
-        <p class="hero-text">
-          Shop mobiles, electronics, fashion,
-          home products and much more.
-        </p>
-
-        <button class="primary-button"
-                onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
-          Shop Now →
-        </button>
-
-      </div>
-
-
-      <div class="hero-products">
-
-        <div class="circle"></div>
-
-        <div class="hero-item phone">📱</div>
-        <div class="hero-item headphones">🎧</div>
-        <div class="hero-item bag">👜</div>
-        <div class="hero-item shoes">👟</div>
-
-      </div>
-
-    </section>
-
-
-    <!-- CATEGORIES -->
-
-    <section class="section" id="categories">
-
-      <div class="section-title">
-        <h2>Shop by Category</h2>
-      </div>
-
-      <div class="categories">
-
-        <div class="category-card" onclick="filterCategory('Mobiles')">
-          <div class="category-icon">📱</div>
-          <b>Mobiles</b>
-        </div>
-
-        <div class="category-card" onclick="filterCategory('Electronics')">
-          <div class="category-icon">🎧</div>
-          <b>Electronics</b>
-        </div>
-
-        <div class="category-card" onclick="filterCategory('Fashion')">
-          <div class="category-icon">👕</div>
-          <b>Fashion</b>
-        </div>
-
-        <div class="category-card" onclick="filterCategory('Home')">
-          <div class="category-icon">🛋️</div>
-          <b>Home</b>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">💄</div>
-          <b>Beauty</b>
-        </div>
-
-        <div class="category-card">
-          <div class="category-icon">🛒</div>
-          <b>Grocery</b>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- PROMOTIONS -->
-
-    <section class="promotions">
-
-      <div class="promo flash">
-
-        <div>
-
-          <h2>FLASH SALE ⚡</h2>
-
-          <p>Up to <b>60% OFF</b></p>
-
-          <div class="timer">
-            <span id="hours">02</span> :
-            <span id="minutes">45</span> :
-            <span id="seconds">30</span>
-          </div>
-
-          <button onclick="scrollToProducts()">
-            Shop Now
-          </button>
-
-        </div>
-
-        <div class="promo-icon">🎧</div>
-
-      </div>
-
-
-      <div class="promo delivery">
-
-        <div>
-
-          <h2>FREE DELIVERY</h2>
-
-          <p>
-            On orders above <b>Rs. 1999</b>
-          </p>
-
-          <button onclick="scrollToProducts()">
-            Shop Now
-          </button>
-
-        </div>
-
-        <div class="promo-icon">🚚</div>
-
-      </div>
-
-
-      <div class="promo voucher">
-
-        <div>
-
-          <h2>VOUCHERS 🎁</h2>
-
-          <p>Save more with BismiMart.</p>
-
-          <button onclick="alert('Voucher system coming soon.')">
-            Get Voucher
-          </button>
-
-        </div>
-
-        <div class="promo-icon">🎁</div>
-
-      </div>
-
-    </section>
-
-
-    <!-- PRODUCTS -->
-
-    <section class="section" id="products">
-
-      <div class="section-title">
-        <h2>Popular Products</h2>
-      </div>
-
-
-      <div class="products" id="productList">
-
-
-        <!-- PRODUCT 1 -->
-
-        <div class="product-card" data-category="Mobiles">
-
-          <div class="discount">-15%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">📱</div>
-
-          <div class="product-info">
-
-            <h3>Vivo Y17s</h3>
-
-            <p>4GB RAM • 128GB</p>
-
-            <div class="price">
-              Rs. 39,999
-            </div>
-
-            <div class="old-price">
-              Rs. 46,999
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(124)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="openProduct(
-                      'Vivo Y17s',
-                      39999,
-                      '4GB RAM • 128GB',
-                      '📱'
-                    )">
-              View Product
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 2 -->
-
-        <div class="product-card" data-category="Mobiles">
-
-          <div class="discount">-20%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">📱</div>
-
-          <div class="product-info">
-
-            <h3>Realme Narzo 60x</h3>
-
-            <p>6GB RAM • 128GB</p>
-
-            <div class="price">
-              Rs. 37,999
-            </div>
-
-            <div class="old-price">
-              Rs. 47,999
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(98)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="openProduct(
-                      'Realme Narzo 60x',
-                      37999,
-                      '6GB RAM • 128GB',
-                      '📱'
-                    )">
-              View Product
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 3 -->
-
-        <div class="product-card" data-category="Electronics">
-
-          <div class="discount">-25%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">⌚</div>
-
-          <div class="product-info">
-
-            <h3>Mi Smart Band 8</h3>
-
-            <p>1.62″ AMOLED Display</p>
-
-            <div class="price">
-              Rs. 6,499
-            </div>
-
-            <div class="old-price">
-              Rs. 8,699
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(76)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="openProduct(
-                      'Mi Smart Band 8',
-                      6499,
-                      '1.62 AMOLED Display',
-                      '⌚'
-                    )">
-              View Product
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 4 -->
-
-        <div class="product-card" data-category="Electronics">
-
-          <div class="discount">-18%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">🎧</div>
-
-          <div class="product-info">
-
-            <h3>boAt Airdopes 141</h3>
-
-            <p>Wireless Earbuds</p>
-
-            <div class="price">
-              Rs. 3,199
-            </div>
-
-            <div class="old-price">
-              Rs. 3,899
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(211)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="openProduct(
-                      'boAt Airdopes 141',
-                      3199,
-                      'Wireless Earbuds',
-                      '🎧'
-                    )">
-              View Product
-            </button>
-
-          </div>
-
-        </div>
-
-
-        <!-- PRODUCT 5 -->
-
-        <div class="product-card" data-category="Fashion">
-
-          <div class="discount">-30%</div>
-
-          <button class="heart"
-                  onclick="addWishlist(this)">
-            ♡
-          </button>
-
-          <div class="product-image">👟</div>
-
-          <div class="product-info">
-
-            <h3>Running Shoes</h3>
-
-            <p>Comfortable & Light</p>
-
-            <div class="price">
-              Rs. 4,899
-            </div>
-
-            <div class="old-price">
-              Rs. 6,999
-            </div>
-
-            <div class="rating">
-              ⭐⭐⭐⭐⭐
-              <small>(142)</small>
-            </div>
-
-            <button class="cart-button"
-                    onclick="openProduct(
-                      'Running Shoes',
-                      4899,
-                      'Comfortable & Light',
-                      '👟'
-                    )">
-              View Product
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- WHY BISMI MART -->
-
-    <section class="why-section">
-
-      <div class="section-title">
-        <h2>Why Shop With BismiMart?</h2>
-      </div>
-
-      <div class="why-grid">
-
-        <div class="why-card">
-          <div>🛡️</div>
-          <b>Genuine Products</b>
-          <small>Quality Products</small>
-        </div>
-
-        <div class="why-card">
-          <div>🔄</div>
-          <b>Easy Returns</b>
-          <small>Simple Returns</small>
-        </div>
-
-        <div class="why-card">
-          <div>🔐</div>
-          <b>Secure Payments</b>
-          <small>Safe Checkout</small>
-        </div>
-
-        <div class="why-card">
-          <div>🚚</div>
-          <b>Fast Delivery</b>
-          <small>All Over Pakistan</small>
-        </div>
-
-        <div class="why-card">
-          <div>🎧</div>
-          <b>Customer Support</b>
-          <small>We're Here For You</small>
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- SELLER -->
-
-    <section class="seller-section">
-
-      <div>
-
-        <h2>Want to Sell on BismiMart?</h2>
-
-        <p>
-          Start your online business and reach customers
-          all over Pakistan.
-        </p>
-
-      </div>
-
-      <button onclick="alert('Seller registration will be added next.')">
-        Become a Seller →
+      <button onclick="scrollProducts()">
+        Shop Now
       </button>
 
-    </section>
+      <div class="promo-icon">🎧</div>
 
-  </main>
+    </div>
+
+    <div class="promo p2">
+
+      <h3>FREE DELIVERY</h3>
+
+      <p>On orders above Rs. 1999</p>
+
+      <button onclick="scrollProducts()">
+        Shop Now
+      </button>
+
+      <div class="promo-icon">🚚</div>
+
+    </div>
+
+    <div class="promo p3">
+
+      <h3>VOUCHERS 🎁</h3>
+
+      <p>Save more on BismiMart</p>
+
+      <button onclick="showToast('Voucher system coming soon')">
+        Get Voucher
+      </button>
+
+      <div class="promo-icon">🎁</div>
+
+    </div>
+
+  </div>
+
+
+  <!-- PRODUCTS -->
+
+  <div class="section" id="productsSection">
+
+    <div class="section-head">
+
+      <h2>Popular Products</h2>
+
+      <button class="see" onclick="openScreen('categoriesScreen')">
+        View All
+      </button>
+
+    </div>
+
+    <div class="product-grid" id="homeProducts"></div>
+
+  </div>
 
 </section>
 
 
-<!-- ================= PRODUCT SCREEN ================= -->
+<!-- ================= CATEGORIES ================= -->
 
-<section id="productScreen" class="app-screen">
+<section id="categoriesScreen" class="screen">
 
-  <div class="screen-header">
+  <div class="screen-title">
+    <button class="back" onclick="openScreen('homeScreen')">←</button>
+    <h2>All Categories</h2>
+  </div>
 
-    <button class="back-button"
-            onclick="showScreen('homeScreen')">
-      ← Back
-    </button>
+  <div class="section">
 
-    <h2>Product Details</h2>
+    <div class="category-grid">
+
+      <div class="category" onclick="filterCategory('Mobiles')">
+        <div class="category-icon">📱</div>
+        <b>Mobiles</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Electronics')">
+        <div class="category-icon">🎧</div>
+        <b>Electronics</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Fashion')">
+        <div class="category-icon">👕</div>
+        <b>Fashion</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Home')">
+        <div class="category-icon">🛋️</div>
+        <b>Home</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Beauty')">
+        <div class="category-icon">💄</div>
+        <b>Beauty</b>
+      </div>
+
+      <div class="category" onclick="filterCategory('Grocery')">
+        <div class="category-icon">🛒</div>
+        <b>Grocery</b>
+      </div>
+
+    </div>
 
   </div>
 
+  <div class="section">
 
-  <div class="product-detail">
+    <div class="section-head">
+      <h2 id="categoryTitle">All Products</h2>
+    </div>
+
+    <div class="product-grid" id="categoryProducts"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= PRODUCT DETAIL ================= -->
+
+<section id="productScreen" class="screen">
+
+  <div class="screen-title">
+    <button class="back" onclick="goBack()">←</button>
+    <h2>Product Details</h2>
+  </div>
+
+  <div class="detail">
 
     <div class="detail-image" id="detailImage">
       📱
     </div>
 
-
-    <div class="detail-info">
+    <div class="detail-card">
 
       <h1 id="detailName">
-        V
+        Product
+      </h1>
+
+      <div class="rating">
+        ⭐⭐⭐⭐⭐ 4.8
+      </div>
+
+      <div class="detail-price" id="detailPrice">
+        Rs. 0
+      </div>
+
+      <div class="detail-old" id="detailOld">
+        Rs. 0
+      </div>
+
+      <div class="info-row">
+
+        <div class="info-chip">✓ Genuine Product</div>
+        <div class="info-chip">🚚 Fast Delivery</div>
+        <div class="info-chip">🔄 Easy Returns</div>
+
+      </div>
+
+      <p id="detailDescription" style="color:#666;line-height:1.6;margin-top:12px;">
+        Quality product available on BismiMart.
+      </p>
+
+      <div class="quantity">
+
+        <b>Quantity:</b>
+
+        <button onclick="changeQuantity(-1)">−</button>
+
+        <span id="detailQuantity">1</span>
+
+        <button onclick="changeQuantity(1)">+</button>
+
+      </div>
+
+      <div class="action-row">
+
+        <button class="action-btn add" onclick="addCurrentToCart()">
+          🛒 Add to Cart
+        </button>
+
+        <button class="action-btn buy" onclick="buyCurrent()">
+          Buy Now
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= CART ================= -->
+
+<section id="cartScreen" class="screen">
+
+  <div class="screen-title">
+    <button class="back" onclick="openScreen('homeScreen')">←</button>
+    <h2>My Cart</h2>
+  </div>
+
+  <div id="cartContent"></div>
+
+</section>
+
+
+<!-- ================= CHECKOUT ================= -->
+
+<section id="checkoutScreen" class="screen">
+
+  <div class="screen-title">
+    <button class="back" onclick="openScreen('cartS

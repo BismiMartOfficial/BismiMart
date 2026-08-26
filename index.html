@@ -1161,3 +1161,1024 @@ button{
             ❤️ Wishlist
             <span style="float:right">›</span>
         
+        <button onclick="openWishlist()">
+            ❤️ Wishlist
+            <span style="float:right">›</span>
+        </button>
+
+        <button onclick="openCategories()">
+            🛍️ Shop by Category
+            <span style="float:right">›</span>
+        </button>
+
+        <button onclick="showHelp()">
+            ❓ Help & Support
+            <span style="float:right">›</span>
+        </button>
+
+        <button onclick="showAbout()">
+            ℹ️ About BismiMart
+            <span style="float:right">›</span>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- LOGIN / SIGN UP -->
+<!-- ================================================= -->
+
+<section id="loginScreen" class="screen">
+
+    <div class="screen-header">
+
+        <button class="back-btn" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>Login / Sign Up</h2>
+
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-group">
+
+            <label>Mobile Number</label>
+
+            <input
+                type="tel"
+                id="loginPhone"
+                placeholder="03XXXXXXXXX"
+            >
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Enter password"
+            >
+
+        </div>
+
+        <button
+            class="primary-btn"
+            style="width:100%"
+            onclick="loginAccount()"
+        >
+            Login
+        </button>
+
+        <p style="text-align:center;margin:18px 0;color:#777">
+            Don't have an account?
+        </p>
+
+        <button
+            class="buy-btn secondary"
+            style="width:100%"
+            onclick="signupAccount()"
+        >
+            Create New Account
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- HELP -->
+<!-- ================================================= -->
+
+<section id="helpScreen" class="screen">
+
+    <div class="screen-header">
+
+        <button class="back-btn" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>Help & Support</h2>
+
+    </div>
+
+    <div class="account-menu">
+
+        <button onclick="showToast('Customer support will be available soon')">
+            📞 Contact Support
+            <span style="float:right">›</span>
+        </button>
+
+        <button onclick="showToast('Orders can be tracked from My Orders')">
+            📦 Track My Order
+            <span style="float:right">›</span>
+        </button>
+
+        <button onclick="showToast('Returns & refunds information coming soon')">
+            🔄 Returns & Refunds
+            <span style="float:right">›</span>
+        </button>
+
+        <button onclick="showToast('Payment support available soon')">
+            💳 Payment Help
+            <span style="float:right">›</span>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- ABOUT -->
+<!-- ================================================= -->
+
+<section id="aboutScreen" class="screen">
+
+    <div class="screen-header">
+
+        <button class="back-btn" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>About BismiMart</h2>
+
+    </div>
+
+    <div class="form-card">
+
+        <div style="text-align:center;font-size:60px">
+            🛍️
+        </div>
+
+        <h2 style="text-align:center;margin:15px 0">
+            BismiMart
+        </h2>
+
+        <p style="text-align:center;color:#666;line-height:1.7">
+            Sab Kuch, Aasaan!
+        </p>
+
+        <p style="margin-top:20px;color:#666;line-height:1.7">
+            BismiMart is an online marketplace concept where
+            customers can discover mobiles, electronics, fashion,
+            home products and many other items in one place.
+        </p>
+
+        <div style="
+            margin-top:20px;
+            padding:15px;
+            background:#fff0e5;
+            border-radius:12px;
+            text-align:center;
+        ">
+            🛒 Shop Easy &nbsp; • &nbsp;
+            🚚 Fast Delivery &nbsp; • &nbsp;
+            ⭐ Quality Products
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================================================= -->
+<!-- BOTTOM NAVIGATION -->
+<!-- ================================================= -->
+
+<nav class="bottom-nav">
+
+    <button
+        id="navHome"
+        class="active"
+        onclick="openHome()"
+    >
+        <span>🏠</span>
+        Home
+    </button>
+
+    <button
+        id="navCategories"
+        onclick="openCategories()"
+    >
+        <span>▦</span>
+        Categories
+    </button>
+
+    <button
+        id="navCart"
+        onclick="openCart()"
+    >
+        <span style="position:relative">
+            🛒
+            <small
+                id="bottomCartBadge"
+                style="
+                    position:absolute;
+                    top:-5px;
+                    right:-10px;
+                    background:#ff5a00;
+                    color:#fff;
+                    border-radius:50%;
+                    width:17px;
+                    height:17px;
+                    font-size:9px;
+                    display:none;
+                    align-items:center;
+                    justify-content:center;
+                "
+            >0</small>
+        </span>
+        Cart
+    </button>
+
+    <button
+        id="navOrders"
+        onclick="openOrders()"
+    >
+        <span>📦</span>
+        Orders
+    </button>
+
+    <button
+        id="navAccount"
+        onclick="openScreen('account')"
+    >
+        <span>👤</span>
+        Account
+    </button>
+
+</nav>
+
+
+<!-- ================================================= -->
+<!-- TOAST -->
+<!-- ================================================= -->
+
+<div id="toast" class="toast">
+    Added to cart
+</div>
+
+</div>
+
+
+<!-- ================================================= -->
+<!-- JAVASCRIPT -->
+<!-- ================================================= -->
+
+<script>
+
+const products = [
+
+    {
+        id:1,
+        name:"Smartphone Pro Max",
+        category:"Mobiles",
+        price:59999,
+        oldPrice:69999,
+        rating:"⭐ 4.8",
+        icon:"📱",
+        sale:true,
+        description:"Powerful smartphone with modern design, large display and excellent performance."
+    },
+
+    {
+        id:2,
+        name:"Wireless Headphones",
+        category:"Electronics",
+        price:3999,
+        oldPrice:5999,
+        rating:"⭐ 4.7",
+        icon:"🎧",
+        sale:true,
+        description:"Comfortable wireless headphones with clear sound and long battery life."
+    },
+
+    {
+        id:3,
+        name:"Men's Fashion T-Shirt",
+        category:"Fashion",
+        price:1499,
+        oldPrice:1999,
+        rating:"⭐ 4.5",
+        icon:"👕",
+        sale:true,
+        description:"Comfortable and stylish casual T-shirt for everyday wear."
+    },
+
+    {
+        id:4,
+        name:"Running Shoes",
+        category:"Fashion",
+        price:4499,
+        oldPrice:5999,
+        rating:"⭐ 4.6",
+        icon:"👟",
+        sale:true,
+        description:"Lightweight running shoes designed for comfort and daily use."
+    },
+
+    {
+        id:5,
+        name:"Ladies Handbag",
+        category:"Fashion",
+        price:2999,
+        oldPrice:3999,
+        rating:"⭐ 4.7",
+        icon:"👜",
+        sale:false,
+        description:"Elegant handbag suitable for daily use and special occasions."
+    },
+
+    {
+        id:6,
+        name:"Smart Watch",
+        category:"Electronics",
+        price:4999,
+        oldPrice:6999,
+        rating:"⭐ 4.4",
+        icon:"⌚",
+        sale:true,
+        description:"Smart watch with fitness tracking, notifications and modern design."
+    },
+
+    {
+        id:7,
+        name:"Home Kitchen Set",
+        category:"Home",
+        price:2499,
+        oldPrice:3499,
+        rating:"⭐ 4.5",
+        icon:"🍳",
+        sale:false,
+        description:"Useful kitchen accessories for your everyday home needs."
+    },
+
+    {
+        id:8,
+        name:"Bluetooth Speaker",
+        category:"Electronics",
+        price:2799,
+        oldPrice:3999,
+        rating:"⭐ 4.6",
+        icon:"🔊",
+        sale:true,
+        description:"Portable Bluetooth speaker with powerful sound."
+    },
+
+    {
+        id:9,
+        name:"Laptop",
+        category:"Computers",
+        price:99999,
+        oldPrice:119999,
+        rating:"⭐ 4.8",
+        icon:"💻",
+        sale:true,
+        description:"Modern laptop suitable for work, study and entertainment."
+    },
+
+    {
+        id:10,
+        name:"Gaming Mouse",
+        category:"Computers",
+        price:1999,
+        oldPrice:2499,
+        rating:"⭐ 4.5",
+        icon:"🖱️",
+        sale:false,
+        description:"Responsive gaming mouse with comfortable ergonomic design."
+    }
+
+];
+
+
+const categories = [
+
+    {
+        name:"Mobiles",
+        icon:"📱"
+    },
+
+    {
+        name:"Electronics",
+        icon:"🎧"
+    },
+
+    {
+        name:"Fashion",
+        icon:"👕"
+    },
+
+    {
+        name:"Home",
+        icon:"🏠"
+    },
+
+    {
+        name:"Computers",
+        icon:"💻"
+    },
+
+    {
+        name:"Beauty",
+        icon:"💄"
+    },
+
+    {
+        name:"Grocery",
+        icon:"🛒"
+    },
+
+    {
+        name:"Shoes",
+        icon:"👟"
+    },
+
+    {
+        name:"Accessories",
+        icon:"⌚"
+    }
+
+];
+
+
+let cart = JSON.parse(
+    localStorage.getItem("bismiMartCart") || "[]"
+);
+
+let wishlist = JSON.parse(
+    localStorage.getItem("bismiMartWishlist") || "[]"
+);
+
+let orders = JSON.parse(
+    localStorage.getItem("bismiMartOrders") || "[]"
+);
+
+let currentScreen = "home";
+
+let previousScreen = "home";
+
+
+/* ================================================= */
+/* SCREEN SYSTEM */
+/* ================================================= */
+
+function openScreen(screen){
+
+    previousScreen = currentScreen;
+
+    document.querySelectorAll(".screen").forEach(
+        screenElement => {
+            screenElement.classList.remove("active");
+        }
+    );
+
+    const target =
+        document.getElementById(screen + "Screen");
+
+    if(target){
+        target.classList.add("active");
+        currentScreen = screen;
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+    updateBottomNavigation();
+
+}
+
+
+function goBack(){
+
+    openScreen(previousScreen || "home");
+
+}
+
+
+function openHome(){
+
+    previousScreen = currentScreen;
+
+    openScreen("home");
+
+}
+
+
+function openShop(){
+
+    previousScreen = currentScreen;
+
+    renderProducts(
+        products,
+        "shopProducts"
+    );
+
+    document.getElementById("shopTitle").textContent =
+        "Shop All Products";
+
+    openScreen("shop");
+
+}
+
+
+function openCategories(){
+
+    previousScreen = currentScreen;
+
+    renderCategories(
+        "allCategories"
+    );
+
+    openScreen("categories");
+
+}
+
+
+function openCart(){
+
+    previousScreen = currentScreen;
+
+    renderCart();
+
+    openScreen("cart");
+
+}
+
+
+function openOrders(){
+
+    previousScreen = currentScreen;
+
+    renderOrders();
+
+    openScreen("orders");
+
+}
+
+
+function openWishlist(){
+
+    previousScreen = currentScreen;
+
+    renderWishlist();
+
+    openScreen("wishlist");
+
+}
+
+
+function openFlashSale(){
+
+    previousScreen = currentScreen;
+
+    const saleProducts =
+        products.filter(product => product.sale);
+
+    document.getElementById("shopTitle").textContent =
+        "Flash Sale ⚡";
+
+    renderProducts(
+        saleProducts,
+        "shopProducts"
+    );
+
+    openScreen("shop");
+
+}
+
+
+/* ================================================= */
+/* CATEGORIES */
+/* ================================================= */
+
+function renderCategories(targetId){
+
+    const target =
+        document.getElementById(targetId);
+
+    target.innerHTML = "";
+
+    categories.forEach(category => {
+
+        const card =
+            document.createElement("button");
+
+        card.className = "category-card";
+
+        card.innerHTML = `
+            <div class="category-icon">
+                ${category.icon}
+            </div>
+
+            <div>
+                ${category.name}
+            </div>
+        `;
+
+        card.onclick = function(){
+
+            openCategory(
+                category.name
+            );
+
+        };
+
+        target.appendChild(card);
+
+    });
+
+}
+
+
+function openCategory(category){
+
+    previousScreen = currentScreen;
+
+    const result =
+        products.filter(
+            product =>
+            product.category.toLowerCase()
+            === category.toLowerCase()
+        );
+
+    document.getElementById("shopTitle").textContent =
+        category;
+
+    renderProducts(
+        result,
+        "shopProducts"
+    );
+
+    openScreen("shop");
+
+}
+
+
+/* ================================================= */
+/* PRODUCTS */
+/* ================================================= */
+
+function renderProducts(list,targetId){
+
+    const target =
+        document.getElementById(targetId);
+
+    target.innerHTML = "";
+
+    if(list.length === 0){
+
+        target.innerHTML = `
+            <div class="empty" style="grid-column:1/-1">
+                <div class="empty-icon">😔</div>
+                <h3>No Products Found</h3>
+                <p style="color:#777;margin-top:8px">
+                    Try another category or search.
+                </p>
+            </div>
+        `;
+
+        return;
+
+    }
+
+
+    list.forEach(product => {
+
+        const card =
+            document.createElement("div");
+
+        card.className = "product-card";
+
+        card.innerHTML = `
+
+            <div
+                class="product-image"
+                onclick="openProduct(${product.id})"
+            >
+
+                ${
+                    product.sale
+                    ? `<div class="sale-label">SALE</div>`
+                    : ""
+                }
+
+                <span>
+                    ${product.icon}
+                </span>
+
+            </div>
+
+            <div class="product-info">
+
+                <div
+                    class="product-name"
+                    onclick="openProduct(${product.id})"
+                >
+                    ${product.name}
+                </div>
+
+                <div class="rating">
+                    ${product.rating}
+                </div>
+
+                <div class="price">
+                    Rs. ${product.price.toLocaleString()}
+                    <span class="old-price">
+                        Rs. ${product.oldPrice.toLocaleString()}
+                    </span>
+                </div>
+
+            </div>
+
+            <button
+                class="add-cart"
+                onclick="addToCart(${product.id})"
+            >
+                🛒 Add to Cart
+            </button>
+
+        `;
+
+        target.appendChild(card);
+
+    });
+
+}
+
+
+/* ================================================= */
+/* PRODUCT DETAIL */
+/* ================================================= */
+
+function openProduct(id){
+
+    previousScreen = currentScreen;
+
+    const product =
+        products.find(
+            item => item.id === id
+        );
+
+    if(!product) return;
+
+    const isWishlisted =
+        wishlist.includes(product.id);
+
+    document.getElementById(
+        "productDetails"
+    ).innerHTML = `
+
+        <div class="detail-card">
+
+            <div class="detail-image">
+                ${product.icon}
+            </div>
+
+            <h1 class="detail-name">
+                ${product.name}
+            </h1>
+
+            <div class="detail-rating">
+                ${product.rating}
+                &nbsp; • &nbsp;
+                ${product.category}
+            </div>
+
+            <div class="detail-price">
+                Rs. ${product.price.toLocaleString()}
+            </div>
+
+            <div style="
+                color:#999;
+                text-decoration:line-through;
+                margin-top:5px;
+            ">
+                Rs. ${product.oldPrice.toLocaleString()}
+            </div>
+
+            <p class="detail-description">
+                ${product.description}
+            </p>
+
+            <button
+                style="
+                    width:100%;
+                    padding:12px;
+                    border:1px solid #eee;
+                    background:#fff;
+                    border-radius:10px;
+                    margin-bottom:12px;
+                "
+                onclick="toggleWishlist(${product.id})"
+            >
+                ${
+                    isWishlisted
+                    ? "❤️ Remove from Wishlist"
+                    : "♡ Add to Wishlist"
+                }
+            </button>
+
+            <div class="buy-buttons">
+
+                <button
+                    class="buy-btn secondary"
+                    onclick="addToCart(${product.id})"
+                >
+                    🛒 Add to Cart
+                </button>
+
+                <button
+                    class="buy-btn"
+                    onclick="buyNow(${product.id})"
+                >
+                    Buy Now
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+    openScreen("product");
+
+}
+
+
+/* ================================================= */
+/* CART */
+/* ================================================= */
+
+function addToCart(id){
+
+    const existing =
+        cart.find(
+            item => item.id === id
+        );
+
+    if(existing){
+
+        existing.quantity++;
+
+    }else{
+
+        cart.push({
+            id:id,
+            quantity:1
+        });
+
+    }
+
+    saveCart();
+
+    updateCartBadge();
+
+    showToast("Added to cart 🛒");
+
+}
+
+
+function saveCart(){
+
+    localStorage.setItem(
+        "bismiMartCart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+function updateCartBadge(){
+
+    const total =
+        cart.reduce(
+            (sum,item) =>
+            sum + item.quantity,
+            0
+        );
+
+    document.getElementById(
+        "cartBadge"
+    ).textContent = total;
+
+    const badge =
+        document.getElementById(
+            "bottomCartBadge"
+        );
+
+    badge.textContent = total;
+
+    badge.style.display =
+        total > 0
+        ? "flex"
+        : "none";
+
+}
+
+
+function renderCart(){
+
+    const target =
+        document.getElementById(
+            "cartContent"
+        );
+
+    if(cart.length === 0){
+
+        target.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    🛒
+                </div>
+
+                <h3>Your Cart is Empty</h3>
+
+                <p style="
+                    color:#777;
+                    margin:10px 0 20px;
+                ">
+                    Add products to your cart.
+                </p>
+
+                <button
+                    class="primary-btn"
+                    onclick="openShop()"
+                >
+                    Start Shopping
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let subtotal = 0;
+
+    let html = "";
+
+
+    cart.forEach(item => {
+
+        const product =
+            products.find(
+                product => product.id === item.id
+            );
+
+        if(!product) return;
+
+        const itemTotal =
+            product.price *
+            item.quantity;
+
+        subtotal += itemTotal;
+
+
+        html += `
+
+            <div class="cart-item">
+
+                <div class="cart-image">
+                    ${product.icon}
+                </div>
+
+                <div class="cart-info">
+
+                    <h3>
+                        ${product.name}
+                    </h3>
+
+                    <div class="price">
+                        Rs.
+                        ${product.price.toLocaleString()}
+                    </div>
+
+                    <div class="quantity">
+
+                        <button
+                            onclick="changeQuantity(
+                                ${product.id},
+                                -1
+                            )"
+                        >
+                            −
+                        </button>
+
+                        <strong>
+              

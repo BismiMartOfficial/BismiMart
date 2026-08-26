@@ -1,6 +1,6 @@
 /* =========================================================
-   BISMI MART - COMPLETE APP JAVASCRIPT
-   One clean version - no duplicate functions
+   BISMI MART - FINAL APP JAVASCRIPT
+   Matched with index.html + style.css
 ========================================================= */
 
 
@@ -10,207 +10,191 @@
 
 const products = [
 
-  {
-    id: 1,
-    name: "Vivo Y17s (4GB • 128GB)",
-    price: 32999,
-    old: 38999,
-    cat: "Mobiles",
-    icon: "📱",
-    rating: 4.6
-  },
+    {
+        id:1,
+        name:"Vivo Y17s (4GB • 128GB)",
+        price:32999,
+        old:38999,
+        cat:"Mobiles",
+        icon:"📱",
+        rating:4.6
+    },
 
-  {
-    id: 2,
-    name: "Samsung Galaxy A14",
-    price: 36999,
-    old: 42999,
-    cat: "Mobiles",
-    icon: "📱",
-    rating: 4.5
-  },
+    {
+        id:2,
+        name:"Samsung Galaxy A14",
+        price:36999,
+        old:42999,
+        cat:"Mobiles",
+        icon:"📱",
+        rating:4.5
+    },
 
-  {
-    id: 3,
-    name: "Infinix Hot 30",
-    price: 31999,
-    old: 35999,
-    cat: "Mobiles",
-    icon: "📱",
-    rating: 4.4
-  },
+    {
+        id:3,
+        name:"Infinix Hot 30",
+        price:31999,
+        old:35999,
+        cat:"Mobiles",
+        icon:"📱",
+        rating:4.4
+    },
 
-  {
-    id: 4,
-    name: "Xiaomi Redmi 12",
-    price: 34999,
-    old: 39999,
-    cat: "Mobiles",
-    icon: "📱",
-    rating: 4.5
-  },
+    {
+        id:4,
+        name:"Xiaomi Redmi 12",
+        price:34999,
+        old:39999,
+        cat:"Mobiles",
+        icon:"📱",
+        rating:4.5
+    },
 
-  {
-    id: 5,
-    name: "Wireless Headphones",
-    price: 2499,
-    old: 3499,
-    cat: "Electronics",
-    icon: "🎧",
-    rating: 4.7
-  },
+    {
+        id:5,
+        name:"Wireless Headphones",
+        price:2499,
+        old:3499,
+        cat:"Electronics",
+        icon:"🎧",
+        rating:4.7
+    },
 
-  {
-    id: 6,
-    name: "Smart Watch",
-    price: 3999,
-    old: 5999,
-    cat: "Electronics",
-    icon: "⌚",
-    rating: 4.3
-  },
+    {
+        id:6,
+        name:"Smart Watch",
+        price:3999,
+        old:5999,
+        cat:"Electronics",
+        icon:"⌚",
+        rating:4.3
+    },
 
-  {
-    id: 7,
-    name: "Men Casual Shirt",
-    price: 1299,
-    old: 1999,
-    cat: "Fashion",
-    icon: "👕",
-    rating: 4.5
-  },
+    {
+        id:7,
+        name:"Men Casual Shirt",
+        price:1299,
+        old:1999,
+        cat:"Fashion",
+        icon:"👕",
+        rating:4.5
+    },
 
-  {
-    id: 8,
-    name: "Women Handbag",
-    price: 2499,
-    old: 3499,
-    cat: "Fashion",
-    icon: "👜",
-    rating: 4.6
-  },
+    {
+        id:8,
+        name:"Women Handbag",
+        price:2499,
+        old:3499,
+        cat:"Fashion",
+        icon:"👜",
+        rating:4.6
+    },
 
-  {
-    id: 9,
-    name: "LED Table Lamp",
-    price: 1799,
-    old: 2499,
-    cat: "Home",
-    icon: "💡",
-    rating: 4.4
-  },
+    {
+        id:9,
+        name:"LED Table Lamp",
+        price:1799,
+        old:2499,
+        cat:"Home",
+        icon:"💡",
+        rating:4.4
+    },
 
-  {
-    id: 10,
-    name: "Home Decoration Set",
-    price: 3499,
-    old: 4999,
-    cat: "Home",
-    icon: "🏠",
-    rating: 4.5
-  },
+    {
+        id:10,
+        name:"Home Decoration Set",
+        price:3499,
+        old:4999,
+        cat:"Home",
+        icon:"🏠",
+        rating:4.5
+    },
 
-  {
-    id: 11,
-    name: "Beauty Care Kit",
-    price: 2199,
-    old: 2999,
-    cat: "Beauty",
-    icon: "💄",
-    rating: 4.6
-  },
+    {
+        id:11,
+        name:"Beauty Care Kit",
+        price:2199,
+        old:2999,
+        cat:"Beauty",
+        icon:"💄",
+        rating:4.6
+    },
 
-  {
-    id: 12,
-    name: "Grocery Essentials",
-    price: 1599,
-    old: 1899,
-    cat: "Grocery",
-    icon: "🛒",
-    rating: 4.7
-  }
-
-];
-
-
-/* =========================================================
-   CATEGORIES
-========================================================= */
-
-const categories = [
-
-  ["Mobiles", "📱"],
-  ["Electronics", "💻"],
-  ["Fashion", "👕"],
-  ["Home", "🏠"],
-  ["Beauty", "💄"],
-  ["Grocery", "🛒"],
-  ["Sports", "⚽"],
-  ["Kids", "🧸"]
+    {
+        id:12,
+        name:"Grocery Essentials",
+        price:1599,
+        old:1899,
+        cat:"Grocery",
+        icon:"🛒",
+        rating:4.7
+    }
 
 ];
 
 
 /* =========================================================
-   LOCAL STORAGE
+   APP DATA
 ========================================================= */
 
 let cart = loadData("bm_cart", []);
-
 let wishlist = loadData("bm_wish", []);
-
 let orders = loadData("bm_orders", []);
 
 let currentProduct = null;
 
 let selectedPayment = "Cash on Delivery";
 
+let currentCategory = null;
+
 
 /* =========================================================
-   STORAGE HELPER
+   LOCAL STORAGE
 ========================================================= */
 
-function loadData(key, fallback) {
+function loadData(key, fallback){
 
-  try {
+    try{
 
-    const data = localStorage.getItem(key);
+        const saved =
+            localStorage.getItem(key);
 
-    return data
-      ? JSON.parse(data)
-      : fallback;
+        if(!saved){
+            return fallback;
+        }
 
-  } catch (error) {
+        const data =
+            JSON.parse(saved);
 
-    return fallback;
+        return data;
 
-  }
+    }catch(error){
+
+        return fallback;
+
+    }
 
 }
 
 
-/* =========================================================
-   SAVE ALL DATA
-========================================================= */
+function saveData(){
 
-function saveData() {
+    localStorage.setItem(
+        "bm_cart",
+        JSON.stringify(cart)
+    );
 
-  localStorage.setItem(
-    "bm_cart",
-    JSON.stringify(cart)
-  );
+    localStorage.setItem(
+        "bm_wish",
+        JSON.stringify(wishlist)
+    );
 
-  localStorage.setItem(
-    "bm_wish",
-    JSON.stringify(wishlist)
-  );
+    localStorage.setItem(
+        "bm_orders",
+        JSON.stringify(orders)
+    );
 
-  localStorage.setItem(
-    "bm_orders",
-    JSON.stringify(orders)
-  );
-
-  updateBadges();
+    updateBadges();
 
 }
 
@@ -219,10 +203,10 @@ function saveData() {
    MONEY
 ========================================================= */
 
-function money(value) {
+function money(value){
 
-  return "Rs. " +
-    Number(value).toLocaleString("en-PK");
+    return "Rs. " +
+        Number(value).toLocaleString("en-PK");
 
 }
 
@@ -231,36 +215,30 @@ function money(value) {
    TOAST
 ========================================================= */
 
-function toast(message) {
+function toast(message){
 
-  let element =
-    document.getElementById("toast");
+    const element =
+        document.getElementById("toast");
 
-  if (!element) {
+    if(!element){
+        return;
+    }
 
-    element =
-      document.createElement("div");
+    element.textContent =
+        message;
 
-    element.id = "toast";
+    element.classList.add("show");
 
-    element.className = "toast";
+    clearTimeout(
+        window.bmToastTimer
+    );
 
-    document.body.appendChild(element);
+    window.bmToastTimer =
+        setTimeout(function(){
 
-  }
+            element.classList.remove("show");
 
-  element.textContent = message;
-
-  element.classList.add("show");
-
-  clearTimeout(window.bmToastTimer);
-
-  window.bmToastTimer =
-    setTimeout(() => {
-
-      element.classList.remove("show");
-
-    }, 1800);
+        },1800);
 
 }
 
@@ -269,365 +247,96 @@ function toast(message) {
    SCREEN NAVIGATION
 ========================================================= */
 
-function showScreen(id) {
+function showScreen(id){
 
-  const screens =
-    document.querySelectorAll(".screen");
+    const screens =
+        document.querySelectorAll(".screen");
 
-  screens.forEach(screen => {
+    screens.forEach(function(screen){
 
-    screen.classList.remove("active");
+        screen.classList.remove("active");
 
-  });
-
-
-  let target =
-    document.getElementById(id);
+    });
 
 
-  /*
-    If screen doesn't exist,
-    create it automatically.
-  */
+    const target =
+        document.getElementById(id);
 
-  if (!target) {
+    if(!target){
 
-    target =
-      createMissingScreen(id);
+        toast("Screen not available");
 
-  }
+        return;
 
-
-  if (!target) {
-
-    toast("Screen not available");
-
-    return;
-
-  }
+    }
 
 
-  target.classList.add("active");
+    target.classList.add("active");
 
 
-  /*
-    Refresh dynamic screens
-  */
+    updateBottomNav(id);
 
-  if (id === "home") {
-
-    renderHome();
-
-  }
-
-  if (id === "products") {
-
-    renderProducts();
-
-  }
-
-  if (id === "categories") {
-
-    renderCategories();
-
-  }
-
-  if (id === "cart") {
-
-    renderCart();
-
-  }
-
-  if (id === "wishlist") {
-
-    renderWishlist();
-
-  }
-
-  if (id === "orders") {
-
-    renderOrders();
-
-  }
-
-  if (id === "account") {
-
-    renderAccount();
-
-  }
+    updateBadges();
 
 
-  updateBadges();
+    if(id === "home"){
+        renderHome();
+    }
+
+    if(id === "products"){
+        renderProducts();
+    }
+
+    if(id === "cart"){
+        renderCart();
+    }
+
+    if(id === "wishlist"){
+        renderWishlist();
+    }
+
+    if(id === "orders"){
+        renderOrders();
+    }
+
+    if(id === "account"){
+        renderAccount();
+    }
 
 
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
 
 }
 
 
 /* =========================================================
-   HOME SHORTCUT
+   BOTTOM NAV
 ========================================================= */
 
-function goHome() {
+function updateBottomNav(screenId){
 
-  showScreen("home");
+    const navButtons =
+        document.querySelectorAll(
+            ".nav-btn"
+        );
 
-}
+    navButtons.forEach(function(button){
 
+        button.classList.remove("active");
 
-/* =========================================================
-   BACK
-========================================================= */
+        if(
+            button.dataset.screen ===
+            screenId
+        ){
 
-function goBack(screen = "home") {
+            button.classList.add("active");
 
-  showScreen(screen);
+        }
 
-}
-
-
-/* =========================================================
-   CREATE MISSING SCREENS
-========================================================= */
-
-function createMissingScreen(id) {
-
-  const section =
-    document.createElement("section");
-
-  section.id = id;
-
-  section.className = "screen";
-
-  document.querySelector(".app")
-    ?.appendChild(section);
-
-
-  if (id === "checkout") {
-
-    section.innerHTML = `
-      <div class="page-header">
-        <button
-          class="back-btn"
-          onclick="showScreen('cart')">
-          ←
-        </button>
-
-        <h1>Checkout</h1>
-      </div>
-
-      <div id="checkoutContent"></div>
-    `;
-
-  }
-
-
-  if (id === "tracking") {
-
-    section.innerHTML = `
-      <div class="page-header">
-        <button
-          class="back-btn"
-          onclick="showScreen('orders')">
-          ←
-        </button>
-
-        <h1>Track Order</h1>
-      </div>
-
-      <div id="trackingContent"></div>
-    `;
-
-  }
-
-
-  if (id === "login") {
-
-    section.innerHTML = `
-      <div class="page-header">
-        <button
-          class="back-btn"
-          onclick="showScreen('account')">
-          ←
-        </button>
-
-        <h1>Login</h1>
-      </div>
-
-      <div id="loginContent"></div>
-    `;
-
-  }
-
-
-  if (id === "signup") {
-
-    section.innerHTML = `
-      <div class="page-header">
-        <button
-          class="back-btn"
-          onclick="showScreen('account')">
-          ←
-        </button>
-
-        <h1>Create Account</h1>
-      </div>
-
-      <div id="signupContent"></div>
-    `;
-
-  }
-
-
-  if (id === "seller") {
-
-    section.innerHTML = `
-      <div class="page-header">
-        <button
-          class="back-btn"
-          onclick="showScreen('account')">
-          ←
-        </button>
-
-        <h1>Seller Center</h1>
-      </div>
-
-      <div id="sellerContent"></div>
-    `;
-
-  }
-
-
-  return section;
-
-}
-
-
-/* =========================================================
-   BADGES
-========================================================= */
-
-function updateBadges() {
-
-  const cartBadge =
-    document.getElementById("cartBadge");
-
-  const wishBadge =
-    document.getElementById("wishBadge");
-
-
-  const cartCount =
-    cart.reduce(
-      (total, item) =>
-        total + Number(item.qty || 0),
-      0
-    );
-
-
-  if (cartBadge) {
-
-    cartBadge.textContent =
-      cartCount;
-
-  }
-
-
-  if (wishBadge) {
-
-    wishBadge.textContent =
-      wishlist.length;
-
-  }
-
-}
-
-
-/* =========================================================
-   PRODUCT CARD
-========================================================= */
-
-function productCard(product) {
-
-  const liked =
-    wishlist.includes(product.id);
-
-
-  return `
-
-    <article class="product">
-
-      <button
-        class="heart-btn"
-        onclick="event.stopPropagation();
-                 toggleWishlist(${product.id})">
-
-        ${liked ? "❤️" : "♡"}
-
-      </button>
-
-
-      <div
-        class="product-image"
-        onclick="openProduct(${product.id})">
-
-        ${product.icon}
-
-      </div>
-
-
-      <div class="product-info">
-
-        <h3>
-          ${product.name}
-        </h3>
-
-
-        <div class="rating">
-          ⭐⭐⭐⭐⭐ ${product.rating}
-        </div>
-
-
-        <div class="price">
-
-          ${money(product.price)}
-
-          <span class="old-price">
-            ${money(product.old)}
-          </span>
-
-        </div>
-
-
-        <div class="product-actions">
-
-          <button
-            class="add-btn"
-            onclick="addToCart(${product.id})">
-
-            Add to Cart
-
-          </button>
-
-
-          <button
-            class="add-btn"
-            onclick="openProduct(${product.id})">
-
-            View
-
-          </button>
-
-        </div>
-
-      </div>
-
-    </article>
-
-  `;
+    });
 
 }
 
@@ -636,112 +345,129 @@ function productCard(product) {
    HOME
 ========================================================= */
 
-function renderHome() {
+function goHome(){
 
-  const container =
-    document.getElementById("homeProducts");
-
-  if (!container) return;
-
-
-  container.innerHTML =
-    products
-      .slice(0, 4)
-      .map(productCard)
-      .join("");
+    showScreen("home");
 
 }
 
 
 /* =========================================================
-   CATEGORIES
+   HOME PRODUCTS
 ========================================================= */
 
-function renderCategories() {
+function renderHome(){
 
-  /*
-    Existing HTML already contains categories.
-    No need to replace them.
-  */
+    const container =
+        document.getElementById(
+            "homeProducts"
+        );
+
+    if(!container){
+        return;
+    }
+
+    container.innerHTML =
+        products
+            .slice(0,4)
+            .map(productCard)
+            .join("");
 
 }
 
 
 /* =========================================================
-   OPEN CATEGORY
+   PRODUCT CARD
 ========================================================= */
 
-function openCategory(name) {
+function productCard(product){
 
-  const result =
-    products.filter(
-      product =>
-        product.cat.toLowerCase() ===
-        name.toLowerCase()
-    );
+    const liked =
+        wishlist.includes(product.id);
 
+    return `
 
-  const title =
-    document.getElementById(
-      "productsTitle"
-    );
+        <article class="product">
 
+            <button
+                class="heart-btn"
+                onclick="
+                    event.stopPropagation();
+                    toggleWishlist(${product.id});
+                ">
 
-  if (title) {
+                ${liked ? "❤️" : "♡"}
 
-    title.textContent =
-      result.length
-        ? name
-        : name + " - No Products";
-
-  }
+            </button>
 
 
-  const list =
-    document.getElementById(
-      "productList"
-    );
+            <div
+                class="product-image"
+                onclick="openProduct(${product.id})">
+
+                ${product.icon}
+
+            </div>
 
 
-  if (!list) return;
+            <div class="product-info">
+
+                <h3>
+                    ${product.name}
+                </h3>
 
 
-  if (!result.length) {
+                <div class="rating">
 
-    list.innerHTML = `
+                    ⭐⭐⭐⭐⭐
+                    ${product.rating}
 
-      <div
-        class="empty"
-        style="grid-column:1/-1">
+                </div>
 
-        <div class="empty-icon">
-          🔍
-        </div>
 
-        <h2>
-          No Products Found
-        </h2>
+                <div class="price">
 
-        <p>
-          Products in this category
-          will be available soon.
-        </p>
+                    ${money(product.price)}
 
-      </div>
+                    <span class="old-price">
+
+                        ${money(product.old)}
+
+                    </span>
+
+                </div>
+
+
+                <div class="product-actions">
+
+                    <button
+                        class="add-btn"
+                        onclick="
+                            addToCart(${product.id});
+                        ">
+
+                        Add to Cart
+
+                    </button>
+
+
+                    <button
+                        class="add-btn view-btn"
+                        onclick="
+                            openProduct(${product.id});
+                        ">
+
+                        View
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
 
     `;
-
-  } else {
-
-    list.innerHTML =
-      result
-        .map(productCard)
-        .join("");
-
-  }
-
-
-  showScreen("products");
 
 }
 
@@ -750,295 +476,364 @@ function openCategory(name) {
    ALL PRODUCTS
 ========================================================= */
 
-function renderProducts(list = products) {
-
-  const container =
-    document.getElementById(
-      "productList"
-    );
-
-
-  if (!container) return;
-
-
-  const title =
-    document.getElementById(
-      "productsTitle"
-    );
-
-
-  if (title) {
-
-    title.textContent =
-      list === products
-        ? "All Products"
-        : "Search Results";
-
-  }
-
-
-  if (!list.length) {
-
-    container.innerHTML = `
-
-      <div
-        class="empty"
-        style="grid-column:1/-1">
-
-        <div class="empty-icon">
-          🔍
-        </div>
-
-        <h2>
-          No Products Found
-        </h2>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  container.innerHTML =
-    list
-      .map(productCard)
-      .join("");
-
-}
-
-
-/* =========================================================
-   OPEN PRODUCT DETAILS
-========================================================= */
-
-function openProduct(id) {
-
-  const product =
-    products.find(
-      item => item.id === Number(id)
-    );
-
-
-  if (!product) {
-
-    toast("Product not found");
-
-    return;
-
-  }
-
-
-  currentProduct = product;
-
-
-  const image =
-    document.getElementById(
-      "detailImage"
-    );
-
-  const name =
-    document.getElementById(
-      "detailName"
-    );
-
-  const price =
-    document.getElementById(
-      "detailPrice"
-    );
-
-
-  if (image) {
-
-    image.textContent =
-      product.icon;
-
-  }
-
-
-  if (name) {
-
-    name.textContent =
-      product.name;
-
-  }
-
-
-  if (price) {
-
-    price.textContent =
-      money(product.price);
-
-  }
-
-
-  const rating =
-    document.querySelector(
-      "#detail .detail-rating"
-    );
-
-
-  if (rating) {
-
-    rating.innerHTML =
-      `⭐ ⭐ ⭐ ⭐ ⭐ ${product.rating}`;
-
-  }
-
-
-  showScreen("detail");
-
-}
-
-
-/* =========================================================
-   ADD CURRENT PRODUCT
-========================================================= */
-
-function addCurrentProduct() {
-
-  if (!currentProduct) {
-
-    toast("Please select a product");
-
-    return;
-
-  }
-
-
-  addToCart(currentProduct.id);
-
-}
-
-
-/* =========================================================
-   BUY CURRENT PRODUCT
-========================================================= */
-
-function buyCurrentProduct() {
-
-  if (!currentProduct) {
-
-    toast("Please select a product");
-
-    return;
-
-  }
-
-
-  cart = [
-    {
-      id: currentProduct.id,
-      qty: 1
+function renderProducts(list){
+
+    const container =
+        document.getElementById(
+            "productList"
+        );
+
+    if(!container){
+        return;
     }
-  ];
 
 
-  saveData();
+    if(!list){
 
-  openCheckout();
+        list = products;
+
+    }
+
+
+    const title =
+        document.getElementById(
+            "productsTitle"
+        );
+
+
+    if(title){
+
+        if(currentCategory){
+
+            title.textContent =
+                currentCategory;
+
+        }else{
+
+            title.textContent =
+                "All Products";
+
+        }
+
+    }
+
+
+    if(!list.length){
+
+        container.innerHTML = `
+
+            <div
+                class="empty"
+                style="grid-column:1/-1">
+
+                <div class="empty-icon">
+                    🔍
+                </div>
+
+                <h2>
+                    No Products Found
+                </h2>
+
+                <p>
+                    Products in this category
+                    will be available soon.
+                </p>
+
+                <button
+                    class="primary-btn"
+                    onclick="showScreen('categories')">
+
+                    Browse Categories
+
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML =
+        list
+            .map(productCard)
+            .join("");
 
 }
 
 
 /* =========================================================
-   ADD TO CART
+   CATEGORY
 ========================================================= */
 
-function addToCart(id) {
+function openCategory(name){
 
-  id = Number(id);
+    currentCategory = name;
 
+    const result =
+        products.filter(function(product){
 
-  const item =
-    cart.find(
-      product => product.id === id
-    );
+            return (
+                product.cat.toLowerCase() ===
+                name.toLowerCase()
+            );
 
-
-  if (item) {
-
-    item.qty += 1;
-
-  } else {
-
-    cart.push({
-      id: id,
-      qty: 1
-    });
-
-  }
+        });
 
 
-  saveData();
+    renderProducts(result);
 
-
-  toast("Added to cart 🛒");
+    showScreen("products");
 
 }
 
 
 /* =========================================================
-   CHANGE CART QUANTITY
+   OPEN PRODUCT
 ========================================================= */
 
-function changeQty(id, amount) {
+function openProduct(id){
 
-  id = Number(id);
+    const product =
+        products.find(function(item){
+
+            return item.id === Number(id);
+
+        });
 
 
-  const item =
-    cart.find(
-      product => product.id === id
+    if(!product){
+
+        toast("Product not found");
+
+        return;
+
+    }
+
+
+    currentProduct =
+        product;
+
+
+    const image =
+        document.getElementById(
+            "detailImage"
+        );
+
+    const name =
+        document.getElementById(
+            "detailName"
+        );
+
+    const price =
+        document.getElementById(
+            "detailPrice"
+        );
+
+    const oldPrice =
+        document.getElementById(
+            "detailOldPrice"
+        );
+
+    const rating =
+        document.getElementById(
+            "detailRating"
+        );
+
+
+    if(image){
+        image.textContent =
+            product.icon;
+    }
+
+    if(name){
+        name.textContent =
+            product.name;
+    }
+
+    if(price){
+        price.textContent =
+            money(product.price);
+    }
+
+    if(oldPrice){
+        oldPrice.textContent =
+            money(product.old);
+    }
+
+    if(rating){
+
+        rating.textContent =
+            "⭐ ⭐ ⭐ ⭐ ⭐ " +
+            product.rating;
+
+    }
+
+
+    showScreen("detail");
+
+}
+
+
+/* =========================================================
+   CURRENT PRODUCT
+========================================================= */
+
+function addCurrentProduct(){
+
+    if(!currentProduct){
+
+        toast("Please select a product");
+
+        return;
+
+    }
+
+
+    addToCart(
+        currentProduct.id
+    );
+
+}
+
+
+function buyCurrentProduct(){
+
+    if(!currentProduct){
+
+        toast("Please select a product");
+
+        return;
+
+    }
+
+
+    addToCart(
+        currentProduct.id
     );
 
 
-  if (!item) return;
+    openCheckout();
+
+}
 
 
-  item.qty += Number(amount);
+/* =========================================================
+   CART
+========================================================= */
+
+function addToCart(id){
+
+    id = Number(id);
 
 
-  if (item.qty <= 0) {
+    const product =
+        products.find(function(item){
+
+            return item.id === id;
+
+        });
+
+
+    if(!product){
+
+        toast("Product not found");
+
+        return;
+
+    }
+
+
+    const existing =
+        cart.find(function(item){
+
+            return item.id === id;
+
+        });
+
+
+    if(existing){
+
+        existing.qty += 1;
+
+    }else{
+
+        cart.push({
+            id:id,
+            qty:1
+        });
+
+    }
+
+
+    saveData();
+
+    toast(
+        product.name +
+        " added to cart 🛒"
+    );
+
+}
+
+
+function changeQty(id, amount){
+
+    id = Number(id);
+
+    const item =
+        cart.find(function(product){
+
+            return product.id === id;
+
+        });
+
+
+    if(!item){
+        return;
+    }
+
+
+    item.qty += Number(amount);
+
+
+    if(item.qty <= 0){
+
+        cart =
+            cart.filter(function(product){
+
+                return product.id !== id;
+
+            });
+
+    }
+
+
+    saveData();
+
+    renderCart();
+
+}
+
+
+function removeFromCart(id){
+
+    id = Number(id);
 
     cart =
-      cart.filter(
-        product =>
-          product.id !== id
-      );
+        cart.filter(function(item){
 
-  }
+            return item.id !== id;
 
-
-  saveData();
-
-  renderCart();
-
-}
+        });
 
 
-/* =========================================================
-   REMOVE CART ITEM
-========================================================= */
+    saveData();
 
-function removeFromCart(id) {
+    renderCart();
 
-  id = Number(id);
-
-
-  cart =
-    cart.filter(
-      item => item.id !== id
-    );
-
-
-  saveData();
-
-  renderCart();
-
-  toast("Removed from cart");
+    toast("Removed from cart");
 
 }
 
@@ -1047,205 +842,216 @@ function removeFromCart(id) {
    RENDER CART
 ========================================================= */
 
-function renderCart() {
+function renderCart(){
 
-  const list =
-    document.getElementById(
-      "cartList"
-    );
+    const list =
+        document.getElementById(
+            "cartList"
+        );
 
-  const summary =
-    document.getElementById(
-      "cartSummary"
-    );
-
-
-  if (!list || !summary) return;
+    const summary =
+        document.getElementById(
+            "cartSummary"
+        );
 
 
-  if (!cart.length) {
-
-    list.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          🛒
-        </div>
-
-        <h2>
-          Your Cart is Empty
-        </h2>
-
-        <p>
-          Add products to your cart
-          to continue shopping.
-        </p>
-
-        <button
-          class="shop-btn"
-          onclick="showScreen('products')">
-
-          Start Shopping
-
-        </button>
-
-      </div>
-
-    `;
+    if(!list || !summary){
+        return;
+    }
 
 
-    summary.innerHTML = "";
+    if(!cart.length){
 
-    return;
+        list.innerHTML = `
 
-  }
+            <div class="empty">
 
+                <div class="empty-icon">
+                    🛒
+                </div>
 
-  let subtotal = 0;
+                <h2>
+                    Your Cart is Empty
+                </h2>
 
-
-  list.innerHTML =
-    cart
-      .map(item => {
-
-        const product =
-          products.find(
-            p => p.id === item.id
-          );
-
-
-        if (!product) return "";
-
-
-        subtotal +=
-          product.price * item.qty;
-
-
-        return `
-
-          <div class="cart-item">
-
-            <div class="cart-img">
-              ${product.icon}
-            </div>
-
-
-            <div class="cart-info">
-
-              <h3>
-                ${product.name}
-              </h3>
-
-              <p>
-                ${money(product.price)}
-              </p>
-
-
-              <div class="qty">
+                <p>
+                    Add products to your cart
+                    to continue shopping.
+                </p>
 
                 <button
-                  onclick="changeQty(
-                    ${product.id},
-                    -1
-                  )">
+                    class="primary-btn"
+                    onclick="showScreen('products')">
 
-                  −
+                    Start Shopping
 
                 </button>
-
-
-                <b>
-                  ${item.qty}
-                </b>
-
-
-                <button
-                  onclick="changeQty(
-                    ${product.id},
-                    1
-                  )">
-
-                  +
-
-                </button>
-
-
-                <button
-                  onclick="removeFromCart(
-                    ${product.id}
-                  )">
-
-                  ✕
-
-                </button>
-
-              </div>
 
             </div>
-
-          </div>
 
         `;
 
-      })
-      .join("");
+        summary.innerHTML = "";
+
+        return;
+
+    }
 
 
-  summary.innerHTML = `
-
-    <div class="cart-summary">
-
-      <div class="summary-row">
-
-        <span>
-          Subtotal
-        </span>
-
-        <b>
-          ${money(subtotal)}
-        </b>
-
-      </div>
+    let subtotal = 0;
 
 
-      <div class="summary-row">
+    list.innerHTML =
+        cart.map(function(item){
 
-        <span>
-          Delivery
-        </span>
+            const product =
+                products.find(function(p){
 
-        <b>
-          FREE
-        </b>
+                    return p.id === item.id;
 
-      </div>
+                });
 
 
-      <div class="summary-row summary-total">
-
-        <span>
-          Total
-        </span>
-
-        <span>
-          ${money(subtotal)}
-        </span>
-
-      </div>
+            if(!product){
+                return "";
+            }
 
 
-      <button
-        class="checkout-btn"
-        onclick="openCheckout()">
+            subtotal +=
+                product.price *
+                item.qty;
 
-        Proceed to Checkout
 
-      </button>
+            return `
 
-    </div>
+                <div class="cart-item">
 
-  `;
+                    <div class="cart-img">
+                        ${product.icon}
+                    </div>
+
+
+                    <div class="cart-info">
+
+                        <h3>
+                            ${product.name}
+                        </h3>
+
+                        <p>
+                            ${money(product.price)}
+                        </p>
+
+
+                        <div class="qty">
+
+                            <button
+                                onclick="
+                                    changeQty(
+                                        ${product.id},
+                                        -1
+                                    );
+                                ">
+
+                                −
+
+                            </button>
+
+
+                            <b>
+                                ${item.qty}
+                            </b>
+
+
+                            <button
+                                onclick="
+                                    changeQty(
+                                        ${product.id},
+                                        1
+                                    );
+                                ">
+
+                                +
+
+                            </button>
+
+
+                            <button
+                                class="remove"
+                                onclick="
+                                    removeFromCart(
+                                        ${product.id}
+                                    );
+                                ">
+
+                                ✕
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+
+    summary.innerHTML = `
+
+        <div class="cart-summary">
+
+            <div class="summary-row">
+
+                <span>
+                    Subtotal
+                </span>
+
+                <b>
+                    ${money(subtotal)}
+                </b>
+
+            </div>
+
+
+            <div class="summary-row">
+
+                <span>
+                    Delivery
+                </span>
+
+                <b>
+                    FREE
+                </b>
+
+            </div>
+
+
+            <div class="summary-row summary-total">
+
+                <span>
+                    Total
+                </span>
+
+                <span>
+                    ${money(subtotal)}
+                </span>
+
+            </div>
+
+
+            <button
+                class="checkout-btn"
+                onclick="openCheckout()">
+
+                Proceed to Checkout →
+
+            </button>
+
+        </div>
+
+    `;
 
 }
 
@@ -1254,111 +1060,110 @@ function renderCart() {
    WISHLIST
 ========================================================= */
 
-function toggleWishlist(id) {
+function toggleWishlist(id){
 
-  id = Number(id);
-
-
-  if (wishlist.includes(id)) {
-
-    wishlist =
-      wishlist.filter(
-        item => item !== id
-      );
-
-    toast("Removed from wishlist");
-
-  } else {
-
-    wishlist.push(id);
-
-    toast("Added to wishlist ❤️");
-
-  }
+    id = Number(id);
 
 
-  saveData();
+    if(
+        wishlist.includes(id)
+    ){
+
+        wishlist =
+            wishlist.filter(function(item){
+
+                return item !== id;
+
+            });
+
+        toast(
+            "Removed from wishlist"
+        );
+
+    }else{
+
+        wishlist.push(id);
+
+        toast(
+            "Added to wishlist ❤️"
+        );
+
+    }
 
 
-  renderHome();
+    saveData();
 
-
-  if (
-    document
-      .getElementById("wishlist")
-      ?.classList.contains("active")
-  ) {
+    renderHome();
 
     renderWishlist();
-
-  }
 
 }
 
 
-/* =========================================================
-   RENDER WISHLIST
-========================================================= */
+function renderWishlist(){
 
-function renderWishlist() {
-
-  const list =
-    document.getElementById(
-      "wishlistList"
-    );
+    const container =
+        document.getElementById(
+            "wishlistList"
+        );
 
 
-  if (!list) return;
+    if(!container){
+        return;
+    }
 
 
-  const items =
-    products.filter(
-      product =>
-        wishlist.includes(product.id)
-    );
+    const items =
+        products.filter(function(product){
+
+            return wishlist.includes(
+                product.id
+            );
+
+        });
 
 
-  if (!items.length) {
+    if(!items.length){
 
-    list.innerHTML = `
+        container.innerHTML = `
 
-      <div
-        class="empty"
-        style="grid-column:1/-1">
+            <div
+                class="empty"
+                style="grid-column:1/-1">
 
-        <div class="empty-icon">
-          ❤️
-        </div>
+                <div class="empty-icon">
+                    ❤️
+                </div>
 
-        <h2>
-          Wishlist is Empty
-        </h2>
+                <h2>
+                    Wishlist is Empty
+                </h2>
 
-        <p>
-          Save products you love here.
-        </p>
+                <p>
+                    Save products you love here.
+                </p>
 
-        <button
-          class="shop-btn"
-          onclick="showScreen('products')">
+                <button
+                    class="primary-btn"
+                    onclick="showScreen('products')">
 
-          Browse Products
+                    Browse Products
 
-        </button>
+                </button>
 
-      </div>
+            </div>
 
-    `;
+        `;
 
-    return;
+        return;
 
-  }
+    }
 
 
-  list.innerHTML =
-    items
-      .map(productCard)
-      .join("");
+    container.innerHTML =
+        items
+            .map(productCard)
+            .join("");
 
 }
 
@@ -1367,204 +1172,264 @@ function renderWishlist() {
    CHECKOUT
 ========================================================= */
 
-function openCheckout() {
+function openCheckout(){
 
-  if (!cart.length) {
+    if(!cart.length){
 
-    toast("Your cart is empty");
+        toast("Your cart is empty");
 
-    showScreen("products");
+        showScreen("products");
 
-    return;
-
-  }
-
-
-  const screen =
-    document.getElementById(
-      "checkout"
-    ) ||
-    createMissingScreen("checkout");
-
-
-  let content =
-    document.getElementById(
-      "checkoutContent"
-    );
-
-
-  if (!content) {
-
-    content =
-      document.createElement("div");
-
-    content.id =
-      "checkoutContent";
-
-    screen.appendChild(content);
-
-  }
-
-
-  let total = 0;
-
-
-  cart.forEach(item => {
-
-    const product =
-      products.find(
-        p => p.id === item.id
-      );
-
-
-    if (product) {
-
-      total +=
-        product.price * item.qty;
+        return;
 
     }
 
-  });
+
+    let screen =
+        document.getElementById(
+            "checkout"
+        );
 
 
-  content.innerHTML = `
+    if(!screen){
 
-    <div class="login-box">
+        screen =
+            document.createElement(
+                "section"
+            );
 
-      <h2>
-        Delivery Address
-      </h2>
+        screen.id =
+            "checkout";
 
-      <p>
-        Enter your delivery details.
-      </p>
+        screen.className =
+            "screen";
 
+        document.querySelector(
+            ".app"
+        ).insertBefore(
+            screen,
+            document.querySelector(
+                ".bottom-nav"
+            )
+        );
 
-      <input
-        id="checkoutName"
-        type="text"
-        placeholder="Full Name"
-      >
-
-
-      <input
-        id="checkoutPhone"
-        type="tel"
-        placeholder="Phone Number"
-      >
+    }
 
 
-      <input
-        id="checkoutAddress"
-        type="text"
-        placeholder="Complete Address"
-      >
+    let total = 0;
+
+    cart.forEach(function(item){
+
+        const product =
+            products.find(function(p){
+
+                return p.id === item.id;
+
+            });
 
 
-      <h2 style="margin-top:20px;">
-        Payment Method
-      </h2>
+        if(product){
+
+            total +=
+                product.price *
+                item.qty;
+
+        }
+
+    });
 
 
-      <button
-        class="account-item"
-        onclick="selectPayment('Cash on Delivery')">
+    screen.innerHTML = `
 
-        💵 Cash on Delivery
+        <div class="page-header">
 
-      </button>
+            <button
+                class="back-btn"
+                onclick="showScreen('cart')">
 
+                ←
 
-      <button
-        class="account-item"
-        onclick="selectPayment('JazzCash')">
+            </button>
 
-        🔴 JazzCash
+            <div>
 
-      </button>
+                <span class="page-kicker">
+                    ORDER
+                </span>
 
+                <h1>
+                    Checkout
+                </h1>
 
-      <button
-        class="account-item"
-        onclick="selectPayment('Easypaisa')">
-
-        🟢 Easypaisa
-
-      </button>
-
-
-      <button
-        class="account-item"
-        onclick="selectPayment('Credit / Debit Card')">
-
-        💳 Credit / Debit Card
-
-      </button>
-
-
-      <div
-        class="cart-summary"
-        style="margin-top:20px;">
-
-        <div class="summary-row">
-
-          <span>
-            Total Items
-          </span>
-
-          <b>
-            ${cart.reduce(
-              (sum, item) =>
-                sum + item.qty,
-              0
-            )}
-          </b>
+            </div>
 
         </div>
 
 
-        <div class="summary-row">
+        <div class="form-card">
 
-          <span>
-            Delivery
-          </span>
+            <h2>
+                Delivery Address
+            </h2>
 
-          <b>
-            FREE
-          </b>
+            <p>
+                Enter your delivery details.
+            </p>
+
+
+            <input
+                class="form-input"
+                id="checkoutName"
+                type="text"
+                placeholder="Full Name"
+            >
+
+
+            <input
+                class="form-input"
+                id="checkoutPhone"
+                type="tel"
+                placeholder="Phone Number"
+            >
+
+
+            <input
+                class="form-input"
+                id="checkoutAddress"
+                type="text"
+                placeholder="Complete Address"
+            >
+
+
+            <h2 style="margin-top:18px;">
+                Payment Method
+            </h2>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    selectPayment(
+                        'Cash on Delivery'
+                    );
+                ">
+
+                💵 Cash on Delivery
+
+            </button>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    selectPayment('JazzCash');
+                ">
+
+                🔴 JazzCash
+
+            </button>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    selectPayment('Easypaisa');
+                ">
+
+                🟢 Easypaisa
+
+            </button>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    selectPayment(
+                        'Credit / Debit Card'
+                    );
+                ">
+
+                💳 Credit / Debit Card
+
+            </button>
+
+
+            <div class="cart-summary">
+
+                <div class="summary-row">
+
+                    <span>
+                        Items
+                    </span>
+
+                    <b>
+                        ${cart.reduce(
+                            function(total,item){
+                                return total +
+                                    item.qty;
+                            },0
+                        )}
+                    </b>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Payment
+                    </span>
+
+                    <b id="selectedPaymentText">
+                        ${selectedPayment}
+                    </b>
+
+                </div>
+
+
+                <div class="summary-row">
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <b>
+                        FREE
+                    </b>
+
+                </div>
+
+
+                <div
+                    class="summary-row summary-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <span>
+                        ${money(total)}
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="checkout-btn"
+                    onclick="placeOrder()">
+
+                    Place Order 🎉
+
+                </button>
+
+            </div>
 
         </div>
 
-
-        <div class="summary-row summary-total">
-
-          <span>
-            Total Payable
-          </span>
-
-          <span>
-            ${money(total)}
-          </span>
-
-        </div>
+    `;
 
 
-        <button
-          class="checkout-btn"
-          onclick="placeOrder()">
-
-          Place Order
-
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-
-  showScreen("checkout");
+    showScreen("checkout");
 
 }
 
@@ -1573,13 +1438,30 @@ function openCheckout() {
    PAYMENT
 ========================================================= */
 
-function selectPayment(method) {
+function selectPayment(method){
 
-  selectedPayment = method;
+    selectedPayment =
+        method;
 
-  toast(
-    method + " selected ✓"
-  );
+
+    const text =
+        document.getElementById(
+            "selectedPaymentText"
+        );
+
+
+    if(text){
+
+        text.textContent =
+            method;
+
+    }
+
+
+    toast(
+        method +
+        " selected ✓"
+    );
 
 }
 
@@ -1588,109 +1470,102 @@ function selectPayment(method) {
    PLACE ORDER
 ========================================================= */
 
-function placeOrder() {
+function placeOrder(){
 
-  if (!cart.length) {
+    if(!cart.length){
 
-    toast("Your cart is empty");
+        toast("Your cart is empty");
 
-    return;
+        return;
 
-  }
-
-
-  const name =
-    document.getElementById(
-      "checkoutName"
-    )?.value.trim();
+    }
 
 
-  const phone =
-    document.getElementById(
-      "checkoutPhone"
-    )?.value.trim();
+    const name =
+        document.getElementById(
+            "checkoutName"
+        )?.value.trim();
 
 
-  const address =
-    document.getElementById(
-      "checkoutAddress"
-    )?.value.trim();
+    const phone =
+        document.getElementById(
+            "checkoutPhone"
+        )?.value.trim();
 
 
-  if (!name || !phone || !address) {
+    const address =
+        document.getElementById(
+            "checkoutAddress"
+        )?.value.trim();
+
+
+    if(!name || !phone || !address){
+
+        toast(
+            "Please enter delivery details"
+        );
+
+        return;
+
+    }
+
+
+    const order = {
+
+        id:
+            "BM" +
+            Date.now()
+                .toString()
+                .slice(-7),
+
+        date:
+            new Date()
+                .toLocaleDateString(
+                    "en-PK"
+                ),
+
+        status:
+            "Processing",
+
+        payment:
+            selectedPayment,
+
+        customer:{
+            name:name,
+            phone:phone,
+            address:address
+        },
+
+        items:
+            cart.map(function(item){
+
+                return {
+                    id:item.id,
+                    qty:item.qty
+                };
+
+            })
+
+    };
+
+
+    orders.unshift(order);
+
+    cart = [];
+
+    saveData();
+
 
     toast(
-      "Please enter delivery details"
+        "Order placed successfully 🎉"
     );
 
-    return;
 
-  }
+    setTimeout(function(){
 
+        showScreen("orders");
 
-  const orderItems =
-    cart.map(item => ({
-      id: item.id,
-      qty: item.qty
-    }));
-
-
-  const order = {
-
-    id:
-      "BM" +
-      Date.now()
-        .toString()
-        .slice(-7),
-
-    date:
-      new Date()
-        .toLocaleDateString("en-PK"),
-
-    status:
-      "Processing",
-
-    payment:
-      selectedPayment,
-
-    customer: {
-
-      name:
-        name,
-
-      phone:
-        phone,
-
-      address:
-        address
-
-    },
-
-    items:
-      orderItems
-
-  };
-
-
-  orders.unshift(order);
-
-
-  cart = [];
-
-
-  saveData();
-
-
-  toast(
-    "Order placed successfully 🎉"
-  );
-
-
-  setTimeout(() => {
-
-    showScreen("orders");
-
-  }, 700);
+    },600);
 
 }
 
@@ -1699,142 +1574,148 @@ function placeOrder() {
    ORDERS
 ========================================================= */
 
-function renderOrders() {
+function renderOrders(){
 
-  const list =
-    document.getElementById(
-      "ordersList"
-    );
-
-
-  if (!list) return;
+    const container =
+        document.getElementById(
+            "ordersList"
+        );
 
 
-  if (!orders.length) {
-
-    list.innerHTML = `
-
-      <div class="empty">
-
-        <div class="empty-icon">
-          📦
-        </div>
-
-        <h2>
-          No Orders Yet
-        </h2>
-
-        <p>
-          Your orders will appear here.
-        </p>
-
-        <button
-          class="shop-btn"
-          onclick="showScreen('products')">
-
-          Start Shopping
-
-        </button>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+    if(!container){
+        return;
+    }
 
 
-  list.innerHTML =
-    orders
-      .map(order => {
+    if(!orders.length){
 
-        const first =
-          order.items?.[0];
+        container.innerHTML = `
 
+            <div class="empty">
 
-        const product =
-          first
-            ? products.find(
-                p => p.id === first.id
-              )
-            : null;
+                <div class="empty-icon">
+                    📦
+                </div>
 
+                <h2>
+                    No Orders Yet
+                </h2>
 
-        return `
+                <p>
+                    Your orders will appear here.
+                </p>
 
-          <div
-            class="order-card"
-            onclick="openTracking('${order.id}')">
+                <button
+                    class="primary-btn"
+                    onclick="showScreen('products')">
 
-            <div class="order-top">
+                    Start Shopping
 
-              <b>
-                Order #${order.id}
-              </b>
-
-              <span class="status">
-                ${order.status}
-              </span>
+                </button>
 
             </div>
 
-
-            <p style="margin-top:8px;color:#777;">
-              Placed on ${order.date}
-            </p>
-
-
-            ${
-              product
-                ? `
-                  <div class="order-product">
-
-                    <div class="order-product-icon">
-                      ${product.icon}
-                    </div>
-
-                    <div>
-
-                      <b>
-                        ${product.name}
-                      </b>
-
-                      <p style="margin-top:5px;">
-                        Qty:
-                        ${first.qty}
-                      </p>
-
-                    </div>
-
-                  </div>
-                `
-                : ""
-            }
-
-
-            <button
-              class="shop-btn"
-              style="
-                margin-top:15px;
-                padding:10px 16px;
-                font-size:14px;
-              "
-              onclick="
-                event.stopPropagation();
-                openTracking('${order.id}');
-              ">
-
-              Track Order →
-
-            </button>
-
-          </div>
-
         `;
 
-      })
-      .join("");
+        return;
+
+    }
+
+
+    container.innerHTML =
+        orders.map(function(order){
+
+            const first =
+                order.items?.[0];
+
+
+            const product =
+                first
+                    ? products.find(
+                        function(p){
+                            return p.id === first.id;
+                        }
+                    )
+                    : null;
+
+
+            return `
+
+                <div class="order-card">
+
+                    <div class="order-top">
+
+                        <b>
+                            Order #${order.id}
+                        </b>
+
+                        <span class="status">
+                            ${order.status}
+                        </span>
+
+                    </div>
+
+
+                    <div class="order-date">
+
+                        Placed on ${order.date}
+
+                    </div>
+
+
+                    ${
+                        product
+                        ?
+                        `
+
+                            <div class="order-product">
+
+                                <div class="order-product-icon">
+
+                                    ${product.icon}
+
+                                </div>
+
+
+                                <div
+                                    class="order-product-info">
+
+                                    <b>
+                                        ${product.name}
+                                    </b>
+
+                                    <p>
+                                        Qty:
+                                        ${first.qty}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        `
+                        :
+                        ""
+                    }
+
+
+                    <button
+                        class="track-btn"
+                        onclick="
+                            openTracking(
+                                '${order.id}'
+                            );
+                        ">
+
+                        Track Order →
+
+                    </button>
+
+                </div>
+
+            `;
+
+        }).join("");
 
 }
 
@@ -1843,185 +1724,219 @@ function renderOrders() {
    TRACKING
 ========================================================= */
 
-function openTracking(orderId) {
+function openTracking(orderId){
 
-  const order =
-    orders.find(
-      item => item.id === orderId
-    );
+    const order =
+        orders.find(function(item){
 
+            return item.id === orderId;
 
-  if (!order) {
-
-    toast("Order not found");
-
-    return;
-
-  }
+        });
 
 
-  const screen =
-    document.getElementById(
-      "tracking"
-    ) ||
-    createMissingScreen("tracking");
+    if(!order){
+
+        toast("Order not found");
+
+        return;
+
+    }
 
 
-  let content =
-    document.getElementById(
-      "trackingContent"
-    );
+    let screen =
+        document.getElementById(
+            "tracking"
+        );
 
 
-  if (!content) {
+    if(!screen){
 
-    content =
-      document.createElement("div");
+        screen =
+            document.createElement(
+                "section"
+            );
 
-    content.id =
-      "trackingContent";
+        screen.id =
+            "tracking";
 
-    screen.appendChild(content);
+        screen.className =
+            "screen";
 
-  }
+        document.querySelector(
+            ".app"
+        ).insertBefore(
+            screen,
+            document.querySelector(
+                ".bottom-nav"
+            )
+        );
 
-
-  content.innerHTML = `
-
-    <div class="order-card">
-
-      <div class="order-top">
-
-        <b>
-          Order #${order.id}
-        </b>
-
-        <span class="status">
-          ${order.status}
-        </span>
-
-      </div>
+    }
 
 
-      <p style="margin-top:10px;color:#777;">
-        Placed on ${order.date}
-      </p>
+    screen.innerHTML = `
 
+        <div class="page-header">
 
-      <div style="margin-top:25px;">
+            <button
+                class="back-btn"
+                onclick="showScreen('orders')">
 
-        <div class="account-item">
-          ✅ &nbsp;
-          <b>Order Placed</b>
-          <br>
-          <small>
-            Your order has been received.
-          </small>
+                ←
+
+            </button>
+
+            <div>
+
+                <span class="page-kicker">
+                    ORDER
+                </span>
+
+                <h1>
+                    Track Order
+                </h1>
+
+            </div>
+
         </div>
 
 
-        <div class="account-item">
-          🔄 &nbsp;
-          <b>Processing</b>
-          <br>
-          <small>
-            Seller is preparing your order.
-          </small>
-        </div>
+        <div class="order-card">
+
+            <div class="order-top">
+
+                <b>
+                    Order #${order.id}
+                </b>
+
+                <span class="status">
+                    ${order.status}
+                </span>
+
+            </div>
 
 
-        <div class="account-item">
-          🚚 &nbsp;
-          <b>Shipped</b>
-          <br>
-          <small>
-            Your package will be shipped.
-          </small>
-        </div>
+            <div class="order-date">
+
+                Placed on ${order.date}
+
+            </div>
 
 
-        <div class="account-item">
-          🛵 &nbsp;
-          <b>Out for Delivery</b>
-          <br>
-          <small>
-            Rider will deliver your order.
-          </small>
-        </div>
+            <div style="margin-top:18px;">
 
+                <div class="tracking-step">
 
-        <div class="account-item">
-          🏠 &nbsp;
-          <b>Delivered</b>
-          <br>
-          <small>
-            Order will be delivered to you.
-          </small>
-        </div>
+                    <div class="tracking-dot">
+                        ✓
+                    </div>
 
-      </div>
+                    <div>
 
-    </div>
+                        <strong>
+                            Order Placed
+                        </strong>
 
+                        <p>
+                            Your order has been received.
+                        </p>
 
-    <div class="order-card">
-
-      <h2>
-        Order Items
-      </h2>
-
-
-      ${
-        (order.items || [])
-          .map(item => {
-
-            const product =
-              products.find(
-                p => p.id === item.id
-              );
-
-
-            if (!product) return "";
-
-
-            return `
-
-              <div class="order-product">
-
-                <div
-                  class="order-product-icon">
-
-                  ${product.icon}
+                    </div>
 
                 </div>
 
-                <div>
 
-                  <b>
-                    ${product.name}
-                  </b>
+                <div class="tracking-step">
 
-                  <p style="margin-top:5px;">
-                    ${money(product.price)}
-                    × ${item.qty}
-                  </p>
+                    <div class="tracking-dot">
+                        🔄
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Processing
+                        </strong>
+
+                        <p>
+                            Seller is preparing your order.
+                        </p>
+
+                    </div>
 
                 </div>
 
-              </div>
 
-            `;
+                <div class="tracking-step">
 
-          })
-          .join("")
-      }
+                    <div class="tracking-dot">
+                        🚚
+                    </div>
 
-    </div>
+                    <div>
 
-  `;
+                        <strong>
+                            Shipped
+                        </strong>
+
+                        <p>
+                            Your package will be shipped.
+                        </p>
+
+                    </div>
+
+                </div>
 
 
-  showScreen("tracking");
+                <div class="tracking-step">
+
+                    <div class="tracking-dot">
+                        🛵
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Out for Delivery
+                        </strong>
+
+                        <p>
+                            Rider will deliver your order.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="tracking-step">
+
+                    <div class="tracking-dot">
+                        🏠
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Delivered
+                        </strong>
+
+                        <p>
+                            Your order will be delivered.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    showScreen("tracking");
 
 }
 
@@ -2030,386 +1945,437 @@ function openTracking(orderId) {
    ACCOUNT
 ========================================================= */
 
-function renderAccount() {
+function getUser(){
 
-  const screen =
-    document.getElementById(
-      "account"
-    );
+    try{
+
+        const data =
+            localStorage.getItem(
+                "bm_user_data"
+            );
+
+        return data
+            ? JSON.parse(data)
+            : null;
+
+    }catch(error){
+
+        return null;
+
+    }
+
+}
 
 
-  if (!screen) return;
+function renderAccount(){
+
+    const container =
+        document.getElementById(
+            "accountContent"
+        );
 
 
-  const user =
-    getUser();
+    if(!container){
+        return;
+    }
 
 
-  if (user) {
+    const user =
+        getUser();
 
-    screen.innerHTML = `
 
-      <div class="account-card">
+    if(user){
 
-        <div class="avatar">
-          👤
+        container.innerHTML = `
+
+            <div class="account-card">
+
+                <div class="avatar">
+                    👤
+                </div>
+
+                <h2>
+                    ${escapeHTML(user.name)}
+                </h2>
+
+                <p>
+                    ${escapeHTML(user.email)}
+                </p>
+
+            </div>
+
+
+            <div class="account-menu">
+
+                <button
+                    class="account-item"
+                    onclick="
+                        showScreen('orders');
+                    ">
+
+                    📦
+                    <span>My Orders</span>
+
+                </button>
+
+
+                <button
+                    class="account-item"
+                    onclick="
+                        showScreen('wishlist');
+                    ">
+
+                    ❤️
+                    <span>Wishlist</span>
+
+                </button>
+
+
+                <button
+                    class="account-item"
+                    onclick="
+                        openSeller();
+                    ">
+
+                    🏪
+                    <span>Seller Center</span>
+
+                </button>
+
+
+                <button
+                    class="account-item"
+                    onclick="
+                        toast(
+                            'Address management coming soon'
+                        );
+                    ">
+
+                    📍
+                    <span>My Addresses</span>
+
+                </button>
+
+
+                <button
+                    class="account-item"
+                    onclick="
+                        toast(
+                            'Payment methods coming soon'
+                        );
+                    ">
+
+                    💳
+                    <span>Payment Methods</span>
+
+                </button>
+
+
+                <button
+                    class="account-item"
+                    onclick="
+                        toast(
+                            'Settings coming soon'
+                        );
+                    ">
+
+                    ⚙️
+                    <span>Settings</span>
+
+                </button>
+
+
+                <button
+                    class="account-item"
+                    onclick="logoutUser()">
+
+                    🚪
+                    <span>Logout</span>
+
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    container.innerHTML = `
+
+        <div class="account-card">
+
+            <div class="avatar">
+                👤
+            </div>
+
+            <h2>
+                Welcome to BismiMart
+            </h2>
+
+            <p>
+                Login or create an account
+                to manage your shopping.
+            </p>
+
+
+            <button
+                class="login-btn"
+                onclick="openLogin()">
+
+                🔐 Login
+
+            </button>
+
+
+            <button
+                class="account-item"
+                style="
+                    margin-top:10px;
+                    border-radius:13px;
+                "
+                onclick="openSignup()">
+
+                ✨
+                <span>
+                    Create New Account
+                </span>
+
+            </button>
+
         </div>
-
-        <h2>
-          ${user.name}
-        </h2>
-
-        <p>
-          ${user.email}
-        </p>
 
 
         <div class="account-menu">
 
-          <button
-            class="account-item"
-            onclick="showScreen('orders')">
+            <button
+                class="account-item"
+                onclick="
+                    showScreen('orders');
+                ">
 
-            📦 &nbsp;
-            My Orders
+                📦
+                <span>My Orders</span>
 
-          </button>
-
-
-          <button
-            class="account-item"
-            onclick="showScreen('wishlist')">
-
-            ❤️ &nbsp;
-            Wishlist
-
-          </button>
+            </button>
 
 
-          <button
-            class="account-item"
-            onclick="showScreen('seller')">
+            <button
+                class="account-item"
+                onclick="
+                    showScreen('wishlist');
+                ">
 
-            🏪 &nbsp;
-            Seller Center
+                ❤️
+                <span>Wishlist</span>
 
-          </button>
-
-
-          <button
-            class="account-item"
-            onclick="toast('Address management coming soon')">
-
-            📍 &nbsp;
-            My Addresses
-
-          </button>
+            </button>
 
 
-          <button
-            class="account-item"
-            onclick="toast('Payment methods coming soon')">
+            <button
+                class="account-item"
+                onclick="
+                    openSeller();
+                ">
 
-            💳 &nbsp;
-            Payment Methods
+                🏪
+                <span>Seller Center</span>
 
-          </button>
-
-
-          <button
-            class="account-item"
-            onclick="toast('Settings coming soon')">
-
-            ⚙️ &nbsp;
-            Settings
-
-          </button>
-
-
-          <button
-            class="account-item"
-            onclick="logoutUser()">
-
-            🚪 &nbsp;
-            Logout
-
-          </button>
+            </button>
 
         </div>
 
-      </div>
+    `;
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+function openLogin(){
+
+    let screen =
+        document.getElementById(
+            "login"
+        );
+
+
+    if(!screen){
+
+        screen =
+            document.createElement(
+                "section"
+            );
+
+        screen.id =
+            "login";
+
+        screen.className =
+            "screen";
+
+        document.querySelector(
+            ".app"
+        ).insertBefore(
+            screen,
+            document.querySelector(
+                ".bottom-nav"
+            )
+        );
+
+    }
+
+
+    screen.innerHTML = `
+
+        <div class="page-header">
+
+            <button
+                class="back-btn"
+                onclick="showScreen('account')">
+
+                ←
+
+            </button>
+
+            <div>
+
+                <span class="page-kicker">
+                    ACCOUNT
+                </span>
+
+                <h1>
+                    Login
+                </h1>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-card">
+
+            <h2>
+                Welcome Back 👋
+            </h2>
+
+            <p>
+                Login to continue shopping
+                on BismiMart.
+            </p>
+
+
+            <input
+                class="form-input"
+                id="loginEmail"
+                type="text"
+                placeholder="Email or Phone"
+            >
+
+
+            <input
+                class="form-input"
+                id="loginPassword"
+                type="password"
+                placeholder="Password"
+            >
+
+
+            <button
+                class="form-submit"
+                onclick="loginUser()">
+
+                Login
+
+            </button>
+
+
+            <div class="switch-text">
+
+                Don't have an account?
+
+                <button
+                    onclick="openSignup()">
+
+                    Create Account
+
+                </button>
+
+            </div>
+
+        </div>
 
     `;
 
-    return;
 
-  }
-
-
-  screen.innerHTML = `
-
-    <div class="account-card">
-
-      <div class="avatar">
-        👤
-      </div>
-
-      <h2>
-        Welcome to BismiMart
-      </h2>
-
-      <p>
-        Login or create an account
-        to manage your shopping.
-      </p>
-
-
-      <button
-        class="login-btn"
-        onclick="openLogin()">
-
-        🔐 Login
-
-      </button>
-
-
-      <button
-        class="account-item"
-        onclick="openSignup()">
-
-        ✨ &nbsp;
-        Create New Account
-
-      </button>
-
-
-      <div class="account-menu">
-
-        <button
-          class="account-item"
-          onclick="showScreen('orders')">
-
-          📦 &nbsp;
-          My Orders
-
-        </button>
-
-
-        <button
-          class="account-item"
-          onclick="showScreen('wishlist')">
-
-          ❤️ &nbsp;
-          Wishlist
-
-        </button>
-
-
-        <button
-          class="account-item"
-          onclick="showScreen('seller')">
-
-          🏪 &nbsp;
-          Seller Center
-
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
+    showScreen("login");
 
 }
 
 
-/* =========================================================
-   GET USER
-========================================================= */
+function loginUser(){
 
-function getUser() {
-
-  try {
-
-    return JSON.parse(
-      localStorage.getItem(
-        "bm_user_data"
-      )
-    );
-
-  } catch (error) {
-
-    return null;
-
-  }
-
-}
+    const email =
+        document.getElementById(
+            "loginEmail"
+        )?.value.trim();
 
 
-/* =========================================================
-   LOGIN SCREEN
-========================================================= */
-
-function openLogin() {
-
-  const screen =
-    document.getElementById(
-      "login"
-    ) ||
-    createMissingScreen("login");
+    const password =
+        document.getElementById(
+            "loginPassword"
+        )?.value.trim();
 
 
-  let content =
-    document.getElementById(
-      "loginContent"
+    if(!email || !password){
+
+        toast(
+            "Please enter email/phone and password"
+        );
+
+        return;
+
+    }
+
+
+    const user = {
+
+        name:"BismiMart Customer",
+
+        email:email,
+
+        phone:""
+
+    };
+
+
+    localStorage.setItem(
+        "bm_user_data",
+        JSON.stringify(user)
     );
 
 
-  if (!content) {
+    localStorage.setItem(
+        "bm_logged_in",
+        "true"
+    );
 
-    content =
-      document.createElement("div");
-
-    content.id =
-      "loginContent";
-
-    screen.appendChild(content);
-
-  }
-
-
-  content.innerHTML = `
-
-    <div class="login-box">
-
-      <h2>
-        Welcome Back
-      </h2>
-
-      <p>
-        Login to continue shopping.
-      </p>
-
-
-      <input
-        id="loginEmail"
-        type="text"
-        placeholder="Email or Phone"
-      >
-
-
-      <input
-        id="loginPassword"
-        type="password"
-        placeholder="Password"
-      >
-
-
-      <button
-        class="login-submit"
-        onclick="loginUser()">
-
-        Login
-
-      </button>
-
-
-      <div class="switch-login">
-
-        Don't have an account?
-
-        <span
-          onclick="openSignup()"
-          style="cursor:pointer">
-
-          Create Account
-
-        </span>
-
-      </div>
-
-    </div>
-
-  `;
-
-
-  showScreen("login");
-
-}
-
-
-/* =========================================================
-   LOGIN USER
-========================================================= */
-
-function loginUser() {
-
-  const email =
-    document.getElementById(
-      "loginEmail"
-    )?.value.trim();
-
-
-  const password =
-    document.getElementById(
-      "loginPassword"
-    )?.value.trim();
-
-
-  if (!email || !password) {
 
     toast(
-      "Please enter email/phone and password"
+        "Login successful 🎉"
     );
 
-    return;
 
-  }
+    setTimeout(function(){
 
+        renderAccount();
 
-  const oldUser =
-    getUser();
+        showScreen("account");
 
-
-  const user = {
-
-    name:
-      oldUser?.name ||
-      "BismiMart Customer",
-
-    email:
-      email,
-
-    phone:
-      oldUser?.phone || ""
-
-  };
-
-
-  localStorage.setItem(
-    "bm_user_data",
-    JSON.stringify(user)
-  );
-
-
-  localStorage.setItem(
-    "bm_logged_in",
-    "true"
-  );
-
-
-  toast(
-    "Login successful 🎉"
-  );
-
-
-  setTimeout(() => {
-
-    renderAccount();
-
-    showScreen("account");
-
-  }, 600);
+    },500);
 
 }
 
@@ -2418,192 +2384,219 @@ function loginUser() {
    SIGNUP
 ========================================================= */
 
-function openSignup() {
+function openSignup(){
 
-  const screen =
-    document.getElementById(
-      "signup"
-    ) ||
-    createMissingScreen("signup");
-
-
-  let content =
-    document.getElementById(
-      "signupContent"
-    );
+    let screen =
+        document.getElementById(
+            "signup"
+        );
 
 
-  if (!content) {
+    if(!screen){
 
-    content =
-      document.createElement("div");
+        screen =
+            document.createElement(
+                "section"
+            );
 
-    content.id =
-      "signupContent";
+        screen.id =
+            "signup";
 
-    screen.appendChild(content);
+        screen.className =
+            "screen";
 
-  }
+        document.querySelector(
+            ".app"
+        ).insertBefore(
+            screen,
+            document.querySelector(
+                ".bottom-nav"
+            )
+        );
 
-
-  content.innerHTML = `
-
-    <div class="login-box">
-
-      <h2>
-        Create Account
-      </h2>
-
-      <p>
-        Join BismiMart for free.
-      </p>
-
-
-      <input
-        id="signupName"
-        type="text"
-        placeholder="Full Name"
-      >
+    }
 
 
-      <input
-        id="signupEmail"
-        type="email"
-        placeholder="Email"
-      >
+    screen.innerHTML = `
+
+        <div class="page-header">
+
+            <button
+                class="back-btn"
+                onclick="showScreen('account')">
+
+                ←
+
+            </button>
+
+            <div>
+
+                <span class="page-kicker">
+                    BISMI MART
+                </span>
+
+                <h1>
+                    Create Account
+                </h1>
+
+            </div>
+
+        </div>
 
 
-      <input
-        id="signupPhone"
-        type="tel"
-        placeholder="Phone Number"
-      >
+        <div class="form-card">
+
+            <h2>
+                Join BismiMart 🎉
+            </h2>
+
+            <p>
+                Create your free account
+                and start shopping.
+            </p>
 
 
-      <input
-        id="signupPassword"
-        type="password"
-        placeholder="Create Password"
-      >
+            <input
+                class="form-input"
+                id="signupName"
+                type="text"
+                placeholder="Full Name"
+            >
 
 
-      <button
-        class="login-submit"
-        onclick="createAccount()">
-
-        Create Account
-
-      </button>
-
-
-      <div class="switch-login">
-
-        Already have an account?
-
-        <span
-          onclick="openLogin()"
-          style="cursor:pointer">
-
-          Login
-
-        </span>
-
-      </div>
-
-    </div>
-
-  `;
+            <input
+                class="form-input"
+                id="signupEmail"
+                type="email"
+                placeholder="Email"
+            >
 
 
-  showScreen("signup");
+            <input
+                class="form-input"
+                id="signupPhone"
+                type="tel"
+                placeholder="Phone Number"
+            >
+
+
+            <input
+                class="form-input"
+                id="signupPassword"
+                type="password"
+                placeholder="Create Password"
+            >
+
+
+            <button
+                class="form-submit"
+                onclick="createAccount()">
+
+                Create Account
+
+            </button>
+
+
+            <div class="switch-text">
+
+                Already have an account?
+
+                <button
+                    onclick="openLogin()">
+
+                    Login
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    showScreen("signup");
 
 }
 
 
-/* =========================================================
-   CREATE ACCOUNT
-========================================================= */
+function createAccount(){
 
-function createAccount() {
-
-  const name =
-    document.getElementById(
-      "signupName"
-    )?.value.trim();
+    const name =
+        document.getElementById(
+            "signupName"
+        )?.value.trim();
 
 
-  const email =
-    document.getElementById(
-      "signupEmail"
-    )?.value.trim();
+    const email =
+        document.getElementById(
+            "signupEmail"
+        )?.value.trim();
 
 
-  const phone =
-    document.getElementById(
-      "signupPhone"
-    )?.value.trim();
+    const phone =
+        document.getElementById(
+            "signupPhone"
+        )?.value.trim();
 
 
-  const password =
-    document.getElementById(
-      "signupPassword"
-    )?.value.trim();
+    const password =
+        document.getElementById(
+            "signupPassword"
+        )?.value.trim();
 
 
-  if (
-    !name ||
-    !email ||
-    !phone ||
-    !password
-  ) {
+    if(
+        !name ||
+        !email ||
+        !phone ||
+        !password
+    ){
 
-    toast(
-      "Please fill all fields"
+        toast(
+            "Please fill all fields"
+        );
+
+        return;
+
+    }
+
+
+    const user = {
+
+        name:name,
+
+        email:email,
+
+        phone:phone
+
+    };
+
+
+    localStorage.setItem(
+        "bm_user_data",
+        JSON.stringify(user)
     );
 
-    return;
 
-  }
-
-
-  const user = {
-
-    name:
-      name,
-
-    email:
-      email,
-
-    phone:
-      phone
-
-  };
+    localStorage.setItem(
+        "bm_logged_in",
+        "true"
+    );
 
 
-  localStorage.setItem(
-    "bm_user_data",
-    JSON.stringify(user)
-  );
+    toast(
+        "Account created successfully 🎉"
+    );
 
 
-  localStorage.setItem(
-    "bm_logged_in",
-    "true"
-  );
+    setTimeout(function(){
 
+        renderAccount();
 
-  toast(
-    "Account created successfully 🎉"
-  );
+        showScreen("account");
 
-
-  setTimeout(() => {
-
-    renderAccount();
-
-    showScreen("account");
-
-  }, 700);
+    },600);
 
 }
 
@@ -2612,27 +2605,29 @@ function createAccount() {
    LOGOUT
 ========================================================= */
 
-function logoutUser() {
+function logoutUser(){
 
-  localStorage.removeItem(
-    "bm_logged_in"
-  );
+    localStorage.removeItem(
+        "bm_logged_in"
+    );
 
-  localStorage.removeItem(
-    "bm_user_data"
-  );
-
-
-  toast("Logged out successfully");
+    localStorage.removeItem(
+        "bm_user_data"
+    );
 
 
-  setTimeout(() => {
+    toast(
+        "Logged out successfully"
+    );
 
-    renderAccount();
 
-    showScreen("account");
+    setTimeout(function(){
 
-  }, 500);
+        renderAccount();
+
+        showScreen("account");
+
+    },500);
 
 }
 
@@ -2641,124 +2636,164 @@ function logoutUser() {
    SELLER CENTER
 ========================================================= */
 
-function openSeller() {
+function openSeller(){
 
-  const screen =
-    document.getElementById(
-      "seller"
-    ) ||
-    createMissingScreen("seller");
-
-
-  let content =
-    document.getElementById(
-      "sellerContent"
-    );
+    let screen =
+        document.getElementById(
+            "seller"
+        );
 
 
-  if (!content) {
+    if(!screen){
 
-    content =
-      document.createElement("div");
+        screen =
+            document.createElement(
+                "section"
+            );
 
-    content.id =
-      "sellerContent";
+        screen.id =
+            "seller";
 
-    screen.appendChild(content);
+        screen.className =
+            "screen";
 
-  }
+        document.querySelector(
+            ".app"
+        ).insertBefore(
+            screen,
+            document.querySelector(
+                ".bottom-nav"
+            )
+        );
 
-
-  content.innerHTML = `
-
-    <div class="account-card">
-
-      <div class="avatar">
-        🏪
-      </div>
-
-      <h2>
-        Seller Center
-      </h2>
-
-      <p>
-        Start selling your products
-        on BismiMart.
-      </p>
-
-    </div>
+    }
 
 
-    <div class="account-menu">
+    screen.innerHTML = `
 
-      <button
-        class="account-item"
-        onclick="addSellerProduct()">
+        <div class="page-header">
 
-        ➕ &nbsp;
-        Add New Product
+            <button
+                class="back-btn"
+                onclick="showScreen('account')">
 
-      </button>
+                ←
 
+            </button>
 
-      <button
-        class="account-item"
-        onclick="toast('My Products opened')">
+            <div>
 
-        📦 &nbsp;
-        My Products
+                <span class="page-kicker">
+                    SELLER
+                </span>
 
-      </button>
+                <h1>
+                    Seller Center
+                </h1>
 
+            </div>
 
-      <button
-        class="account-item"
-        onclick="showScreen('orders')">
-
-        🛒 &nbsp;
-        Seller Orders
-
-      </button>
+        </div>
 
 
-      <button
-        class="account-item"
-        onclick="toast('Earnings screen opened')">
+        <div class="seller-card">
 
-        💰 &nbsp;
-        Earnings
+            <div class="seller-icon">
+                🏪
+            </div>
 
-      </button>
+            <h2>
+                Start Selling
+            </h2>
 
+            <p>
+                Sell your products on
+                BismiMart and grow your business.
+            </p>
 
-      <button
-        class="account-item"
-        onclick="toast('Withdraw screen opened')">
-
-        🏦 &nbsp;
-        Withdraw Money
-
-      </button>
-
-    </div>
-
-  `;
+        </div>
 
 
-  showScreen("seller");
+        <div class="account-menu">
+
+            <button
+                class="account-item"
+                onclick="addSellerProduct()">
+
+                ➕
+                <span>Add New Product</span>
+
+            </button>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    toast(
+                        'My Products opened'
+                    );
+                ">
+
+                📦
+                <span>My Products</span>
+
+            </button>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    showScreen('orders');
+                ">
+
+                🛒
+                <span>Seller Orders</span>
+
+            </button>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    toast(
+                        'Earnings screen coming soon'
+                    );
+                ">
+
+                💰
+                <span>Earnings</span>
+
+            </button>
+
+
+            <button
+                class="account-item"
+                onclick="
+                    toast(
+                        'Withdraw screen coming soon'
+                    );
+                ">
+
+                🏦
+                <span>Withdraw Money</span>
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    showScreen("seller");
 
 }
 
 
-/* =========================================================
-   SELLER PRODUCT
-========================================================= */
+function addSellerProduct(){
 
-function addSellerProduct() {
-
-  toast(
-    "Add Product screen coming next"
-  );
+    toast(
+        "Product seller system will be added in the next step"
+    );
 
 }
 
@@ -2767,108 +2802,98 @@ function addSellerProduct() {
    SEARCH
 ========================================================= */
 
-function searchProducts(value) {
+function searchProducts(value){
 
-  let query;
-
-
-  if (
-    typeof value === "string"
-  ) {
-
-    query =
-      value.trim().toLowerCase();
-
-  } else {
-
-    const input =
-      document.getElementById(
-        "searchInput"
-      );
-
-    query =
-      input
-        ? input.value.trim().toLowerCase()
-        : "";
-
-  }
+    let query;
 
 
-  if (!query) {
+    if(
+        typeof value ===
+        "string"
+    ){
 
-    renderProducts(products);
+        query =
+            value.trim().toLowerCase();
+
+    }else{
+
+        const input =
+            document.getElementById(
+                "searchInput"
+            );
+
+        query =
+            input
+                ? input.value
+                    .trim()
+                    .toLowerCase()
+                : "";
+
+    }
+
+
+    currentCategory = null;
+
+
+    if(!query){
+
+        renderProducts(products);
+
+        showScreen("products");
+
+        return;
+
+    }
+
+
+    const result =
+        products.filter(function(product){
+
+            const text =
+                (
+                    product.name +
+                    " " +
+                    product.cat
+                ).toLowerCase();
+
+            return text.includes(query);
+
+        });
+
+
+    const title =
+        document.getElementById(
+            "productsTitle"
+        );
+
+
+    if(title){
+
+        title.textContent =
+            "Search Results";
+
+    }
+
+
+    renderProducts(result);
 
     showScreen("products");
 
-    return;
-
-  }
-
-
-  const result =
-    products.filter(product => {
-
-      const text =
-        (
-          product.name +
-          " " +
-          product.cat
-        ).toLowerCase();
-
-
-      return text.includes(query);
-
-    });
-
-
-  renderProducts(result);
-
-  showScreen("products");
-
 }
 
 
-/* =========================================================
-   SEARCH ENTER
-========================================================= */
+function searchKey(event){
 
-function searchKey(event) {
+    if(
+        event.key ===
+        "Enter"
+    ){
 
-  if (
-    event.key === "Enter"
-  ) {
+        event.preventDefault();
 
-    event.preventDefault();
+        searchProducts();
 
-    searchProducts();
-
-  }
-
-}
-
-
-/* =========================================================
-   CLEAR SEARCH
-========================================================= */
-
-function clearSearch() {
-
-  const input =
-    document.getElementById(
-      "searchInput"
-    );
-
-
-  if (input) {
-
-    input.value = "";
-
-  }
-
-
-  renderProducts(products);
-
-  showScreen("products");
+    }
 
 }
 
@@ -2877,196 +2902,223 @@ function clearSearch() {
    FILTER
 ========================================================= */
 
-function filterProducts(type) {
+function filterProducts(type){
 
-  let result =
-    [...products];
+    let result =
+        [...products];
 
 
-  if (type === "low") {
+    if(type === "low"){
 
-    result.sort(
-      (a, b) =>
-        a.price - b.price
-    );
+        result.sort(
+            function(a,b){
 
-  }
+                return a.price -
+                    b.price;
 
-
-  if (type === "high") {
-
-    result.sort(
-      (a, b) =>
-        b.price - a.price
-    );
-
-  }
-
-
-  if (type === "rating") {
-
-    result.sort(
-      (a, b) =>
-        b.rating - a.rating
-    );
-
-  }
-
-
-  renderProducts(result);
-
-  showScreen("products");
-
-}
-
-
-/* =========================================================
-   GLOBAL COMPATIBILITY FUNCTIONS
-========================================================= */
-
-/*
-  These aliases make sure that if
-  old buttons in your HTML use
-  different function names, they
-  still work.
-*/
-
-
-function add(id) {
-
-  addToCart(id);
-
-}
-
-
-function toggleWish(id) {
-
-  toggleWishlist(id);
-
-}
-
-
-function detail(id) {
-
-  openProduct(id);
-
-}
-
-
-function checkout() {
-
-  openCheckout();
-
-}
-
-
-function tracking(id) {
-
-  openTracking(id);
-
-}
-
-
-function login() {
-
-  openLogin();
-
-}
-
-
-function signupScreen() {
-
-  openSignup();
-
-}
-
-
-function loginScreen() {
-
-  openLogin();
-
-}
-
-
-function seller() {
-
-  openSeller();
-
-}
-
-
-function go(id) {
-
-  showScreen(id);
-
-}
-
-
-/* =========================================================
-   INITIALIZE APP
-========================================================= */
-
-function initBismiMart() {
-
-  /*
-    Make sure required screens exist.
-  */
-
-  const requiredScreens = [
-
-    "home",
-    "categories",
-    "products",
-    "detail",
-    "cart",
-    "wishlist",
-    "orders",
-    "checkout",
-    "tracking",
-    "account",
-    "login",
-    "signup",
-    "seller"
-
-  ];
-
-
-  requiredScreens.forEach(id => {
-
-    if (!document.getElementById(id)) {
-
-      createMissingScreen(id);
+            }
+        );
 
     }
 
-  });
+
+    if(type === "high"){
+
+        result.sort(
+            function(a,b){
+
+                return b.price -
+                    a.price;
+
+            }
+        );
+
+    }
 
 
-  /*
-    Render initial content.
-  */
+    if(type === "rating"){
 
-  renderHome();
+        result.sort(
+            function(a,b){
 
-  renderProducts(products);
+                return b.rating -
+                    a.rating;
 
-  renderWishlist();
+            }
+        );
 
-  renderCart();
-
-  renderOrders();
-
-  renderAccount();
+    }
 
 
-  updateBadges();
+    currentCategory = null;
+
+    renderProducts(result);
+
+    showScreen("products");
+
+}
 
 
-  /*
-    Start on Home.
-  */
+/* =========================================================
+   BADGES
+========================================================= */
 
-  showScreen("home");
+function updateBadges(){
+
+    const cartBadge =
+        document.getElementById(
+            "cartBadge"
+        );
+
+    const wishBadge =
+        document.getElementById(
+            "wishBadge"
+        );
+
+
+    const cartCount =
+        cart.reduce(
+            function(total,item){
+
+                return total +
+                    Number(
+                        item.qty || 0
+                    );
+
+            },
+            0
+        );
+
+
+    if(cartBadge){
+
+        cartBadge.textContent =
+            cartCount;
+
+    }
+
+
+    if(wishBadge){
+
+        wishBadge.textContent =
+            wishlist.length;
+
+    }
+
+}
+
+
+/* =========================================================
+   SECURITY HELPER
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   OLD BUTTON COMPATIBILITY
+========================================================= */
+
+function add(id){
+
+    addToCart(id);
+
+}
+
+
+function toggleWish(id){
+
+    toggleWishlist(id);
+
+}
+
+
+function detail(id){
+
+    openProduct(id);
+
+}
+
+
+function checkout(){
+
+    openCheckout();
+
+}
+
+
+function tracking(id){
+
+    openTracking(id);
+
+}
+
+
+function login(){
+
+    openLogin();
+
+}
+
+
+function signupScreen(){
+
+    openSignup();
+
+}
+
+
+function loginScreen(){
+
+    openLogin();
+
+}
+
+
+function seller(){
+
+    openSeller();
+
+}
+
+
+function go(id){
+
+    showScreen(id);
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+function initBismiMart(){
+
+    renderHome();
+
+    renderProducts(products);
+
+    renderWishlist();
+
+    renderCart();
+
+    renderOrders();
+
+    renderAccount();
+
+    updateBadges();
+
+    showScreen("home");
 
 }
 
@@ -3075,24 +3127,18 @@ function initBismiMart() {
    DOM READY
 ========================================================= */
 
-if (
-  document.readyState === "loading"
-) {
+if(
+    document.readyState ===
+    "loading"
+){
 
-  document.addEventListener(
-    "DOMContentLoaded",
-    initBismiMart
-  );
+    document.addEventListener(
+        "DOMContentLoaded",
+        initBismiMart
+    );
 
-} else {
+}else{
 
-  initBismiMart();
+    initBismiMart();
 
 }
-
-
-/* =========================================================
-   FINAL SAFETY UPDATE
-========================================================= */
-
-updateBadges();

@@ -1441,3 +1441,1109 @@ function renderOrders() {
 /* =========================
    TRACKING
 =========
+        </div>
+
+      </div>
+
+    `;
+
+  go("cart");
+}
+
+
+/* =========================
+   WISHLIST
+========================= */
+
+function toggleWish(id) {
+
+  if (wish.includes(id)) {
+
+    wish = wish.filter(
+      (item) => item !== id
+    );
+
+    toast("Removed from wishlist");
+
+  } else {
+
+    wish.push(id);
+
+    toast("Added to wishlist ❤️");
+
+  }
+
+  save();
+
+  home();
+}
+
+
+function renderWish() {
+
+  const screen =
+    document.getElementById("wishlist");
+
+  if (!screen) return;
+
+  const list = products.filter(
+    (product) => wish.includes(product.id)
+  );
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('home')"
+      >
+        ←
+      </button>
+
+      <h1>
+        My Wishlist
+      </h1>
+
+    </div>
+
+
+    ${
+      list.length
+        ? `
+          <div class="products">
+            ${list.map(card).join("")}
+          </div>
+        `
+        : `
+          <div class="empty">
+
+            <div>
+              ♡
+            </div>
+
+            <h2>
+              Wishlist is Empty
+            </h2>
+
+            <button
+              class="primary"
+              onclick="go('products')"
+            >
+              Browse Products
+            </button>
+
+          </div>
+        `
+    }
+
+  `;
+}
+
+
+/* =========================
+   CHECKOUT
+========================= */
+
+function checkout() {
+
+  if (!cart.length) {
+
+    toast("Your cart is empty");
+
+    go("products");
+
+    return;
+  }
+
+  const total = cart.reduce(
+    (sum, item) => {
+
+      const product = products.find(
+        (p) => p.id === item.id
+      );
+
+      if (!product) return sum;
+
+      return sum + product.price * item.qty;
+
+    },
+    0
+  );
+
+
+  const screen =
+    document.getElementById("checkout");
+
+  if (!screen) return;
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('cart')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Checkout
+      </h1>
+
+    </div>
+
+
+    <div class="checkout-section">
+
+      <h3>
+        Delivery Address
+      </h3>
+
+      <b>
+        Ayesha Khan
+      </b>
+
+      <p>
+        House 25, Street 01,
+        Karachi, Pakistan
+      </p>
+
+      <button
+        class="link"
+        onclick="toast('Address change coming soon')"
+      >
+        Change
+      </button>
+
+    </div>
+
+
+    <div class="checkout-section">
+
+      <h3>
+        Payment Method
+      </h3>
+
+
+      <button
+        class="pay selected"
+        onclick="selectPay(this)"
+      >
+        💵 &nbsp; Cash on Delivery
+
+        <span style="float:right">
+          ●
+        </span>
+
+      </button>
+
+
+      <button
+        class="pay"
+        onclick="selectPay(this)"
+      >
+        🔴 &nbsp; JazzCash
+
+        <span style="float:right">
+          ○
+        </span>
+
+      </button>
+
+
+      <button
+        class="pay"
+        onclick="selectPay(this)"
+      >
+        🟢 &nbsp; Easypaisa
+
+        <span style="float:right">
+          ○
+        </span>
+
+      </button>
+
+
+      <button
+        class="pay"
+        onclick="selectPay(this)"
+      >
+        💳 &nbsp; Credit / Debit Card
+
+        <span style="float:right">
+          ○
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <div class="summary">
+
+      <div class="sum">
+
+        <span>
+          Items
+        </span>
+
+        <b>
+          ${money(total)}
+        </b>
+
+      </div>
+
+
+      <div class="sum">
+
+        <span>
+          Delivery
+        </span>
+
+        <b>
+          FREE
+        </b>
+
+      </div>
+
+
+      <div class="sum total">
+
+        <span>
+          Total Payable
+        </span>
+
+        <span>
+          ${money(total)}
+        </span>
+
+      </div>
+
+
+      <button
+        class="primary full"
+        onclick="placeOrder()"
+      >
+        Place Order
+      </button>
+
+    </div>
+
+  `;
+
+  go("checkout");
+}
+
+
+/* =========================
+   PAYMENT SELECTION
+========================= */
+
+function selectPay(element) {
+
+  document
+    .querySelectorAll(".pay")
+    .forEach((button) => {
+
+      button.classList.remove("selected");
+
+      const circle =
+        button.querySelector("span");
+
+      if (circle) {
+        circle.textContent = "○";
+      }
+
+    });
+
+
+  element.classList.add("selected");
+
+  const circle =
+    element.querySelector("span");
+
+  if (circle) {
+    circle.textContent = "●";
+  }
+}
+
+
+/* =========================
+   BUY NOW
+========================= */
+
+function buyNow() {
+
+  if (!current) return;
+
+  cart = [
+    {
+      id: current.id,
+      qty: 1
+    }
+  ];
+
+  save();
+
+  checkout();
+}
+
+
+/* =========================
+   PLACE ORDER
+========================= */
+
+function placeOrder() {
+
+  if (!cart.length) {
+
+    toast("Your cart is empty");
+
+    return;
+  }
+
+
+  const orderItems = cart.map(
+    (item) => ({
+      id: item.id,
+      qty: item.qty
+    })
+  );
+
+
+  const order = {
+
+    id:
+      "BM" +
+      Date.now()
+        .toString()
+        .slice(-6),
+
+    date:
+      new Date()
+        .toLocaleDateString(),
+
+    status:
+      "Processing",
+
+    items:
+      orderItems
+
+  };
+
+
+  orders.unshift(order);
+
+  cart = [];
+
+  save();
+
+  toast(
+    "Order placed successfully 🎉"
+  );
+
+
+  setTimeout(() => {
+
+    go("orders");
+
+  }, 700);
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+function renderOrders() {
+
+  const screen =
+    document.getElementById("orders");
+
+  if (!screen) return;
+
+
+  if (!orders.length) {
+
+    screen.innerHTML = `
+
+      <div class="page-head">
+
+        <button
+          class="back"
+          onclick="go('home')"
+        >
+          ←
+        </button>
+
+        <h1>
+          My Orders
+        </h1>
+
+      </div>
+
+
+      <div class="empty">
+
+        <div>
+          📦
+        </div>
+
+        <h2>
+          No Orders Yet
+        </h2>
+
+        <button
+          class="primary"
+          onclick="go('products')"
+        >
+          Start Shopping
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('home')"
+      >
+        ←
+      </button>
+
+      <h1>
+        My Orders
+      </h1>
+
+    </div>
+
+
+    ${orders.map((order) => `
+
+      <div
+        class="order"
+        onclick="tracking('${order.id}')"
+      >
+
+        <div class="order-top">
+
+          <b>
+            Order #${order.id}
+          </b>
+
+          <span class="status">
+            ${order.status}
+          </span>
+
+        </div>
+
+
+        <p>
+          Placed on ${order.date}
+        </p>
+
+
+        <button
+          class="link"
+          onclick="event.stopPropagation(); tracking('${order.id}')"
+        >
+          Track Order →
+        </button>
+
+      </div>
+
+    `).join("")}
+
+  `;
+}
+
+
+/* =========================
+   ORDER TRACKING
+========================= */
+
+function tracking(id) {
+
+  const order =
+    orders.find(
+      (item) => item.id === id
+    );
+
+  if (!order) return;
+
+
+  const screen =
+    document.getElementById("tracking");
+
+  if (!screen) return;
+
+
+  const steps = [
+    "Order Placed",
+    "Confirmed",
+    "Shipped",
+    "Out for Delivery",
+    "Delivered"
+  ];
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('orders')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Order Tracking
+      </h1>
+
+    </div>
+
+
+    <div class="timeline">
+
+      <h3>
+        Order #${order.id}
+      </h3>
+
+      <p class="muted">
+        Placed on ${order.date}
+      </p>
+
+
+      ${steps.map(
+        (step, index) => `
+
+          <div class="step">
+
+            <div class="dot"></div>
+
+            <div>
+
+              <b>
+                ${step}
+              </b>
+
+              <p>
+                ${
+                  index === 0
+                    ? "Your order has been placed."
+                    : index === 1
+                    ? "Seller has confirmed your order."
+                    : index === 2
+                    ? "Your order will be shipped soon."
+                    : index === 3
+                    ? "Courier will deliver your order."
+                    : "Order will be delivered to you."
+                }
+              </p>
+
+            </div>
+
+          </div>
+
+        `
+      ).join("")}
+
+    </div>
+
+  `;
+
+  go("tracking");
+}
+
+
+/* =========================
+   ACCOUNT
+========================= */
+
+function renderAccount() {
+
+  const screen =
+    document.getElementById("account");
+
+  if (!screen) return;
+
+
+  screen.innerHTML = `
+
+    <div class="account-card">
+
+      <div class="account-top">
+
+        <div class="avatar">
+          👤
+        </div>
+
+        <h2>
+          Ayesha Khan
+        </h2>
+
+        <p>
+          Welcome to BismiMart
+        </p>
+
+      </div>
+
+
+      <div class="menu">
+
+        <button
+          onclick="go('orders')"
+        >
+          📦
+          <span>
+            My Orders
+          </span>
+        </button>
+
+
+        <button
+          onclick="go('wishlist')"
+        >
+          ❤️
+          <span>
+            Wishlist
+          </span>
+        </button>
+
+
+        <button
+          onclick="toast('Address screen opened')"
+        >
+          📍
+          <span>
+            Addresses
+          </span>
+        </button>
+
+
+        <button
+          onclick="toast('Payment Methods opened')"
+        >
+          💳
+          <span>
+            Payment Methods
+          </span>
+        </button>
+
+
+        <button
+          onclick="toast('Settings opened')"
+        >
+          ⚙️
+          <span>
+            Settings
+          </span>
+        </button>
+
+
+        <button
+          onclick="go('seller')"
+        >
+          🏪
+          <span>
+            Seller Dashboard
+          </span>
+        </button>
+
+
+        <button
+          onclick="go('login')"
+        >
+          🚪
+          <span>
+            Login / Sign Up
+          </span>
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+function login() {
+
+  const screen =
+    document.getElementById("login");
+
+  if (!screen) return;
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('account')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Login / Sign Up
+      </h1>
+
+    </div>
+
+
+    <div class="login-card">
+
+      <h2>
+        Welcome to BismiMart
+      </h2>
+
+      <p class="muted">
+        Login to manage your orders
+        and account.
+      </p>
+
+
+      <input
+        id="loginPhone"
+        type="text"
+        placeholder="Email or Phone Number"
+      >
+
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Password"
+      >
+
+
+      <button
+        class="primary full"
+        onclick="performLogin()"
+      >
+        Login
+      </button>
+
+
+      <p style="text-align:center">
+
+        Don't have an account?
+
+        <button
+          class="link"
+          onclick="toast('Sign Up form coming soon')"
+        >
+          Sign Up
+        </button>
+
+      </p>
+
+    </div>
+
+  `;
+}
+
+
+function performLogin() {
+
+  const phone =
+    document.getElementById(
+      "loginPhone"
+    )?.value.trim();
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    )?.value.trim();
+
+
+  if (!phone || !password) {
+
+    toast(
+      "Please enter phone/email and password"
+    );
+
+    return;
+  }
+
+
+  localStorage.setItem(
+    "bm_logged_in",
+    "true"
+  );
+
+
+  toast(
+    "Login successful ✓"
+  );
+
+
+  setTimeout(() => {
+
+    go("account");
+
+  }, 600);
+}
+
+
+/* =========================
+   SELLER DASHBOARD
+========================= */
+
+function seller() {
+
+  const screen =
+    document.getElementById("seller");
+
+  if (!screen) return;
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('account')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Seller Dashboard
+      </h1>
+
+    </div>
+
+
+    <div class="seller-stat">
+
+      <div class="stat">
+
+        <b>
+          120
+        </b>
+
+        <span>
+          Products
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <b>
+          230
+        </b>
+
+        <span>
+          Orders
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <b>
+          85.6K
+        </b>
+
+        <span>
+          Earnings
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="menu"
+      style="margin-top:12px"
+    >
+
+      <button
+        onclick="toast('Add Product form opened')"
+      >
+        ➕
+        <span>
+          Add New Product
+        </span>
+      </button>
+
+
+      <button
+        onclick="toast('My Products opened')"
+      >
+        📱
+        <span>
+          My Products
+        </span>
+      </button>
+
+
+      <button
+        onclick="go('orders')"
+      >
+        📦
+        <span>
+          Orders
+        </span>
+      </button>
+
+
+      <button
+        onclick="toast('Earnings opened')"
+      >
+        💰
+        <span>
+          Earnings
+        </span>
+      </button>
+
+
+      <button
+        onclick="toast('Withdraw screen opened')"
+      >
+        🏦
+        <span>
+          Withdraw Money
+        </span>
+      </button>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchProducts() {
+
+  const input =
+    document.getElementById(
+      "searchInput"
+    );
+
+  if (!input) return;
+
+
+  const query =
+    input.value
+      .trim()
+      .toLowerCase();
+
+
+  if (!query) {
+
+    toast(
+      "Type a product name"
+    );
+
+    return;
+  }
+
+
+  const results =
+    products.filter((product) => {
+
+      const text =
+        (
+          product.name +
+          " " +
+          product.cat
+        ).toLowerCase();
+
+      return text.includes(query);
+
+    });
+
+
+  productsPage(
+    results,
+    "Search Results"
+  );
+}
+
+
+/* =========================
+   SEARCH ENTER KEY
+========================= */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Enter" &&
+      document.activeElement?.id === "searchInput"
+    ) {
+
+      searchProducts();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   INITIALIZE APP
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    home();
+
+    categories();
+
+    productsPage(
+      products,
+      "All Products"
+    );
+
+    renderCart();
+
+    renderWish();
+
+    renderOrders();
+
+    renderAccount();
+
+    login();
+
+    seller();
+
+    updateCounts();
+
+    go("home");
+
+  }
+);

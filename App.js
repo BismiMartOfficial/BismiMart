@@ -2547,3 +2547,692 @@ document.addEventListener(
 
   }
 );
+/* =========================
+   TRACKING
+========================= */
+
+function tracking(id) {
+
+  const order = orders.find(
+    (item) => item.id === id
+  );
+
+  if (!order) return;
+
+  const screen =
+    document.getElementById("tracking");
+
+  if (!screen) return;
+
+  const steps = [
+    "Order Placed",
+    "Confirmed",
+    "Shipped",
+    "Out for Delivery",
+    "Delivered"
+  ];
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('orders')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Order Tracking
+      </h1>
+
+    </div>
+
+
+    <div class="timeline">
+
+      <h3>
+        Order #${order.id}
+      </h3>
+
+      <p class="muted">
+        Placed on ${order.date}
+      </p>
+
+
+      ${steps.map((step, index) => `
+
+        <div class="step">
+
+          <div class="dot">
+            ${index === 0 ? "✓" : ""}
+          </div>
+
+          <div class="step-content">
+
+            <b>
+              ${step}
+            </b>
+
+            <p>
+              ${
+                index === 0
+                  ? "Your order has been placed successfully."
+                  : index === 1
+                  ? "Your order has been confirmed by the seller."
+                  : index === 2
+                  ? "Your order is being prepared for shipping."
+                  : index === 3
+                  ? "Your order is on the way to you."
+                  : "Your order has been delivered."
+              }
+            </p>
+
+          </div>
+
+        </div>
+
+      `).join("")}
+
+    </div>
+
+  `;
+
+  go("tracking");
+}
+
+
+/* =========================
+   ACCOUNT
+========================= */
+
+function renderAccount() {
+
+  const screen =
+    document.getElementById("account");
+
+  if (!screen) return;
+
+  screen.innerHTML = `
+
+    <div class="account-card">
+
+      <div class="account-top">
+
+        <div class="avatar">
+          👤
+        </div>
+
+        <h2>
+          BismiMart Account
+        </h2>
+
+        <p>
+          Manage your account,
+          orders and shopping.
+        </p>
+
+      </div>
+
+
+      <div class="menu">
+
+        <button onclick="go('orders')">
+
+          📦
+
+          <span>
+            My Orders
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
+
+
+        <button onclick="go('wishlist')">
+
+          ❤️
+
+          <span>
+            My Wishlist
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
+
+
+        <button
+          onclick="toast('Address management coming soon')"
+        >
+
+          📍
+
+          <span>
+            My Addresses
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
+
+
+        <button
+          onclick="toast('Payment methods coming soon')"
+        >
+
+          💳
+
+          <span>
+            Payment Methods
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
+
+
+        <button
+          onclick="go('seller')"
+        >
+
+          🏪
+
+          <span>
+            Seller Center
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
+
+
+        <button
+          onclick="go('login')"
+        >
+
+          👤
+
+          <span>
+            Login / Sign Up
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
+
+
+        <button
+          onclick="toast('Settings coming soon')"
+        >
+
+          ⚙️
+
+          <span>
+            Settings
+          </span>
+
+          <span>
+            →
+          </span>
+
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================
+   LOGIN / SIGN UP
+========================= */
+
+function login() {
+
+  const screen =
+    document.getElementById("login");
+
+  if (!screen) return;
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('account')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Login
+      </h1>
+
+    </div>
+
+
+    <div class="login-card">
+
+      <div class="login-logo">
+        🛍️
+      </div>
+
+      <h2>
+        Welcome to BismiMart
+      </h2>
+
+      <p class="muted">
+        Login to continue shopping.
+      </p>
+
+
+      <label>
+        Phone Number / Email
+      </label>
+
+      <input
+        id="loginPhone"
+        type="text"
+        placeholder="03XX XXXXXXX"
+      >
+
+
+      <label>
+        Password
+      </label>
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Enter password"
+      >
+
+
+      <button
+        class="primary full"
+        onclick="performLogin()"
+      >
+        Login
+      </button>
+
+
+      <div class="or">
+        OR
+      </div>
+
+
+      <button
+        class="outline full"
+        onclick="toast('Sign Up form coming soon')"
+      >
+        Create New Account
+      </button>
+
+
+      <p class="login-note">
+        By continuing, you agree to
+        BismiMart Terms & Privacy Policy.
+      </p>
+
+    </div>
+
+  `;
+}
+
+
+function performLogin() {
+
+  const phone =
+    document.getElementById(
+      "loginPhone"
+    )?.value.trim();
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    )?.value.trim();
+
+
+  if (!phone || !password) {
+
+    toast(
+      "Please enter your login details"
+    );
+
+    return;
+  }
+
+
+  localStorage.setItem(
+    "bm_logged_in",
+    "true"
+  );
+
+
+  toast(
+    "Login successful ✓"
+  );
+
+
+  setTimeout(() => {
+
+    go("account");
+
+  }, 700);
+}
+
+
+/* =========================
+   SELLER CENTER
+========================= */
+
+function seller() {
+
+  const screen =
+    document.getElementById("seller");
+
+  if (!screen) return;
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('account')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Seller Center
+      </h1>
+
+    </div>
+
+
+    <div class="seller-welcome">
+
+      <div class="seller-icon">
+        🏪
+      </div>
+
+      <div>
+
+        <h2>
+          Sell on BismiMart
+        </h2>
+
+        <p>
+          Start selling your products
+          and grow your business.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="seller-stat">
+
+      <div class="stat">
+
+        <b>
+          0
+        </b>
+
+        <span>
+          Products
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <b>
+          0
+        </b>
+
+        <span>
+          Orders
+        </span>
+
+      </div>
+
+
+      <div class="stat">
+
+        <b>
+          Rs. 0
+        </b>
+
+        <span>
+          Earnings
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <div class="menu seller-menu">
+
+      <button
+        onclick="toast('Add Product opened')"
+      >
+
+        ➕
+
+        <span>
+          Add New Product
+        </span>
+
+        <b>
+          →
+        </b>
+
+      </button>
+
+
+      <button
+        onclick="toast('My Products opened')"
+      >
+
+        📦
+
+        <span>
+          My Products
+        </span>
+
+        <b>
+          →
+        </b>
+
+      </button>
+
+
+      <button
+        onclick="go('orders')"
+      >
+
+        🛒
+
+        <span>
+          Seller Orders
+        </span>
+
+        <b>
+          →
+        </b>
+
+      </button>
+
+
+      <button
+        onclick="toast('Earnings opened')"
+      >
+
+        💰
+
+        <span>
+          Earnings
+        </span>
+
+        <b>
+          →
+        </b>
+
+      </button>
+
+
+      <button
+        onclick="toast('Withdraw option opened')"
+      >
+
+        🏦
+
+        <span>
+          Withdraw
+        </span>
+
+        <b>
+          →
+        </b>
+
+      </button>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchProducts() {
+
+  const input =
+    document.getElementById(
+      "searchInput"
+    );
+
+  if (!input) return;
+
+
+  const query =
+    input.value
+      .trim()
+      .toLowerCase();
+
+
+  if (!query) {
+
+    toast(
+      "Please search for a product"
+    );
+
+    return;
+  }
+
+
+  const results =
+    products.filter((product) => {
+
+      const text =
+        (
+          product.name +
+          " " +
+          product.cat
+        ).toLowerCase();
+
+      return text.includes(query);
+
+    });
+
+
+  productsPage(
+    results,
+    "Search Results"
+  );
+}
+
+
+/* =========================
+   SEARCH ENTER
+========================= */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Enter" &&
+      document.activeElement &&
+      document.activeElement.id ===
+        "searchInput"
+    ) {
+
+      searchProducts();
+
+    }
+
+  }
+);
+
+
+/* =========================
+   INITIALIZE APP
+========================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    home();
+
+    categories();
+
+    productsPage(
+      products,
+      "All Products"
+    );
+
+    renderCart();
+
+    renderWish();
+
+    renderOrders();
+
+    renderAccount();
+
+    login();
+
+    seller();
+
+    updateCounts();
+
+    go("home");
+
+  }
+);

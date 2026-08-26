@@ -12,6 +12,7 @@
 <meta name="theme-color" content="#ff5a00">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 
 <title>BismiMart - Sab Kuch, Aasaan!</title>
 
@@ -28,47 +29,36 @@
 
 <header class="header">
 
-    <div class="brand-row">
+    <div class="top-row">
 
-        <button class="logo"
-                onclick="goHome()"
-                aria-label="BismiMart Home">
+        <button class="logo-btn" onclick="goHome()" aria-label="Home">
             B
         </button>
 
-        <div class="brand"
-             onclick="goHome()">
-
-            <h1>BismiMart</h1>
-            <p>Sab Kuch, Aasaan!</p>
-
-        </div>
+        <button class="brand" onclick="goHome()">
+            <strong>BismiMart</strong>
+            <span>Sab Kuch, Aasaan!</span>
+        </button>
 
         <div class="header-actions">
 
-            <button class="circle-btn"
+            <button class="header-icon"
                     onclick="showScreen('wishlist')"
                     aria-label="Wishlist">
 
                 ❤️
 
-                <span class="badge"
-                      id="wishBadge">
-                    0
-                </span>
+                <span class="badge" id="wishBadge">0</span>
 
             </button>
 
-            <button class="circle-btn"
+            <button class="header-icon"
                     onclick="showScreen('cart')"
                     aria-label="Cart">
 
                 🛒
 
-                <span class="badge"
-                      id="cartBadge">
-                    0
-                </span>
+                <span class="badge" id="cartBadge">0</span>
 
             </button>
 
@@ -81,9 +71,7 @@
 
     <div class="search-box">
 
-        <span class="search-icon">
-            🔍
-        </span>
+        <span class="search-symbol">🔍</span>
 
         <input
             id="searchInput"
@@ -93,7 +81,7 @@
             onkeydown="searchKey(event)"
         >
 
-        <button class="search-btn"
+        <button class="search-button"
                 onclick="searchProducts()">
 
             Search
@@ -106,44 +94,44 @@
 
 
 <!-- =====================================================
-     HOME SCREEN
+     HOME
 ===================================================== -->
 
-<section id="home"
-         class="screen active">
+<section id="home" class="screen active">
 
     <div class="hero">
 
-        <small>
-            WELCOME TO BISMI MART
-        </small>
+        <div class="hero-content">
 
-        <h2>
-            Everything<br>
-            You Need,<br>
-
-            <span class="orange-text">
-                All in One<br>
-                Place.
+            <span class="hero-label">
+                WELCOME TO BISMI MART
             </span>
-        </h2>
 
-        <p>
-            Shop mobiles, electronics,
-            fashion, home products and
-            much more.
-        </p>
+            <h1>
+                Everything<br>
+                You Need,<br>
+                <span>All in One Place.</span>
+            </h1>
 
-        <button class="shop-btn"
-                onclick="showScreen('products')">
+            <p>
+                Shop mobiles, electronics,
+                fashion, home products and
+                much more.
+            </p>
 
-            Shop Now
+            <button class="primary-btn hero-btn"
+                    onclick="showScreen('products')">
 
-        </button>
+                Shop Now
+                <span>→</span>
 
-        <div class="hero-circle"></div>
+            </button>
 
-        <div class="hero-product">
+        </div>
+
+        <div class="hero-decoration"></div>
+
+        <div class="hero-phone">
             📱
         </div>
 
@@ -152,14 +140,15 @@
 
     <!-- CATEGORIES -->
 
-    <div class="section-title">
+    <div class="section-heading">
 
-        <h2>
-            Categories
-        </h2>
+        <div>
+            <span class="section-kicker">SHOP BY</span>
+            <h2>Categories</h2>
+        </div>
 
         <button onclick="showScreen('categories')">
-            See All
+            See All →
         </button>
 
     </div>
@@ -167,58 +156,38 @@
 
     <div class="category-grid">
 
-        <button class="category"
+        <button class="category-card"
                 onclick="openCategory('Mobiles')">
 
-            <div class="category-icon">
-                📱
-            </div>
-
-            <span>
-                Mobiles
-            </span>
+            <span class="category-icon">📱</span>
+            <strong>Mobiles</strong>
 
         </button>
 
 
-        <button class="category"
+        <button class="category-card"
                 onclick="openCategory('Electronics')">
 
-            <div class="category-icon">
-                💻
-            </div>
-
-            <span>
-                Electronics
-            </span>
+            <span class="category-icon">💻</span>
+            <strong>Electronics</strong>
 
         </button>
 
 
-        <button class="category"
+        <button class="category-card"
                 onclick="openCategory('Fashion')">
 
-            <div class="category-icon">
-                👕
-            </div>
-
-            <span>
-                Fashion
-            </span>
+            <span class="category-icon">👕</span>
+            <strong>Fashion</strong>
 
         </button>
 
 
-        <button class="category"
+        <button class="category-card"
                 onclick="openCategory('Home')">
 
-            <div class="category-icon">
-                🏠
-            </div>
-
-            <span>
-                Home
-            </span>
+            <span class="category-icon">🏠</span>
+            <strong>Home</strong>
 
         </button>
 
@@ -227,20 +196,20 @@
 
     <!-- POPULAR PRODUCTS -->
 
-    <div class="section-title">
+    <div class="section-heading">
 
-        <h2>
-            Popular Products
-        </h2>
+        <div>
+            <span class="section-kicker">TRENDING NOW</span>
+            <h2>Popular Products</h2>
+        </div>
 
         <button onclick="showScreen('products')">
-            See All
+            See All →
         </button>
 
     </div>
 
-
-    <div class="products"
+    <div class="products-grid"
          id="homeProducts">
     </div>
 
@@ -248,138 +217,104 @@
 
 
 <!-- =====================================================
-     CATEGORIES SCREEN
+     CATEGORIES
 ===================================================== -->
 
-<section id="categories"
-         class="screen">
+<section id="categories" class="screen">
 
     <div class="page-header">
 
         <button class="back-btn"
                 onclick="goHome()">
-
             ←
-
         </button>
 
-        <h1>
-            Categories
-        </h1>
+        <div>
+            <span class="page-kicker">EXPLORE</span>
+            <h1>Categories</h1>
+        </div>
 
     </div>
 
 
-    <div class="category-grid">
+    <div class="all-category-grid">
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Mobiles')">
 
-            <div class="category-icon">
-                📱
-            </div>
-
-            <span>
-                Mobiles
-            </span>
+            <span>📱</span>
+            <strong>Mobiles</strong>
+            <small>Phones & Accessories</small>
 
         </button>
 
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Electronics')">
 
-            <div class="category-icon">
-                💻
-            </div>
-
-            <span>
-                Electronics
-            </span>
+            <span>💻</span>
+            <strong>Electronics</strong>
+            <small>Gadgets & Devices</small>
 
         </button>
 
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Fashion')">
 
-            <div class="category-icon">
-                👕
-            </div>
-
-            <span>
-                Fashion
-            </span>
+            <span>👕</span>
+            <strong>Fashion</strong>
+            <small>Clothes & Style</small>
 
         </button>
 
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Home')">
 
-            <div class="category-icon">
-                🏠
-            </div>
-
-            <span>
-                Home
-            </span>
+            <span>🏠</span>
+            <strong>Home</strong>
+            <small>Home Essentials</small>
 
         </button>
 
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Beauty')">
 
-            <div class="category-icon">
-                💄
-            </div>
-
-            <span>
-                Beauty
-            </span>
+            <span>💄</span>
+            <strong>Beauty</strong>
+            <small>Beauty & Care</small>
 
         </button>
 
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Grocery')">
 
-            <div class="category-icon">
-                🛒
-            </div>
-
-            <span>
-                Grocery
-            </span>
+            <span>🛒</span>
+            <strong>Grocery</strong>
+            <small>Daily Essentials</small>
 
         </button>
 
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Sports')">
 
-            <div class="category-icon">
-                ⚽
-            </div>
-
-            <span>
-                Sports
-            </span>
+            <span>⚽</span>
+            <strong>Sports</strong>
+            <small>Sports & Fitness</small>
 
         </button>
 
 
-        <button class="category"
+        <button class="big-category"
                 onclick="openCategory('Kids')">
 
-            <div class="category-icon">
-                🧸
-            </div>
-
-            <span>
-                Kids
-            </span>
+            <span>🧸</span>
+            <strong>Kids</strong>
+            <small>Toys & Kids Items</small>
 
         </button>
 
@@ -389,29 +324,27 @@
 
 
 <!-- =====================================================
-     PRODUCTS SCREEN
+     PRODUCTS
 ===================================================== -->
 
-<section id="products"
-         class="screen">
+<section id="products" class="screen">
 
     <div class="page-header">
 
         <button class="back-btn"
                 onclick="goHome()">
-
             ←
-
         </button>
 
-        <h1 id="productsTitle">
-            All Products
-        </h1>
+        <div>
+            <span class="page-kicker">BISMI MART</span>
+            <h1 id="productsTitle">All Products</h1>
+        </div>
 
     </div>
 
 
-    <div class="products"
+    <div class="products-grid"
          id="productList">
     </div>
 
@@ -419,24 +352,22 @@
 
 
 <!-- =====================================================
-     PRODUCT DETAIL SCREEN
+     PRODUCT DETAIL
 ===================================================== -->
 
-<section id="detail"
-         class="screen">
+<section id="detail" class="screen">
 
     <div class="page-header">
 
         <button class="back-btn"
                 onclick="showScreen('products')">
-
             ←
-
         </button>
 
-        <h1>
-            Product
-        </h1>
+        <div>
+            <span class="page-kicker">PRODUCT</span>
+            <h1>Details</h1>
+        </div>
 
     </div>
 
@@ -445,53 +376,67 @@
 
         <div class="detail-image"
              id="detailImage">
-
             📱
-
         </div>
 
+        <div class="detail-content">
 
-        <div class="detail-info">
+            <div class="detail-rating"
+                 id="detailRating">
+                ⭐⭐⭐⭐⭐ 4.6
+            </div>
 
             <h1 id="detailName">
                 Product
             </h1>
 
-
-            <div class="detail-rating">
-                ⭐ ⭐ ⭐ ⭐ ⭐ 4.8
-            </div>
-
-
             <div class="detail-price"
                  id="detailPrice">
-
                 Rs. 0
-
             </div>
 
+            <div class="detail-old-price"
+                 id="detailOldPrice">
+            </div>
 
             <p class="detail-description">
-
                 High quality product available
-                at BismiMart. Fast delivery,
-                easy shopping and secure
-                ordering.
-
+                at BismiMart. Enjoy easy shopping,
+                secure ordering and convenient
+                delivery.
             </p>
+
+
+            <div class="detail-features">
+
+                <div>
+                    <span>🚚</span>
+                    <strong>Fast Delivery</strong>
+                </div>
+
+                <div>
+                    <span>🔒</span>
+                    <strong>Secure Order</strong>
+                </div>
+
+                <div>
+                    <span>↩️</span>
+                    <strong>Easy Returns</strong>
+                </div>
+
+            </div>
 
 
             <div class="detail-buttons">
 
-                <button class="detail-cart"
+                <button class="secondary-btn"
                         onclick="addCurrentProduct()">
 
                     🛒 Add to Cart
 
                 </button>
 
-
-                <button class="buy-now"
+                <button class="primary-btn"
                         onclick="buyCurrentProduct()">
 
                     Buy Now
@@ -508,62 +453,55 @@
 
 
 <!-- =====================================================
-     CART SCREEN
+     CART
 ===================================================== -->
 
-<section id="cart"
-         class="screen">
+<section id="cart" class="screen">
 
     <div class="page-header">
 
         <button class="back-btn"
                 onclick="goHome()">
-
             ←
-
         </button>
 
-        <h1>
-            My Cart
-        </h1>
+        <div>
+            <span class="page-kicker">SHOPPING</span>
+            <h1>My Cart</h1>
+        </div>
 
     </div>
 
 
-    <div id="cartList">
-    </div>
+    <div id="cartList"></div>
 
-
-    <div id="cartSummary">
-    </div>
+    <div id="cartSummary"></div>
 
 </section>
 
 
 <!-- =====================================================
-     WISHLIST SCREEN
+     WISHLIST
 ===================================================== -->
 
-<section id="wishlist"
-         class="screen">
+<section id="wishlist" class="screen">
 
     <div class="page-header">
 
         <button class="back-btn"
                 onclick="goHome()">
-
             ←
-
         </button>
 
-        <h1>
-            Wishlist
-        </h1>
+        <div>
+            <span class="page-kicker">SAVED ITEMS</span>
+            <h1>Wishlist</h1>
+        </div>
 
     </div>
 
 
-    <div class="products"
+    <div class="products-grid"
          id="wishlistList">
     </div>
 
@@ -571,211 +509,48 @@
 
 
 <!-- =====================================================
-     ORDERS SCREEN
+     ORDERS
 ===================================================== -->
 
-<section id="orders"
-         class="screen">
+<section id="orders" class="screen">
 
     <div class="page-header">
 
         <button class="back-btn"
                 onclick="goHome()">
-
             ←
-
         </button>
 
-        <h1>
-            My Orders
-        </h1>
-
-    </div>
-
-
-    <div id="ordersList">
-
-        <div class="empty">
-
-            <div class="empty-icon">
-                📦
-            </div>
-
-            <h2>
-                No Orders Yet
-            </h2>
-
-            <p>
-                Your orders will appear here.
-            </p>
-
-            <button class="shop-btn"
-                    onclick="showScreen('products')">
-
-                Start Shopping
-
-            </button>
-
+        <div>
+            <span class="page-kicker">SHOPPING</span>
+            <h1>My Orders</h1>
         </div>
 
     </div>
 
-</section>
 
-
-<!-- =====================================================
-     ACCOUNT SCREEN
-===================================================== -->
-
-<section id="account"
-         class="screen">
-
-    <!-- JavaScript account screen ko automatically render karega -->
+    <div id="ordersList"></div>
 
 </section>
 
 
 <!-- =====================================================
-     CHECKOUT SCREEN
+     ACCOUNT
 ===================================================== -->
 
-<section id="checkout"
-         class="screen">
+<section id="account" class="screen">
 
-    <div class="page-header">
+    <div class="page-header no-back">
 
-        <button class="back-btn"
-                onclick="showScreen('cart')">
-
-            ←
-
-        </button>
-
-        <h1>
-            Checkout
-        </h1>
+        <div>
+            <span class="page-kicker">MY PROFILE</span>
+            <h1>Account</h1>
+        </div>
 
     </div>
 
 
-    <div id="checkoutContent">
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     TRACKING SCREEN
-===================================================== -->
-
-<section id="tracking"
-         class="screen">
-
-    <div class="page-header">
-
-        <button class="back-btn"
-                onclick="showScreen('orders')">
-
-            ←
-
-        </button>
-
-        <h1>
-            Track Order
-        </h1>
-
-    </div>
-
-
-    <div id="trackingContent">
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     LOGIN SCREEN
-===================================================== -->
-
-<section id="login"
-         class="screen">
-
-    <div class="page-header">
-
-        <button class="back-btn"
-                onclick="showScreen('account')">
-
-            ←
-
-        </button>
-
-        <h1>
-            Login
-        </h1>
-
-    </div>
-
-
-    <div id="loginContent">
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     SIGNUP SCREEN
-===================================================== -->
-
-<section id="signup"
-         class="screen">
-
-    <div class="page-header">
-
-        <button class="back-btn"
-                onclick="showScreen('account')">
-
-            ←
-
-        </button>
-
-        <h1>
-            Create Account
-        </h1>
-
-    </div>
-
-
-    <div id="signupContent">
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     SELLER CENTER SCREEN
-===================================================== -->
-
-<section id="seller"
-         class="screen">
-
-    <div class="page-header">
-
-        <button class="back-btn"
-                onclick="showScreen('account')">
-
-            ←
-
-        </button>
-
-        <h1>
-            Seller Center
-        </h1>
-
-    </div>
-
-
-    <div id="sellerContent">
-    </div>
+    <div id="accountContent"></div>
 
 </section>
 
@@ -787,71 +562,51 @@
 <nav class="bottom-nav">
 
     <button class="nav-btn active"
+            data-screen="home"
             onclick="showScreen('home')">
 
-        <span class="nav-icon">
-            🏠
-        </span>
-
-        <span>
-            Home
-        </span>
+        <span class="nav-icon">🏠</span>
+        <span>Home</span>
 
     </button>
 
 
     <button class="nav-btn"
+            data-screen="categories"
             onclick="showScreen('categories')">
 
-        <span class="nav-icon">
-            ☰
-        </span>
-
-        <span>
-            Categories
-        </span>
+        <span class="nav-icon">☰</span>
+        <span>Categories</span>
 
     </button>
 
 
     <button class="nav-btn"
+            data-screen="products"
             onclick="showScreen('products')">
 
-        <span class="nav-icon">
-            🛍️
-        </span>
-
-        <span>
-            Shop
-        </span>
+        <span class="nav-icon">🛍️</span>
+        <span>Shop</span>
 
     </button>
 
 
     <button class="nav-btn"
+            data-screen="cart"
             onclick="showScreen('cart')">
 
-        <span class="nav-icon">
-            🛒
-        </span>
-
-        <span>
-            Cart
-        </span>
+        <span class="nav-icon">🛒</span>
+        <span>Cart</span>
 
     </button>
 
 
     <button class="nav-btn"
+            data-screen="account"
             onclick="showScreen('account')">
 
-        <span class="nav-icon">
-            👤
-        </span>
-
-        <span>
-            Account
-        </span>
+        <span class="nav-icon">👤</span>
+        <span>Account</span>
 
     </button>
 
@@ -869,10 +624,6 @@
 
 </div>
 
-
-<!-- =====================================================
-     JAVASCRIPT FILE
-===================================================== -->
 
 <script src="script.js"></script>
 

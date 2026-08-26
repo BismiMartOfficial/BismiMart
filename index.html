@@ -1,1105 +1,1139 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,
+        maximum-scale=1.0, user-scalable=no">
 
-<meta name="theme-color" content="#ff5a00">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#ff5a00">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 
-<meta name="description" content="BismiMart - Sab Kuch, Aasaan!">
+  <title>BismiMart - Online Marketplace</title>
 
-<title>BismiMart - Online Marketplace</title>
-
-<link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="app">
+<!-- =========================
+     APP
+========================= -->
 
-<!-- ================= HEADER ================= -->
+<div class="app">
 
-<header class="header">
+  <!-- =========================
+       TOP HEADER
+  ========================== -->
 
-    <div class="header-row">
+  <header class="top-header">
 
-        <button class="logo" onclick="showScreen('home')">
-            B
-        </button>
+    <div class="brand-area" onclick="showScreen('home')">
 
-        <div class="brand" onclick="showScreen('home')">
-            <h1>BismiMart</h1>
-            <p>Sab Kuch, Aasaan!</p>
-        </div>
+      <div class="brand-logo">B</div>
 
-        <button class="icon-btn"
-                onclick="showScreen('wishlist')">
-            ❤️
-            <b class="badge" id="wishBadge">0</b>
-        </button>
-
-        <button class="icon-btn"
-                onclick="showScreen('cart')">
-            🛒
-            <b class="badge" id="cartBadge">0</b>
-        </button>
+      <div>
+        <div class="brand-name">BismiMart</div>
+        <div class="brand-tagline">Sab Kuch, Aasaan!</div>
+      </div>
 
     </div>
 
-    <div class="search">
+    <div class="header-actions">
 
-        <span>🔍</span>
+      <button class="icon-btn" onclick="showScreen('wishlist')" aria-label="Wishlist">
+        ❤️
+        <span id="wishlistCount" class="badge">0</span>
+      </button>
 
-        <input
-            id="searchInput"
-            type="search"
-            placeholder="Search products..."
-            autocomplete="off"
-            onkeydown="searchOnEnter(event)">
-
-        <button onclick="performSearch()">Search</button>
+      <button class="icon-btn" onclick="showScreen('cart')" aria-label="Cart">
+        🛒
+        <span id="cartCount" class="badge">0</span>
+      </button>
 
     </div>
 
-</header>
+  </header>
 
 
-<!-- ================= HOME ================= -->
+  <!-- =========================
+       SEARCH
+  ========================== -->
 
-<section class="screen active" id="home">
+  <div class="search-area">
 
-    <div class="hero">
+    <div class="search-box">
 
-        <div class="kicker">
+      <span class="search-icon">🔍</span>
+
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search products..."
+        onkeydown="handleSearchKey(event)"
+      >
+
+      <button onclick="searchProducts()">
+        Search
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main id="mainContent">
+
+
+    <!-- =========================
+         HOME SCREEN
+    ========================== -->
+
+    <section id="homeScreen" class="screen active">
+
+      <div class="hero">
+
+        <div class="hero-content">
+
+          <div class="hero-small">
             WELCOME TO BISMI MART
-        </div>
+          </div>
 
-        <h2>
+          <h1>
             Everything You Need,
             <span>All in One Place.</span>
-        </h2>
+          </h1>
 
-        <p>
-            Shop mobiles, electronics, fashion,
-            home products and much more.
-        </p>
+          <p>
+            Shop mobiles, electronics, fashion, home products
+            and much more.
+          </p>
 
-        <button class="btn" onclick="openShop()">
+          <button class="primary-btn hero-btn"
+                  onclick="showScreen('categories')">
             Shop Now →
-        </button>
+          </button>
 
-        <div class="hero-circle"></div>
-
-        <div class="hero-items">
-            📱 🎧<br>
-            👜 👟
         </div>
 
-    </div>
+        <div class="hero-circle">
+
+          <div class="hero-product phone">📱</div>
+          <div class="hero-product headphones">🎧</div>
+          <div class="hero-product bag">👜</div>
+          <div class="hero-product shoes">👟</div>
+
+        </div>
+
+      </div>
 
 
-    <div class="section-head">
+      <!-- Categories -->
+
+      <div class="section-heading">
 
         <h2>Shop by Category</h2>
 
         <button onclick="showScreen('categories')">
-            View All
+          View All
         </button>
 
-    </div>
+      </div>
 
-    <div class="cat-grid" id="homeCats"></div>
+      <div class="category-row">
 
-
-    <div class="section-head">
-
-        <h2>Flash Sale ⚡</h2>
-
-        <button onclick="openShop('sale')">
-            View All
+        <button class="category-card"
+                onclick="filterCategory('Mobiles')">
+          <div class="category-icon">📱</div>
+          <span>Mobiles</span>
         </button>
 
-    </div>
-
-    <div class="flash">
-
-        <div>
-            <h3>FLASH SALE ⚡</h3>
-
-            <p>Up to 60% OFF</p>
-
-            <div class="timer" id="timer">
-                02 : 45 : 30
-            </div>
-
-            <button class="btn"
-                    onclick="openShop('sale')">
-                Shop Now
-            </button>
-        </div>
-
-        <div class="flash-art">
-            🎧
-        </div>
-
-    </div>
-
-
-    <div class="section-head">
-
-        <h2>Top Products</h2>
-
-        <button onclick="openShop()">
-            View All
+        <button class="category-card"
+                onclick="filterCategory('Electronics')">
+          <div class="category-icon">💻</div>
+          <span>Electronics</span>
         </button>
 
-    </div>
-
-    <div class="grid" id="homeProducts"></div>
-
-</section>
-
-
-<!-- ================= SHOP ================= -->
-
-<section class="screen" id="shop">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
+        <button class="category-card"
+                onclick="filterCategory('Fashion')">
+          <div class="category-icon">👕</div>
+          <span>Fashion</span>
         </button>
 
-        <h2 id="shopTitle">
-            Shop
-        </h2>
-
-    </div>
-
-    <div class="filter-row">
-
-        <button onclick="openShop()">
-            All
+        <button class="category-card"
+                onclick="filterCategory('Home')">
+          <div class="category-icon">🏠</div>
+          <span>Home</span>
         </button>
 
-        <button onclick="openShop('sale')">
-            ⚡ Sale
+        <button class="category-card"
+                onclick="filterCategory('Beauty')">
+          <div class="category-icon">💄</div>
+          <span>Beauty</span>
         </button>
+
+      </div>
+
+
+      <!-- Popular Products -->
+
+      <div class="section-heading">
+
+        <h2>Popular Products</h2>
 
         <button onclick="showScreen('categories')">
-            Categories
+          See All
         </button>
 
-    </div>
+      </div>
 
-    <div class="grid" id="shopProducts"></div>
+      <div id="homeProducts" class="product-grid"></div>
 
-</section>
+    </section>
 
 
-<!-- ================= CATEGORIES ================= -->
 
-<section class="screen" id="categories">
+    <!-- =========================
+         CATEGORIES SCREEN
+    ========================== -->
 
-    <div class="screen-head">
+    <section id="categoriesScreen" class="screen">
 
-        <button class="back" onclick="goBack()">
-            ‹
+      <div class="page-title">
+
+        <button class="back-btn" onclick="goBack()">
+          ←
         </button>
 
-        <h2>Categories</h2>
-
-    </div>
-
-    <div class="cat-grid" id="allCats"></div>
-
-</section>
-
-
-<!-- ================= SEARCH ================= -->
-
-<section class="screen" id="search">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Search Results</h2>
-
-    </div>
-
-    <p id="searchText"
-       class="muted-text">
-    </p>
-
-    <div class="grid"
-         id="searchResults">
-    </div>
-
-</section>
-
-
-<!-- ================= PRODUCT DETAIL ================= -->
-
-<section class="screen" id="detail">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Product Details</h2>
-
-    </div>
-
-    <div id="detailContent"></div>
-
-</section>
-
-
-<!-- ================= CART ================= -->
-
-<section class="screen" id="cart">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>My Cart</h2>
-
-    </div>
-
-    <div id="cartContent"></div>
-
-</section>
-
-
-<!-- ================= CHECKOUT ================= -->
-
-<section class="screen" id="checkout">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Checkout</h2>
-
-    </div>
-
-    <div class="form">
-
-        <div class="field">
-
-            <label>Full Name</label>
-
-            <input
-                id="customerName"
-                placeholder="Enter your name">
-
+        <div>
+          <h1>Categories</h1>
+          <p>Choose a category</p>
         </div>
 
-
-        <div class="field">
-
-            <label>Mobile Number</label>
-
-            <input
-                id="customerPhone"
-                type="tel"
-                placeholder="03XXXXXXXXX">
-
-        </div>
+      </div>
 
 
-        <div class="field">
+      <div class="all-categories">
 
-            <label>Delivery Address</label>
-
-            <textarea
-                id="customerAddress"
-                rows="4"
-                placeholder="House, street, area, city">
-            </textarea>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Payment Method</label>
-
-            <label class="payment">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="Cash on Delivery"
-                    checked>
-                💵 Cash on Delivery
-            </label>
-
-            <label class="payment">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="Easypaisa">
-                📱 Easypaisa
-            </label>
-
-            <label class="payment">
-                <input
-                    type="radio"
-                    name="payment"
-                    value="JazzCash">
-                📱 JazzCash
-            </label>
-
-        </div>
-
-
-        <div id="checkoutSummary"></div>
-
-
-        <button class="btn full"
-                onclick="placeOrder()">
-            Place Order
+        <button onclick="filterCategory('All')">
+          <span>🛍️</span>
+          <strong>All Products</strong>
         </button>
 
-    </div>
-
-</section>
-
-
-<!-- ================= ORDERS ================= -->
-
-<section class="screen" id="orders">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
+        <button onclick="filterCategory('Mobiles')">
+          <span>📱</span>
+          <strong>Mobiles</strong>
         </button>
 
-        <h2>My Orders</h2>
-
-    </div>
-
-    <div id="ordersContent"></div>
-
-</section>
-
-
-<!-- ================= WISHLIST ================= -->
-
-<section class="screen" id="wishlist">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
+        <button onclick="filterCategory('Electronics')">
+          <span>💻</span>
+          <strong>Electronics</strong>
         </button>
 
-        <h2>Wishlist ❤️</h2>
-
-    </div>
-
-    <div class="grid"
-         id="wishlistContent">
-    </div>
-
-</section>
-
-
-<!-- ================= ACCOUNT ================= -->
-
-<section class="screen" id="account">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
+        <button onclick="filterCategory('Fashion')">
+          <span>👕</span>
+          <strong>Fashion</strong>
         </button>
 
-        <h2>My Account</h2>
+        <button onclick="filterCategory('Home')">
+          <span>🏠</span>
+          <strong>Home</strong>
+        </button>
 
-    </div>
+        <button onclick="filterCategory('Beauty')">
+          <span>💄</span>
+          <strong>Beauty</strong>
+        </button>
+
+      </div>
 
 
-    <div class="account-top">
+      <div class="section-heading">
 
-        <div class="avatar">
-            👤
-        </div>
-
-        <h2 id="accountName">
-            Welcome
+        <h2 id="categoryProductTitle">
+          All Products
         </h2>
 
-        <p>
-            Manage your BismiMart account
-        </p>
+      </div>
 
-    </div>
+      <div id="categoryProducts" class="product-grid"></div>
+
+    </section>
 
 
-    <div class="account-menu">
 
-        <button onclick="openLogin()">
-            👤 Login / Sign Up
-            <span>›</span>
-        </button>
+    <!-- =========================
+         ORDERS SCREEN
+    ========================== -->
+
+    <section id="ordersScreen" class="screen">
+
+      <div class="page-title">
+
+        <div>
+          <h1>My Orders</h1>
+          <p>Track your orders</p>
+        </div>
+
+      </div>
+
+      <div id="ordersContent"></div>
+
+    </section>
+
+
+
+    <!-- =========================
+         WISHLIST SCREEN
+    ========================== -->
+
+    <section id="wishlistScreen" class="screen">
+
+      <div class="page-title">
+
+        <div>
+          <h1>Wishlist</h1>
+          <p>Your saved products</p>
+        </div>
+
+      </div>
+
+      <div id="wishlistProducts" class="product-grid"></div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ACCOUNT SCREEN
+    ========================== -->
+
+    <section id="accountScreen" class="screen">
+
+      <div class="account-header">
+
+        <div class="account-avatar">
+          👤
+        </div>
+
+        <div>
+          <h1>My Account</h1>
+          <p>Login to manage your account</p>
+        </div>
+
+      </div>
+
+
+      <button class="login-card" onclick="openLogin()">
+
+        <div class="login-icon">
+          🔐
+        </div>
+
+        <div>
+          <strong>Login / Sign Up</strong>
+          <span>Access your BismiMart account</span>
+        </div>
+
+        <b>›</b>
+
+      </button>
+
+
+      <div class="account-menu">
 
         <button onclick="showScreen('orders')">
-            📦 My Orders
-            <span>›</span>
-        </button>
-
-        <button onclick="showScreen('cart')">
-            🛒 My Cart
-            <span>›</span>
+          <span>📦</span>
+          <div>
+            <strong>My Orders</strong>
+            <small>View your orders</small>
+          </div>
+          <b>›</b>
         </button>
 
         <button onclick="showScreen('wishlist')">
-            ❤️ Wishlist
-            <span>›</span>
+          <span>❤️</span>
+          <div>
+            <strong>Wishlist</strong>
+            <small>Saved products</small>
+          </div>
+          <b>›</b>
         </button>
 
-        <button onclick="showSeller()">
-            🏪 Seller Center
-            <span>›</span>
+        <button onclick="openSeller()">
+          <span>🏪</span>
+          <div>
+            <strong>Become a Seller</strong>
+            <small>Start selling on BismiMart</small>
+          </div>
+          <b>›</b>
         </button>
 
-        <button onclick="showAdmin()">
-            🛠️ Admin Panel
-            <span>›</span>
+        <button onclick="showToast('Settings coming soon')">
+          <span>⚙️</span>
+          <div>
+            <strong>Settings</strong>
+            <small>Manage your preferences</small>
+          </div>
+          <b>›</b>
         </button>
 
-        <button onclick="showCourier()">
-            🚚 Courier Panel
-            <span>›</span>
+        <button onclick="showToast('Help Center coming soon')">
+          <span>❓</span>
+          <div>
+            <strong>Help Center</strong>
+            <small>Need help?</small>
+          </div>
+          <b>›</b>
         </button>
 
-    </div>
+      </div>
 
-</section>
+    </section>
 
 
-<!-- ================= LOGIN ================= -->
 
-<section class="screen" id="login">
+    <!-- =========================
+         CART SCREEN
+    ========================== -->
 
-    <div class="screen-head">
+    <section id="cartScreen" class="screen">
 
-        <button class="back" onclick="goBack()">
-            ‹
+      <div class="page-title">
+
+        <div>
+          <h1>Shopping Cart</h1>
+          <p>Your selected products</p>
+        </div>
+
+      </div>
+
+      <div id="cartContent"></div>
+
+    </section>
+
+
+
+    <!-- =========================
+         SEARCH SCREEN
+    ========================== -->
+
+    <section id="searchScreen" class="screen">
+
+      <div class="page-title">
+
+        <button class="back-btn" onclick="showScreen('home')">
+          ←
         </button>
 
-        <h2>Login / Sign Up</h2>
+        <div>
+          <h1>Search Results</h1>
+          <p id="searchResultText">Products</p>
+        </div>
 
-    </div>
+      </div>
+
+      <div id="searchProducts" class="product-grid"></div>
+
+    </section>
 
 
-    <div class="form">
 
-        <div class="login-tabs">
+    <!-- =========================
+         PRODUCT DETAIL SCREEN
+    ========================== -->
 
-            <button id="loginTab"
-                    class="active"
-                    onclick="setLoginMode('login')">
-                Login
-            </button>
+    <section id="productScreen" class="screen">
 
-            <button id="signupTab"
-                    onclick="setLoginMode('signup')">
-                Sign Up
-            </button>
+      <div id="productDetail"></div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CHECKOUT SCREEN
+    ========================== -->
+
+    <section id="checkoutScreen" class="screen">
+
+      <div class="page-title">
+
+        <button class="back-btn" onclick="showScreen('cart')">
+          ←
+        </button>
+
+        <div>
+          <h1>Checkout</h1>
+          <p>Complete your order</p>
+        </div>
+
+      </div>
+
+      <div class="checkout-box">
+
+        <h2>Delivery Address</h2>
+
+        <input
+          id="customerName"
+          class="form-input"
+          placeholder="Full Name"
+        >
+
+        <input
+          id="customerPhone"
+          class="form-input"
+          placeholder="Phone Number"
+          type="tel"
+        >
+
+        <textarea
+          id="customerAddress"
+          class="form-input"
+          placeholder="Complete Delivery Address"
+        ></textarea>
+
+
+        <h2>Payment Method</h2>
+
+        <label class="payment-option">
+          <input type="radio"
+                 name="payment"
+                 value="cod"
+                 checked>
+          <span>💵</span>
+          Cash on Delivery
+        </label>
+
+        <label class="payment-option">
+          <input type="radio"
+                 name="payment"
+                 value="easypaisa">
+          <span>💳</span>
+          Easypaisa
+        </label>
+
+        <label class="payment-option">
+          <input type="radio"
+                 name="payment"
+                 value="jazzcash">
+          <span>💳</span>
+          JazzCash
+        </label>
+
+
+        <div class="checkout-total">
+
+          <span>Total</span>
+
+          <strong id="checkoutTotal">
+            Rs. 0
+          </strong>
 
         </div>
 
-
-        <div id="signupNameField"
-             class="field hidden">
-
-            <label>Full Name</label>
-
-            <input
-                id="loginName"
-                placeholder="Enter your name">
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Email or Mobile</label>
-
-            <input
-                id="loginContact"
-                placeholder="Email or mobile number">
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Password</label>
-
-            <input
-                id="loginPassword"
-                type="password"
-                placeholder="Password">
-
-        </div>
-
-
-        <button class="btn full"
-                onclick="submitLogin()">
-            Continue
+        <button class="primary-btn full-btn"
+                onclick="placeOrder()">
+          Place Order
         </button>
 
-    </div>
+      </div>
 
-</section>
+    </section>
 
 
-<!-- ================= SELLER ================= -->
+  </main>
 
-<section class="screen" id="seller">
 
-    <div class="screen-head">
 
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
+  <!-- =========================
+       BOTTOM NAVIGATION
+  ========================== -->
 
-        <h2>Seller Center</h2>
-
-    </div>
-
-
-    <div class="dashboard-card">
-
-        <h3>Seller Dashboard</h3>
-
-        <p class="muted-text">
-            Manage products, orders and sales.
-        </p>
-
-    </div>
-
-
-    <div class="stat-grid">
-
-        <div class="stat">
-            Products
-            <b>24</b>
-        </div>
-
-        <div class="stat">
-            Orders
-            <b>18</b>
-        </div>
-
-        <div class="stat">
-            Sales
-            <b>Rs. 85K</b>
-        </div>
-
-        <div class="stat">
-            Customers
-            <b>42</b>
-        </div>
-
-    </div>
-
-
-    <div class="dashboard-card action-card">
-
-        <button onclick="sellerAddProduct()">
-            ➕ Add Product
-        </button>
-
-        <button onclick="sellerProducts()">
-            📦 My Products
-        </button>
-
-        <button onclick="sellerOrders()">
-            🧾 Seller Orders
-        </button>
-
-        <button onclick="showToast('Payment section opened')">
-            💰 Payments
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= ADMIN ================= -->
-
-<section class="screen" id="admin">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Admin Panel</h2>
-
-    </div>
-
-
-    <div class="dashboard-card">
-
-        <h3>Admin Dashboard</h3>
-
-        <p class="muted-text">
-            Manage BismiMart marketplace.
-        </p>
-
-    </div>
-
-
-    <div class="stat-grid">
-
-        <div class="stat">
-            Users
-            <b>1,245</b>
-        </div>
-
-        <div class="stat">
-            Sellers
-            <b>84</b>
-        </div>
-
-        <div class="stat">
-            Orders
-            <b>562</b>
-        </div>
-
-        <div class="stat">
-            Revenue
-            <b>Rs. 9.8L</b>
-        </div>
-
-    </div>
-
-
-    <div class="dashboard-card action-card">
-
-        <button onclick="showToast('User management opened')">
-            👥 Users
-        </button>
-
-        <button onclick="showToast('Seller management opened')">
-            🏪 Sellers
-        </button>
-
-        <button onclick="showToast('Product management opened')">
-            📦 Products
-        </button>
-
-        <button onclick="showToast('Order management opened')">
-            🧾 Orders
-        </button>
-
-        <button onclick="showToast('Settings opened')">
-            ⚙️ Settings
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= COURIER ================= -->
-
-<section class="screen" id="courier">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Courier Panel</h2>
-
-    </div>
-
-
-    <div class="dashboard-card">
-
-        <h3>Courier Dashboard</h3>
-
-        <p class="muted-text">
-            Manage deliveries and shipments.
-        </p>
-
-    </div>
-
-
-    <div class="stat-grid">
-
-        <div class="stat">
-            New
-            <b>12</b>
-        </div>
-
-        <div class="stat">
-            Pickup
-            <b>7</b>
-        </div>
-
-        <div class="stat">
-            Delivered
-            <b>46</b>
-        </div>
-
-        <div class="stat">
-            Returns
-            <b>3</b>
-        </div>
-
-    </div>
-
-
-    <div class="dashboard-card action-card">
-
-        <button onclick="showToast('New deliveries opened')">
-            📦 New Deliveries
-        </button>
-
-        <button onclick="showToast('Pickup list opened')">
-            🚚 Pickup
-        </button>
-
-        <button onclick="showToast('Delivery history opened')">
-            🧾 Delivery History
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= SELLER ADD PRODUCT ================= -->
-
-<section class="screen" id="addProduct">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Add Product</h2>
-
-    </div>
-
-
-    <div class="form">
-
-        <div class="field">
-
-            <label>Product Name</label>
-
-            <input id="newProductName"
-                   placeholder="Product name">
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Price</label>
-
-            <input id="newProductPrice"
-                   type="number"
-                   placeholder="Price">
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Category</label>
-
-            <select id="newProductCategory">
-
-                <option>Mobiles</option>
-                <option>Electronics</option>
-                <option>Fashion</option>
-                <option>Beauty</option>
-                <option>Home</option>
-                <option>Sports</option>
-
-            </select>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>Description</label>
-
-            <textarea
-                id="newProductDescription"
-                rows="4"
-                placeholder="Product description">
-            </textarea>
-
-        </div>
-
-
-        <button class="btn full"
-                onclick="addSellerProduct()">
-            Add Product
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= SELLER PRODUCTS ================= -->
-
-<section class="screen" id="sellerProducts">
-
-    <div class="screen-head">
-
-        <button class="back" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>My Products</h2>
-
-    </div>
-
-    <div class="grid"
-         id="sellerProductsContent">
-    </div>
-
-</section>
-
-
-<!-- ================= TOAST ================= -->
-
-<div class="toast"
-     id="toast">
-</div>
-
-
-<!-- ================= BOTTOM NAV ================= -->
-
-<nav class="bottom">
+  <nav class="bottom-nav">
 
     <button id="navHome"
-            class="active"
+            class="nav-item active"
             onclick="showScreen('home')">
 
-        <span>⌂</span>
-        Home
+      <span>⌂</span>
+      <small>Home</small>
 
     </button>
 
 
     <button id="navCategories"
+            class="nav-item"
             onclick="showScreen('categories')">
 
-        <span>▦</span>
-        Categories
+      <span>▦</span>
+      <small>Categories</small>
 
     </button>
 
 
     <button id="navOrders"
+            class="nav-item"
             onclick="showScreen('orders')">
 
-        <span>📦</span>
-        Orders
+      <span>📦</span>
+      <small>Orders</small>
 
     </button>
 
 
     <button id="navWishlist"
+            class="nav-item"
             onclick="showScreen('wishlist')">
 
-        <span>❤️</span>
-        Wishlist
+      <span>♥</span>
+      <small>Wishlist</small>
 
     </button>
 
 
     <button id="navAccount"
+            class="nav-item"
             onclick="showScreen('account')">
 
-        <span>👤</span>
-        Account
+      <span>👤</span>
+      <small>Account</small>
 
     </button>
 
-</nav>
+  </nav>
 
 </div>
 
 
-<!-- ================= JAVASCRIPT ================= -->
+
+<!-- =========================
+     LOGIN MODAL
+========================= -->
+
+<div id="loginModal" class="modal">
+
+  <div class="modal-card">
+
+    <button class="modal-close"
+            onclick="closeLogin()">
+      ×
+    </button>
+
+    <div class="modal-logo">
+      B
+    </div>
+
+    <h2>Welcome to BismiMart</h2>
+
+    <p>Login or create your account</p>
+
+    <input
+      id="loginPhone"
+      class="form-input"
+      type="tel"
+      placeholder="Phone Number"
+    >
+
+    <input
+      id="loginPassword"
+      class="form-input"
+      type="password"
+      placeholder="Password"
+    >
+
+    <button class="primary-btn full-btn"
+            onclick="loginUser()">
+      Login
+    </button>
+
+    <button class="outline-btn full-btn"
+            onclick="signupUser()">
+      Create New Account
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================
+     SELLER MODAL
+========================= -->
+
+<div id="sellerModal" class="modal">
+
+  <div class="modal-card">
+
+    <button class="modal-close"
+            onclick="closeSeller()">
+      ×
+    </button>
+
+    <div class="modal-logo">
+      🏪
+    </div>
+
+    <h2>Become a Seller</h2>
+
+    <p>
+      Start selling your products on BismiMart.
+    </p>
+
+    <input
+      id="sellerName"
+      class="form-input"
+      placeholder="Business Name"
+    >
+
+    <input
+      id="sellerPhone"
+      class="form-input"
+      placeholder="Phone Number"
+      type="tel"
+    >
+
+    <button class="primary-btn full-btn"
+            onclick="registerSeller()">
+      Start Selling
+    </button>
+
+  </div>
+
+</div>
+
+
+
+<!-- =========================
+     TOAST
+========================= -->
+
+<div id="toast" class="toast"></div>
+
+
 
 <script>
 
-"use strict";
+/* =====================================================
+   BISMI MART
+   COMPLETE FRONTEND JAVASCRIPT
+===================================================== */
 
 
-/* ================= DATA ================= */
+/* =========================
+   PRODUCTS
+========================= */
 
 const products = [
 
-    {
-        id:1,
-        name:"Vivo Y17s",
-        category:"Mobiles",
-        price:29999,
-        oldPrice:32999,
-        rating:"4.7",
-        emoji:"📱",
-        sale:true,
-        description:"Vivo Y17s smartphone with stylish design and reliable performance."
-    },
+  {
+    id: 1,
+    name: "Vivo Y17s",
+    category: "Mobiles",
+    price: 32999,
+    oldPrice: 36999,
+    icon: "📱",
+    rating: 4.5
+  },
 
-    {
-        id:2,
-        name:"Wireless Headphones",
-        category:"Electronics",
-        price:3499,
-        oldPrice:4999,
-        rating:"4.6",
-        emoji:"🎧",
-        sale:true,
-        description:"Comfortable wireless headphones with clear sound."
-    },
+  {
+    id: 2,
+    name: "Samsung Galaxy A15",
+    category: "Mobiles",
+    price: 49999,
+    oldPrice: 54999,
+    icon: "📱",
+    rating: 4.6
+  },
 
-    {
-        id:3,
-        name:"Smart Watch",
-        category:"Electronics",
-        price:4299,
-        oldPrice:5999,
-        rating:"4.5",
-        emoji:"⌚",
-        sale:true,
-        description:"Modern smart watch for daily fitness and notifications."
-    },
+  {
+    id: 3,
+    name: "Wireless Headphones",
+    category: "Electronics",
+    price: 3999,
+    oldPrice: 4999,
+    icon: "🎧",
+    rating: 4.4
+  },
 
-    {
-        id:4,
-        name:"Ladies Handbag",
-        category:"Fashion",
-        price:2499,
-        oldPrice:3499,
-        rating:"4.8",
-        emoji:"👜",
-        sale:true,
-        description:"Stylish ladies handbag suitable for everyday use."
-    },
+  {
+    id: 4,
+    name: "Smart Watch",
+    category: "Electronics",
+    price: 5499,
+    oldPrice: 6999,
+    icon: "⌚",
+    rating: 4.3
+  },
 
-    {
-        id:5,
-        name:"Running Shoes",
-        category:"Fashion",
-        price:2999,
-        oldPrice:3999,
-        rating:"4.6",
-        emoji:"👟",
-        sale:false,
-        description:"Comfortable running shoes for walking and sports."
-    },
+  {
+    id: 5,
+    name: "Men Casual T-Shirt",
+    category: "Fashion",
+    price: 1499,
+    oldPrice: 1999,
+    icon: "👕",
+    rating: 4.2
+  },
 
-    {
-        id:6,
-        name:"Beauty Skin Care Kit",
-        category:"Beauty",
-        price:1899,
-        oldPrice:2499,
-        rating:"4.5",
-        emoji:"💄",
-        sale:true,
-        description:"Complete beauty care kit for everyday use."
-    },
+  {
+    id: 6,
+    name: "Ladies Hand Bag",
+    category: "Fashion",
+    price: 2499,
+    oldPrice: 3299,
+    icon: "👜",
+    rating: 4.5
+  },
 
-    {
-        id:7,
-        name:"Kitchen Set",
-        category:"Home",
-        price:2199,
-        oldPrice:2999,
-        rating:"4.4",
-        emoji:"🍳",
-        sale:false,
-        description:"Useful kitchen set for your home."
-    },
+  {
+    id: 7,
+    name: "LED Table Lamp",
+    category: "Home",
+    price: 1799,
+    oldPrice: 2299,
+    icon: "💡",
+    rating: 4.1
+  },
 
-    {
-        id:8,
-        name:"Sports Football",
-        category:"Sports",
-        price:1599,
-        oldPrice:1999,
-        rating:"4.7",
-        emoji:"⚽",
-        sale:false,
-        description:"Durable football suitable for training and games."
-    },
+  {
+    id: 8,
+    name: "Kitchen Organizer",
+    category: "Home",
+    price: 1299,
+    oldPrice: 1699,
+    icon: "🏠",
+    rating: 4.0
+  },
 
-    {
-        id:9,
-        name:"Bluetooth Speaker",
-        category:"Electronics",
-        price:2299,
-        oldPrice:2999,
-        rating:"4.6",
-        emoji:"🔊",
-        sale:true,
-        description:"Portable Bluetooth speaker with powerful sound."
-    },
+  {
+    id: 9,
+    name: "Face Beauty Kit",
+    category: "Beauty",
+    price: 1999,
+    oldPrice: 2599,
+    icon: "💄",
+    rating: 4.4
+  },
 
-    {
-        id:10,
-        name:"Men's T-Shirt",
-        category:"Fashion",
-        price:999,
-        oldPrice:1499,
-        rating:"4.4",
-        emoji:"👕",
-        sale:true,
-        description:"Comfortable casual men's T-shirt."
-    },
+  {
+    id: 10,
+    name: "Sports Running Shoes",
+    category: "Fashion",
+    price: 2999,
+    oldPrice: 3999,
+    icon: "👟",
+    rating: 4.6
+  }
 
-    {
-        id:11,
-        name:"Mobile Charger",
-        category:"Electronics",
-        price:799,
-        oldPrice:999,
-        rating:"4.5",
-        emoji:"🔌",
-        sale:false,
-        description:"Fast and reliable mobile charger."
-    },
+];
 
-    {
-        id:12,
-        name:"Home Lamp",
-        category:"Home",
+
+/* =========================
+   DATA
+========================= */
+
+let cart = JSON.parse(
+  localStorage.getItem("bismiMartCart") || "[]"
+);
+
+let wishlist = JSON.parse(
+  localStorage.getItem("bismiMartWishlist") || "[]"
+);
+
+let orders = JSON.parse(
+  localStorage.getItem("bismiMartOrders") || "[]"
+);
+
+let previousScreen = "home";
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+document.addEventListener("DOMContentLoaded", function() {
+
+  renderHomeProducts();
+  renderCategories();
+  renderWishlist();
+  renderCart();
+  renderOrders();
+  updateCounts();
+
+});
+
+
+/* =========================
+   SCREEN NAVIGATION
+========================= */
+
+function showScreen(screen) {
+
+  const screens = document.querySelectorAll(".screen");
+
+  screens.forEach(function(item) {
+    item.classList.remove("active");
+  });
+
+
+  const target = document.getElementById(
+    screen + "Screen"
+  );
+
+  if (!target) {
+    return;
+  }
+
+
+  target.classList.add("active");
+
+
+  previousScreen = screen;
+
+
+  updateNavigation(screen);
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+
+  if (screen === "wishlist") {
+    renderWishlist();
+  }
+
+  if (screen === "cart") {
+    renderCart();
+  }
+
+  if (screen === "orders") {
+    renderOrders();
+  }
+
+  if (screen === "categories") {
+    renderCategories();
+  }
+
+}
+
+
+function updateNavigation(screen) {
+
+  document.querySelectorAll(".nav-item")
+    .forEach(function(item) {
+      item.classList.remove("active");
+    });
+
+
+  const mapping = {
+
+    home: "navHome",
+    categories: "navCategories",
+    orders: "navOrders",
+    wishlist: "navWishlist",
+    account: "navAccount"
+
+  };
+
+
+  if (mapping[screen]) {
+
+    document
+      .getElementById(mapping[screen])
+      .classList.add("active");
+
+  }
+
+}
+
+
+function goBack() {
+
+  showScreen("home");
+
+}
+
+
+/* =========================
+   PRODUCT CARD
+========================= */
+
+function productCard(product) {
+
+  const isWishlisted =
+    wishlist.includes(product.id);
+
+  return `
+
+    <div class="product-card">
+
+      <button
+        class="wishlist-btn ${isWishlisted ? "liked" : ""}"
+        onclick="toggleWishlist(${product.id})">
+
+        ${isWishlisted ? "❤️" : "♡"}
+
+      </button>
+
+
+      <div
+        class="product-image"
+        onclick="openProduct(${product.id})">
+
+        <span>${product.icon}</span>
+
+      </div>
+
+
+      <div
+        class="product-info"
+        onclick="openProduct(${product.id})">
+
+        <div class="product-category">
+          ${product.category}
+        </div>
+
+        <h3>
+          ${product.name}
+        </h3>
+
+        <div class="rating">
+          ⭐ ${product.rating}
+        </div>
+
+        <div class="price-row">
+
+          <strong>
+            Rs. ${formatPrice(product.price)}
+          </strong>
+
+          <del>
+            Rs. ${formatPrice(product.oldPrice)}
+          </del>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="add-cart-btn"
+        onclick="addToCart(${product.id})">
+
+        Add to Cart
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================
+   HOME PRODUCTS
+========================= */
+
+function renderHomeProducts() {
+
+  const box =
+    document.getElementById("homeProducts");
+
+  box.innerHTML =
+    products
+      .slice(0, 6)
+      .map(productCard)
+      .join("");
+
+}
+
+
+/* =========================
+   CATEGORIES
+========================= */
+
+function renderCategories(
+  category = "All"
+) {
+
+  const box =
+    document.getElementById("categoryProducts");
+
+  const title =
+    document.getElementById(
+      "categoryProductTitle"
+    );
+
+
+  let list = products;
+
+
+  if (category !== "All") {
+
+    list =
+      products.filter(function(product) {
+        return product.category === category;
+      });
+
+  }
+
+
+  title.textContent =
+    category === "All"
+      ? "All Products"
+      : category + " Products";
+
+
+  if (list.length === 0) {
+
+    box.innerHTML = `
+      <div class="empty-state">
+        <div>📦</div>
+        <h2>No Products Found</h2>
+        <p>Products will appear here.</p>
+      </div>
+    `;
+
+    return;
+  }
+
+
+  box.innerHTML =
+    list.map(productCard).join("");
+
+}
+
+
+function filterCategory(category) {
+
+  showScreen("categories");
+
+  renderCategories(category);
+
+}
+
+
+/* =========================
+   PRODUCT DETAIL
+========================= */
+
+function openProduct(id) {
+
+  const product =
+    products.find(function(item) {
+      return item.id === id;
+    });
+
+
+  if 

@@ -2,858 +2,771 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#ff5a00">
 
-<title>BismiMart - Online Marketplace</title>
+<title>BismiMart</title>
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  -webkit-tap-highlight-color:transparent;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
-  width:100%;
-  min-height:100%;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#f5f6f8;
-  color:#222;
+    width:100%;
+    min-height:100%;
+    background:#eef0f3;
+    font-family:Arial,Helvetica,sans-serif;
+    color:#222;
 }
 
-body{
-  padding-bottom:75px;
-}
-
-button,
-input{
-  font-family:inherit;
+button,input{
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
-  border:none;
+    border:0;
+    cursor:pointer;
 }
+
+body{
+    padding-bottom:72px;
+}
+
+/* APP */
 
 .app{
-  width:100%;
-  max-width:700px;
-  margin:auto;
-  min-height:100vh;
-  background:#f5f6f8;
+    width:100%;
+    max-width:520px;
+    min-height:100vh;
+    margin:auto;
+    background:#f6f7f8;
+    overflow:hidden;
 }
 
-/* ================= HEADER ================= */
+/* TOP APP BAR */
 
-.header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:#fff;
-  border-bottom:1px solid #eee;
+.appbar{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:white;
+    padding:12px 12px 10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.top-header{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:15px 14px 10px;
+.appbar-top{
+    display:flex;
+    align-items:center;
+    gap:9px;
 }
 
 .logo{
-  width:58px;
-  height:58px;
-  border-radius:17px;
-  background:#ff5a00;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:35px;
-  font-weight:bold;
-  flex-shrink:0;
+    width:48px;
+    height:48px;
+    background:#ff5a00;
+    color:#fff;
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    font-weight:bold;
 }
 
 .brand{
-  flex:1;
-  min-width:0;
+    flex:1;
 }
 
-.brand h1{
-  font-size:25px;
-  line-height:27px;
+.brand b{
+    display:block;
+    font-size:22px;
 }
 
-.brand p{
-  color:#777;
-  font-size:12px;
-  margin-top:3px;
+.brand small{
+    color:#777;
+    font-size:10px;
 }
 
-.header-icon{
-  background:white;
-  font-size:27px;
-  width:42px;
-  height:45px;
-  position:relative;
+.icon-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#f6f6f6;
+    font-size:21px;
+    position:relative;
 }
 
-.cart-count{
-  position:absolute;
-  right:-2px;
-  top:-3px;
-  width:22px;
-  height:22px;
-  border-radius:50%;
-  background:#ff5a00;
-  color:white;
-  font-size:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
+.badge{
+    position:absolute;
+    right:-2px;
+    top:-2px;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    background:#ff5a00;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:10px;
+    font-weight:bold;
 }
 
-.search-box{
-  margin:0 14px 12px;
-  height:48px;
-  border:2px solid #e66b20;
-  border-radius:13px;
-  background:white;
-  display:flex;
-  align-items:center;
-  padding:0 13px;
-  gap:8px;
+/* SEARCH */
+
+.search{
+    margin-top:11px;
+    height:44px;
+    background:#f2f3f5;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    padding:0 12px;
+    gap:8px;
 }
 
-.search-box input{
-  width:100%;
-  border:0;
-  outline:0;
-  font-size:16px;
-  background:white;
+.search input{
+    width:100%;
+    border:0;
+    outline:0;
+    background:transparent;
+    font-size:14px;
 }
 
-.search-box button{
-  background:none;
-  font-size:21px;
-}
-
-/* ================= TOP NAV ================= */
-
-.top-nav{
-  display:flex;
-  overflow-x:auto;
-  white-space:nowrap;
-  background:white;
-  border-top:1px solid #eee;
-  border-bottom:1px solid #eee;
-  scrollbar-width:none;
-}
-
-.top-nav::-webkit-scrollbar{
-  display:none;
-}
-
-.top-nav button{
-  background:white;
-  padding:16px 20px;
-  font-size:16px;
-  color:#333;
-  flex-shrink:0;
-}
-
-.top-nav button.active{
-  color:#e85d00;
-  border-bottom:4px solid #e85d00;
-}
-
-/* ================= SCREENS ================= */
+/* SCREEN */
 
 .screen{
-  display:none;
-  padding:18px;
+    display:none;
+    padding:15px;
+    animation:screenIn .22s ease;
 }
 
 .screen.active{
-  display:block;
+    display:block;
 }
 
-/* ================= HERO ================= */
+@keyframes screenIn{
+    from{
+        opacity:0;
+        transform:translateX(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateX(0);
+    }
+}
+
+/* HERO */
 
 .hero{
-  background:#fff4e9;
-  border-radius:24px;
-  padding:32px 28px 25px;
-  overflow:hidden;
-  min-height:470px;
-  position:relative;
+    background:linear-gradient(135deg,#fff1e5,#fff8f2);
+    border-radius:22px;
+    padding:25px 20px;
+    min-height:390px;
+    position:relative;
+    overflow:hidden;
 }
 
-.hero-small{
-  color:#ed5a00;
-  font-weight:bold;
-  letter-spacing:2px;
-  font-size:15px;
-  margin-bottom:25px;
+.hero-label{
+    color:#f05a00;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
 }
 
-.hero h2{
-  font-size:40px;
-  line-height:1.08;
-  margin-bottom:20px;
+.hero h1{
+    font-size:34px;
+    line-height:1.08;
+    margin-top:17px;
 }
 
-.orange{
-  color:#ff5600;
+.hero h1 span{
+    color:#ff5700;
 }
 
 .hero p{
-  color:#555;
-  font-size:18px;
-  line-height:1.5;
-  max-width:500px;
+    color:#666;
+    font-size:15px;
+    line-height:1.5;
+    margin-top:15px;
 }
 
-.primary-btn{
-  background:#ff5a00;
-  color:white;
-  border-radius:10px;
-  padding:15px 23px;
-  font-size:17px;
-  font-weight:bold;
-  margin-top:25px;
+.main-btn{
+    background:#ff5a00;
+    color:white;
+    padding:13px 20px;
+    border-radius:10px;
+    font-weight:bold;
+    margin-top:19px;
+    box-shadow:0 6px 14px rgba(255,90,0,.22);
 }
 
-.hero-art{
-  position:relative;
-  height:220px;
-  margin-top:25px;
+.hero-circle{
+    position:absolute;
+    width:240px;
+    height:240px;
+    border-radius:50%;
+    background:#ff9d4e;
+    right:-35px;
+    bottom:-65px;
 }
 
-.orange-circle{
-  position:absolute;
-  width:300px;
-  height:300px;
-  border-radius:50%;
-  background:#ff9c4a;
-  left:50%;
-  transform:translateX(-50%);
-  top:0;
+.hero-products{
+    position:absolute;
+    right:15px;
+    bottom:5px;
+    font-size:55px;
+    z-index:2;
+    letter-spacing:7px;
 }
 
-.art-item{
-  position:absolute;
-  font-size:65px;
-  z-index:2;
+/* TITLES */
+
+.title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:25px 2px 13px;
 }
 
-.phone-art{
-  left:27%;
-  top:35px;
+.title h2{
+    font-size:22px;
 }
 
-.head-art{
-  right:13%;
-  top:50px;
+.title button{
+    background:transparent;
+    color:#ff5a00;
+    font-size:13px;
+    font-weight:bold;
 }
 
-.bag-art{
-  left:24%;
-  bottom:-10px;
+/* CATEGORY */
+
+.categories{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:9px;
 }
 
-.shoe-art{
-  right:19%;
-  bottom:-15px;
+.category{
+    background:white;
+    border:1px solid #eee;
+    border-radius:16px;
+    min-height:105px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition:.15s;
 }
 
-/* ================= SECTION ================= */
-
-.section-title{
-  font-size:28px;
-  margin:30px 0 18px;
+.category:active{
+    transform:scale(.95);
 }
 
-.section-title-row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:28px 0 16px;
+.category .emoji{
+    font-size:34px;
 }
 
-.section-title-row h2{
-  font-size:25px;
+.category b{
+    font-size:12px;
 }
 
-.view-all{
-  color:#ff5a00;
-  background:none;
-  font-weight:bold;
-}
-
-/* ================= CATEGORIES ================= */
-
-.category-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-}
-
-.category-card{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:18px;
-  padding:20px 8px;
-  min-height:135px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  transition:.15s;
-}
-
-.category-card:active{
-  transform:scale(.96);
-}
-
-.category-icon{
-  font-size:43px;
-  margin-bottom:12px;
-}
-
-.category-card strong{
-  font-size:14px;
-}
-
-/* ================= FLASH SALE ================= */
+/* FLASH */
 
 .flash{
-  background:#fff0ec;
-  border-radius:23px;
-  padding:25px;
-  min-height:210px;
-  position:relative;
-  overflow:hidden;
+    background:#fff0ec;
+    border-radius:20px;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
 }
 
 .flash h2{
-  color:#df452e;
-  font-size:28px;
+    color:#df4935;
+    font-size:23px;
 }
 
 .flash p{
-  margin-top:15px;
-  font-size:17px;
+    margin-top:8px;
+    color:#555;
 }
 
 .timer{
-  color:#df452e;
-  font-size:24px;
-  font-weight:bold;
-  margin-top:18px;
+    color:#df4935;
+    font-size:20px;
+    font-weight:bold;
+    margin-top:12px;
+}
+
+.flash button{
+    margin-top:14px;
 }
 
 .flash-icon{
-  position:absolute;
-  right:35px;
-  top:55px;
-  font-size:75px;
+    position:absolute;
+    right:25px;
+    top:42px;
+    font-size:65px;
 }
 
-/* ================= PRODUCTS ================= */
+/* PRODUCTS */
 
-.product-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:11px;
 }
 
-.product-card{
-  background:white;
-  border-radius:18px;
-  overflow:hidden;
-  border:1px solid #eee;
-  position:relative;
+.product{
+    background:white;
+    border-radius:17px;
+    overflow:hidden;
+    border:1px solid #eee;
 }
 
 .product-image{
-  height:165px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#f7f7f7;
-  font-size:80px;
+    height:145px;
+    background:#f4f5f6;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:70px;
+    position:relative;
+}
+
+.sale{
+    position:absolute;
+    left:8px;
+    top:8px;
+    background:#ff5a00;
+    color:white;
+    padding:4px 7px;
+    border-radius:6px;
+    font-size:9px;
+    font-weight:bold;
 }
 
 .product-info{
-  padding:13px;
+    padding:11px;
 }
 
 .product-name{
-  font-size:16px;
-  font-weight:bold;
-  min-height:39px;
+    font-weight:bold;
+    font-size:14px;
+    min-height:34px;
 }
 
-.rating{
-  color:#f5a400;
-  font-size:13px;
-  margin-top:7px;
+.stars{
+    margin-top:5px;
+    color:#f2a400;
+    font-size:11px;
 }
 
-.price{
-  font-size:20px;
-  font-weight:bold;
-  color:#e95100;
-  margin-top:8px;
+.product-price{
+    color:#f05a00;
+    font-size:17px;
+    font-weight:bold;
+    margin-top:6px;
 }
 
-.old-price{
-  color:#999;
-  font-size:13px;
-  text-decoration:line-through;
-  margin-left:5px;
+.old{
+    color:#aaa;
+    text-decoration:line-through;
+    font-size:10px;
+    margin-left:4px;
 }
 
-.add-btn{
-  width:100%;
-  background:#ff5a00;
-  color:white;
-  padding:11px;
-  border-radius:9px;
-  margin-top:10px;
-  font-weight:bold;
+.add{
+    width:calc(100% - 22px);
+    margin:0 11px 11px;
+    padding:10px;
+    background:#ff5a00;
+    color:white;
+    border-radius:9px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-.product-badge{
-  position:absolute;
-  top:9px;
-  left:9px;
-  background:#ff5a00;
-  color:white;
-  padding:5px 8px;
-  border-radius:7px;
-  font-size:11px;
-  font-weight:bold;
+/* PAGE HEADER */
+
+.page-head{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    margin-bottom:18px;
 }
 
-/* ================= INNER HEADER ================= */
-
-.inner-header{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:20px;
+.back{
+    width:40px;
+    height:40px;
+    border-radius:11px;
+    background:white;
+    font-size:22px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.back-btn{
-  width:43px;
-  height:43px;
-  background:white;
-  border-radius:12px;
-  font-size:24px;
-  box-shadow:0 2px 8px #ddd;
+.page-head h2{
+    font-size:22px;
 }
 
-.inner-header h2{
-  font-size:25px;
-}
+/* PRODUCT DETAIL */
 
-/* ================= PRODUCT DETAIL ================= */
-
-.detail-card{
-  background:white;
-  border-radius:22px;
-  overflow:hidden;
+.detail{
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
 }
 
 .detail-image{
-  height:300px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:150px;
-  background:#f7f7f7;
+    height:290px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f2f3f4;
+    font-size:140px;
 }
 
-.detail-content{
-  padding:22px;
+.detail-info{
+    padding:20px;
 }
 
-.detail-content h1{
-  font-size:27px;
-}
-
-.detail-rating{
-  margin:12px 0;
-  color:#f0a000;
+.detail-info h1{
+    font-size:24px;
 }
 
 .detail-price{
-  font-size:31px;
-  color:#e95100;
-  font-weight:bold;
-  margin:12px 0;
+    color:#ff5700;
+    font-size:28px;
+    font-weight:bold;
+    margin-top:12px;
 }
 
-.detail-description{
-  color:#666;
-  line-height:1.6;
-  margin-top:15px;
+.description{
+    color:#666;
+    line-height:1.6;
+    font-size:14px;
+    margin-top:15px;
 }
 
-.detail-actions{
-  display:flex;
-  gap:10px;
-  margin-top:20px;
+.detail-buttons{
+    display:flex;
+    gap:8px;
+    margin-top:20px;
 }
 
-.detail-actions button{
-  flex:1;
-  padding:15px;
-  border-radius:11px;
-  font-weight:bold;
-  font-size:15px;
+.detail-buttons button{
+    flex:1;
+    padding:14px 5px;
+    border-radius:10px;
+    font-weight:bold;
 }
 
-.cart-action{
-  background:#fff0e6;
-  color:#e95100;
+.add-cart{
+    background:#fff0e5;
+    color:#ff5700;
 }
 
-.buy-action{
-  background:#ff5a00;
-  color:white;
+.buy{
+    background:#ff5a00;
+    color:white;
 }
 
-/* ================= CART ================= */
+/* CART */
 
 .cart-item{
-  background:white;
-  border-radius:16px;
-  padding:13px;
-  display:flex;
-  gap:12px;
-  margin-bottom:12px;
+    background:white;
+    border-radius:15px;
+    padding:11px;
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
 }
 
 .cart-image{
-  width:85px;
-  height:85px;
-  background:#f5f5f5;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:45px;
+    width:75px;
+    height:75px;
+    border-radius:12px;
+    background:#f3f4f5;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:40px;
 }
 
-.cart-info{
-  flex:1;
+.cart-data{
+    flex:1;
 }
 
-.cart-info h3{
-  font-size:16px;
+.cart-data h3{
+    font-size:14px;
 }
 
 .cart-price{
-  color:#e95100;
-  font-weight:bold;
-  margin-top:8px;
+    color:#ff5700;
+    font-weight:bold;
+    margin-top:6px;
 }
 
-.qty-controls{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-top:9px;
+.qty{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:8px;
 }
 
-.qty-controls button{
-  width:30px;
-  height:30px;
-  border-radius:8px;
-  background:#eee;
-  font-size:18px;
+.qty button{
+    width:27px;
+    height:27px;
+    background:#eee;
+    border-radius:7px;
 }
 
-.remove-btn{
-  color:#e95100;
-  background:none;
-  margin-top:8px;
+.remove{
+    background:transparent;
+    color:#ff5700;
+    font-size:11px;
+    margin-top:5px;
 }
 
-.cart-summary{
-  background:white;
-  padding:20px;
-  border-radius:18px;
-  margin-top:20px;
+.summary{
+    background:white;
+    border-radius:16px;
+    padding:17px;
+    margin-top:15px;
 }
 
-.summary-row{
-  display:flex;
-  justify-content:space-between;
-  margin:12px 0;
-  color:#555;
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin:10px 0;
+    color:#666;
 }
 
-.summary-total{
-  border-top:1px solid #ddd;
-  padding-top:14px;
-  font-size:21px;
-  font-weight:bold;
-  color:#222;
+.total{
+    border-top:1px solid #eee;
+    padding-top:12px;
+    font-size:19px;
+    font-weight:bold;
+    color:#222;
 }
 
-/* ================= FORMS ================= */
+/* FORM */
 
-.form-card{
-  background:white;
-  border-radius:20px;
-  padding:20px;
+.form{
+    background:white;
+    padding:17px;
+    border-radius:17px;
 }
 
-.form-group{
-  margin-bottom:17px;
+.field{
+    margin-bottom:14px;
 }
 
-.form-group label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:7px;
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:6px;
 }
 
-.form-group input,
-.form-group select,
-.form-group textarea{
-  width:100%;
-  border:1px solid #ddd;
-  border-radius:10px;
-  padding:14px;
-  font-size:15px;
-  outline:none;
+.field input,
+.field textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:9px;
+    outline:none;
 }
 
-.payment-option{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border:1px solid #ddd;
-  border-radius:11px;
-  padding:14px;
-  margin-bottom:10px;
+.payment{
+    background:#f7f7f7;
+    padding:13px;
+    border-radius:9px;
+    margin:8px 0;
 }
 
-/* ================= ACCOUNT ================= */
+/* ACCOUNT */
 
 .account-top{
-  background:linear-gradient(135deg,#ff5a00,#ff8a3d);
-  color:white;
-  padding:28px;
-  border-radius:22px;
-  text-align:center;
+    background:linear-gradient(135deg,#ff5a00,#ff8b3d);
+    color:white;
+    text-align:center;
+    padding:25px;
+    border-radius:20px;
 }
 
 .avatar{
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:white;
-  color:#ff5a00;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:42px;
-  margin:auto auto 12px;
+    width:70px;
+    height:70px;
+    background:white;
+    color:#ff5a00;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:34px;
+    margin:auto auto 10px;
 }
 
-.account-menu{
-  background:white;
-  border-radius:18px;
-  margin-top:18px;
-  overflow:hidden;
+.menu{
+    background:white;
+    border-radius:17px;
+    overflow:hidden;
+    margin-top:14px;
 }
 
-.account-menu button{
-  width:100%;
-  background:white;
-  padding:19px;
-  text-align:left;
-  border-bottom:1px solid #eee;
-  font-size:16px;
-  display:flex;
-  justify-content:space-between;
+.menu button{
+    width:100%;
+    padding:17px;
+    background:white;
+    border-bottom:1px solid #eee;
+    display:flex;
+    justify-content:space-between;
+    text-align:left;
 }
 
-/* ================= ORDERS ================= */
+/* ORDERS */
 
-.order-card{
-  background:white;
-  border-radius:18px;
-  padding:18px;
-  margin-bottom:13px;
+.order{
+    background:white;
+    border-radius:16px;
+    padding:15px;
+    margin-bottom:10px;
 }
 
-.order-header{
-  display:flex;
-  justify-content:space-between;
+.order-top{
+    display:flex;
+    justify-content:space-between;
 }
 
 .status{
-  color:#168c42;
-  font-weight:bold;
+    color:#159447;
+    font-weight:bold;
+    font-size:12px;
 }
 
 .order-product{
-  margin-top:15px;
-  display:flex;
-  gap:12px;
+    display:flex;
+    gap:10px;
+    margin-top:14px;
 }
 
 .order-icon{
-  width:60px;
-  height:60px;
-  background:#f5f5f5;
-  border-radius:10px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:32px;
+    width:55px;
+    height:55px;
+    border-radius:10px;
+    background:#f4f4f4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
 }
 
-/* ================= EMPTY ================= */
+/* EMPTY */
 
 .empty{
-  background:white;
-  border-radius:20px;
-  padding:45px 20px;
-  text-align:center;
+    background:white;
+    border-radius:18px;
+    padding:40px 20px;
+    text-align:center;
 }
 
 .empty-icon{
-  font-size:65px;
-  margin-bottom:15px;
+    font-size:55px;
 }
 
 .empty h3{
-  font-size:22px;
+    margin-top:10px;
 }
 
 .empty p{
-  color:#777;
-  margin-top:8px;
+    color:#777;
+    margin-top:7px;
 }
 
-/* ================= BOTTOM NAV ================= */
+/* BOTTOM NAV */
 
-.bottom-nav{
-  position:fixed;
-  z-index:2000;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%);
-  width:100%;
-  max-width:700px;
-  height:70px;
-  background:white;
-  border-top:1px solid #ddd;
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  box-shadow:0 -3px 15px rgba(0,0,0,.08);
+.bottom{
+    position:fixed;
+    z-index:999;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:100%;
+    max-width:520px;
+    height:70px;
+    background:white;
+    border-top:1px solid #ddd;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    box-shadow:0 -3px 15px rgba(0,0,0,.1);
 }
 
-.bottom-nav button{
-  background:white;
-  color:#777;
-  font-size:11px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
+.bottom button{
+    background:white;
+    color:#777;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:3px;
+    font-size:10px;
 }
 
-.bottom-nav button span{
-  font-size:24px;
+.bottom span{
+    font-size:22px;
 }
 
-.bottom-nav button.active{
-  color:#ff5a00;
-  font-weight:bold;
+.bottom button.active{
+    color:#ff5a00;
+    font-weight:bold;
 }
 
-/* ================= TOAST ================= */
+/* TOAST */
 
 .toast{
-  position:fixed;
-  left:50%;
-  bottom:90px;
-  transform:translate(-50%,20px);
-  background:#222;
-  color:white;
-  padding:13px 20px;
-  border-radius:25px;
-  opacity:0;
-  pointer-events:none;
-  transition:.3s;
-  z-index:5000;
-  white-space:nowrap;
+    position:fixed;
+    left:50%;
+    bottom:85px;
+    transform:translate(-50%,20px);
+    background:#222;
+    color:white;
+    padding:12px 18px;
+    border-radius:22px;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    z-index:5000;
+    font-size:13px;
 }
 
 .toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
+    opacity:1;
+    transform:translate(-50%,0);
 }
 
-/* ================= RESPONSIVE ================= */
+/* MOBILE */
 
-@media(max-width:430px){
+@media(max-width:360px){
 
-  .hero{
-    padding:28px 22px 20px;
-    min-height:450px;
-  }
+    .hero h1{
+        font-size:29px;
+    }
 
-  .hero h2{
-    font-size:34px;
-  }
+    .product-image{
+        height:130px;
+    }
 
-  .hero p{
-    font-size:16px;
-  }
+    .hero-products{
+        font-size:45px;
+    }
 
-  .category-grid{
-    gap:9px;
-  }
-
-  .category-card{
-    min-height:125px;
-  }
-
-  .category-icon{
-    font-size:38px;
-  }
-
-  .product-image{
-    height:145px;
-  }
-
-  .detail-image{
-    height:260px;
-  }
-}
-
-@media(min-width:701px){
-
-  body{
-    background:#e9eaed;
-  }
-
-  .app{
-    box-shadow:0 0 30px rgba(0,0,0,.08);
-  }
 }
 </style>
 </head>
@@ -862,408 +775,442 @@ button{
 
 <div class="app">
 
-<!-- ================= HEADER ================= -->
+<!-- ================= APP BAR ================= -->
 
-<header class="header">
+<header class="appbar">
 
-  <div class="top-header">
+    <div class="appbar-top">
 
-    <div class="logo">B</div>
+        <div class="logo">B</div>
 
-    <div class="brand">
-      <h1>BismiMart</h1>
-      <p>Sab Kuch, Aasaan!</p>
+        <div class="brand">
+            <b>BismiMart</b>
+            <small>Sab Kuch, Aasaan!</small>
+        </div>
+
+        <button class="icon-btn" onclick="openAccount()">
+            👤
+        </button>
+
+        <button class="icon-btn" onclick="openCart()">
+            🛒
+            <span class="badge" id="cartBadge">0</span>
+        </button>
+
     </div>
 
-    <button class="header-icon" onclick="showScreen('accountScreen')">
-      👤
-    </button>
+    <div class="search">
 
-    <button class="header-icon" onclick="showScreen('cartScreen')">
-      🛒
-      <span class="cart-count" id="cartCount">0</span>
-    </button>
+        <span>🔍</span>
 
-  </div>
+        <input
+            id="topSearch"
+            placeholder="Search products..."
+            onkeydown="headerSearch(event)"
+        >
 
-  <div class="search-box">
-
-    <button onclick="openSearch()">🔎</button>
-
-    <input
-      id="headerSearch"
-      type="search"
-      placeholder="Search products..."
-      onkeydown="searchFromHeader(event)"
-    >
-
-  </div>
-
-  <nav class="top-nav">
-
-    <button id="navHome" class="active" onclick="showScreen('homeScreen')">
-      Home
-    </button>
-
-    <button onclick="showScreen('flashScreen')">
-      ⚡ Flash Sale
-    </button>
-
-    <button onclick="showProducts('all')">
-      Top Products
-    </button>
-
-    <button onclick="showScreen('categoriesScreen')">
-      Categories
-    </button>
-
-    <button onclick="showScreen('cartScreen')">
-      🛒 Cart
-    </button>
-
-  </nav>
+    </div>
 
 </header>
 
 
 <!-- ================= HOME ================= -->
 
-<section id="homeScreen" class="screen active">
+<section id="home" class="screen active">
 
-  <div class="hero">
+    <div class="hero">
 
-    <div class="hero-small">
-      WELCOME TO BISMI MART
-    </div>
+        <div class="hero-label">
+            WELCOME TO BISMI MART
+        </div>
 
-    <h2>
-      Everything You Need,<br>
-      <span class="orange">All in One Place.</span>
-    </h2>
+        <h1>
+            Everything You Need,
+            <span>All in One Place.</span>
+        </h1>
 
-    <p>
-      Shop mobiles, electronics, fashion, home products and much more.
-    </p>
+        <p>
+            Shop mobiles, electronics, fashion, home products and much more.
+        </p>
 
-    <button class="primary-btn" onclick="showProducts('all')">
-      Shop Now →
-    </button>
+        <button class="main-btn" onclick="shopAll()">
+            Shop Now →
+        </button>
 
-    <div class="hero-art">
+        <div class="hero-circle"></div>
 
-      <div class="orange-circle"></div>
-
-      <div class="art-item phone-art">📱</div>
-      <div class="art-item head-art">🎧</div>
-      <div class="art-item bag-art">👜</div>
-      <div class="art-item shoe-art">👟</div>
+        <div class="hero-products">
+            📱 🎧<br>
+            👜 👟
+        </div>
 
     </div>
 
-  </div>
 
-
-  <div class="section-title">
-    Shop by Category
-  </div>
-
-  <div class="category-grid">
-
-    <button class="category-card" onclick="showProducts('Mobiles')">
-      <span class="category-icon">📱</span>
-      <strong>Mobiles</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Electronics')">
-      <span class="category-icon">🎧</span>
-      <strong>Electronics</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Fashion')">
-      <span class="category-icon">👕</span>
-      <strong>Fashion</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Home')">
-      <span class="category-icon">🛋️</span>
-      <strong>Home</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Beauty')">
-      <span class="category-icon">💄</span>
-      <strong>Beauty</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Grocery')">
-      <span class="category-icon">🛒</span>
-      <strong>Grocery</strong>
-    </button>
-
-  </div>
-
-
-  <div class="section-title">
-    Flash Sale ⚡
-  </div>
-
-  <div class="flash">
-
-    <h2>FLASH SALE ⚡</h2>
-
-    <p>Up to 60% OFF</p>
-
-    <div class="timer" id="homeTimer">
-      02 : 45 : 30
+    <div class="title">
+        <h2>Shop by Category</h2>
     </div>
 
-    <button class="primary-btn" onclick="showScreen('flashScreen')">
-      Shop Now
-    </button>
 
-    <div class="flash-icon">🎧</div>
+    <div class="categories">
 
-  </div>
+        <button class="category" onclick="categoryPage('Mobiles')">
+            <span class="emoji">📱</span>
+            <b>Mobiles</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Electronics')">
+            <span class="emoji">🎧</span>
+            <b>Electronics</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Fashion')">
+            <span class="emoji">👕</span>
+            <b>Fashion</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Home')">
+            <span class="emoji">🛋️</span>
+            <b>Home</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Beauty')">
+            <span class="emoji">💄</span>
+            <b>Beauty</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Grocery')">
+            <span class="emoji">🛒</span>
+            <b>Grocery</b>
+        </button>
+
+    </div>
 
 
-  <div class="section-title-row">
+    <div class="title">
+        <h2>Flash Sale ⚡</h2>
+        <button onclick="flashPage()">View All</button>
+    </div>
 
-    <h2>Top Products</h2>
 
-    <button class="view-all" onclick="showProducts('all')">
-      View All
-    </button>
+    <div class="flash">
 
-  </div>
+        <h2>FLASH SALE ⚡</h2>
 
-  <div id="homeProducts" class="product-grid"></div>
+        <p>Up to 60% OFF</p>
+
+        <div class="timer" id="timer">
+            02 : 45 : 30
+        </div>
+
+        <button class="main-btn" onclick="flashPage()">
+            Shop Now
+        </button>
+
+        <div class="flash-icon">
+            🎧
+        </div>
+
+    </div>
+
+
+    <div class="title">
+        <h2>Top Products</h2>
+        <button onclick="shopAll()">View All</button>
+    </div>
+
+
+    <div id="homeProducts" class="products"></div>
 
 </section>
 
 
-<!-- ================= CATEGORIES ================= -->
+<!-- ================= SHOP ================= -->
 
-<section id="categoriesScreen" class="screen">
+<section id="shop" class="screen">
 
-  <div class="inner-header">
+    <div class="page-head">
 
-    <button class="back-btn" onclick="goBack()">
-      ←
-    </button>
+        <button class="back" onclick="goBack()">‹</button>
 
-    <h2>Categories</h2>
+        <div>
+            <h2 id="shopTitle">Shop</h2>
+            <small id="shopSub" style="color:#777"></small>
+        </div>
 
-  </div>
-
-  <div class="category-grid">
-
-    <button class="category-card" onclick="showProducts('Mobiles')">
-      <span class="category-icon">📱</span>
-      <strong>Mobiles</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Electronics')">
-      <span class="category-icon">🎧</span>
-      <strong>Electronics</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Fashion')">
-      <span class="category-icon">👕</span>
-      <strong>Fashion</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Home')">
-      <span class="category-icon">🛋️</span>
-      <strong>Home</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Beauty')">
-      <span class="category-icon">💄</span>
-      <strong>Beauty</strong>
-    </button>
-
-    <button class="category-card" onclick="showProducts('Grocery')">
-      <span class="category-icon">🛒</span>
-      <strong>Grocery</strong>
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- ================= PRODUCTS ================= -->
-
-<section id="productsScreen" class="screen">
-
-  <div class="inner-header">
-
-    <button class="back-btn" onclick="goBack()">
-      ←
-    </button>
-
-    <div style="flex:1">
-      <h2 id="productsTitle">Products</h2>
-      <small id="productsSubtitle" style="color:#777;"></small>
     </div>
 
-  </div>
-
-  <div id="productGrid" class="product-grid"></div>
+    <div id="shopProducts" class="products"></div>
 
 </section>
 
 
 <!-- ================= SEARCH ================= -->
 
-<section id="searchScreen" class="screen">
+<section id="searchPage" class="screen">
 
-  <div class="inner-header">
+    <div class="page-head">
 
-    <button class="back-btn" onclick="goBack()">
-      ←
-    </button>
+        <button class="back" onclick="goBack()">‹</button>
 
-    <h2>Search</h2>
+        <h2>Search</h2>
 
-  </div>
-
-  <div class="search-box" style="margin:0 0 20px;">
-
-    <span>🔎</span>
-
-    <input
-      id="searchInput"
-      type="search"
-      placeholder="Search BismiMart..."
-      oninput="liveSearch()"
-    >
-
-  </div>
-
-  <div id="searchResults" class="product-grid"></div>
-
-</section>
-
-
-<!-- ================= FLASH SALE ================= -->
-
-<section id="flashScreen" class="screen">
-
-  <div class="inner-header">
-
-    <button class="back-btn" onclick="goBack()">
-      ←
-    </button>
-
-    <h2>Flash Sale ⚡</h2>
-
-  </div>
-
-  <div class="flash" style="margin-bottom:20px;">
-
-    <h2>UP TO 60% OFF</h2>
-
-    <p>Limited time offers!</p>
-
-    <div class="timer" id="flashTimer">
-      02 : 45 : 30
     </div>
 
-  </div>
+    <div class="search" style="background:white;border:1px solid #ddd">
 
-  <div id="flashProducts" class="product-grid"></div>
+        <span>🔍</span>
+
+        <input
+            id="searchInput"
+            placeholder="Search BismiMart..."
+            oninput="doSearch()"
+        >
+
+    </div>
+
+    <div id="searchProducts" class="products" style="margin-top:15px"></div>
 
 </section>
 
 
-<!-- ================= PRODUCT DETAIL ================= -->
+<!-- ================= CATEGORIES ================= -->
 
-<section id="detailScreen" class="screen">
+<section id="categories" class="screen">
 
-  <div class="inner-header">
+    <div class="page-head">
 
-    <button class="back-btn" onclick="goBack()">
-      ←
-    </button>
+        <button class="back" onclick="goBack()">‹</button>
 
-    <h2>Product Details</h2>
+        <h2>Categories</h2>
 
-  </div>
+    </div>
 
-  <div id="detailContent"></div>
+    <div class="categories">
+
+        <button class="category" onclick="categoryPage('Mobiles')">
+            <span class="emoji">📱</span>
+            <b>Mobiles</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Electronics')">
+            <span class="emoji">🎧</span>
+            <b>Electronics</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Fashion')">
+            <span class="emoji">👕</span>
+            <b>Fashion</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Home')">
+            <span class="emoji">🛋️</span>
+            <b>Home</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Beauty')">
+            <span class="emoji">💄</span>
+            <b>Beauty</b>
+        </button>
+
+        <button class="category" onclick="categoryPage('Grocery')">
+            <span class="emoji">🛒</span>
+            <b>Grocery</b>
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FLASH PAGE ================= -->
+
+<section id="flash" class="screen">
+
+    <div class="page-head">
+
+        <button class="back" onclick="goBack()">‹</button>
+
+        <h2>Flash Sale ⚡</h2>
+
+    </div>
+
+    <div class="flash">
+
+        <h2>UP TO 60% OFF</h2>
+
+        <p>Limited time offers</p>
+
+        <div class="timer" id="flashTimer">
+            02 : 45 : 30
+        </div>
+
+    </div>
+
+    <div class="title">
+        <h2>Deals</h2>
+    </div>
+
+    <div id="flashProducts" class="products"></div>
+
+</section>
+
+
+<!-- ================= DETAIL ================= -->
+
+<section id="detail" class="screen">
+
+    <div class="page-head">
+
+        <button class="back" onclick="goBack()">‹</button>
+
+        <h2>Product</h2>
+
+    </div>
+
+    <div id="detailContent"></div>
 
 </section>
 
 
 <!-- ================= CART ================= -->
 
-<section id="cartScreen" class="screen">
+<section id="cart" class="screen">
 
-  <div class="inner-header">
+    <div class="page-head">
 
-    <button class="back-btn" onclick="goBack()">
-      ←
-    </button>
+        <button class="back" onclick="goBack()">‹</button>
 
-    <h2>My Cart</h2>
+        <h2>My Cart</h2>
 
-  </div>
+    </div>
 
-  <div id="cartContent"></div>
+    <div id="cartContent"></div>
 
 </section>
 
 
 <!-- ================= CHECKOUT ================= -->
 
-<section id="checkoutScreen" class="screen">
+<section id="checkout" class="screen">
 
-  <div class="inner-header">
+    <div class="page-head">
 
-    <button class="back-btn" onclick="goBack()">
-      ←
-    </button>
+        <button class="back" onclick="goBack()">‹</button>
 
-    <h2>Checkout</h2>
-
-  </div>
-
-  <div class="form-card">
-
-    <div class="form-group">
-      <label>Full Name</label>
-      <input id="customerName" placeholder="Enter your name">
-    </div>
-
-    <div class="form-group">
-      <label>Mobile Number</label>
-      <input id="customerPhone" type="tel" placeholder="03XX XXXXXXX">
-    </div>
-
-    <div class="form-group">
-      <label>Delivery Address</label>
-      <textarea id="customerAddress" rows="4" placeholder="Enter complete address"></textarea>
-    </div>
-
-    <div class="form-group">
-
-      <label>Payment Method</label>
-
-      <label class="payment-option">
-        <input type="radio" name="payment" value="cod" checked>
-        💵 Cash on Delivery
-      </label>
-
-      <label class="payment-option">
-        <input type="radio" name="payment" value="easypaisa">
-        📱 Easypaisa
-      </label>
-
-      <label class="payment-option">
-        <input type="radio" name="payment" value="jazzcash">
-        📱 JazzCash
-      </label>
+        <h2>Checkout</h2>
 
     </div>
 
-    <div id="chec
+    <div class="form">
+
+        <div class="field">
+            <label>Full Name</label>
+            <input id="name" placeholder="Enter your name">
+        </div>
+
+        <div class="field">
+            <label>Mobile Number</label>
+            <input id="phone" placeholder="03XX XXXXXXX">
+        </div>
+
+        <div class="field">
+            <label>Delivery Address</label>
+            <textarea id="address" rows="4" placeholder="Complete delivery address"></textarea>
+        </div>
+
+        <div class="field">
+
+            <label>Payment Method</label>
+
+            <div class="payment">
+                <label>
+                    <input type="radio" name="pay" value="cod" checked>
+                    💵 Cash on Delivery
+                </label>
+            </div>
+
+            <div class="payment">
+                <label>
+                    <input type="radio" name="pay" value="easypaisa">
+                    📱 Easypaisa
+                </label>
+            </div>
+
+            <div class="payment">
+                <label>
+                    <input type="radio" name="pay" value="jazzcash">
+                    📱 JazzCash
+                </label>
+            </div>
+
+        </div>
+
+        <div id="checkoutSummary" class="summary"></div>
+
+        <button
+            class="main-btn"
+            style="width:100%"
+            onclick="placeOrder()"
+        >
+            Place Order
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ACCOUNT ================= -->
+
+<section id="account" class="screen">
+
+    <div class="page-head">
+
+        <button class="back" onclick="goBack()">‹</button>
+
+        <h2>My Account</h2>
+
+    </div>
+
+    <div class="account-top">
+
+        <div class="avatar">👤</div>
+
+        <h2 id="userName">Welcome to BismiMart</h2>
+
+        <p style="margin-top:6px">
+            Manage your account
+        </p>
+
+    </div>
+
+    <div class="menu">
+
+        <button onclick="login()">
+            👤 Login / Sign Up
+            <span>›</span>
+        </button>
+
+        <button onclick="ordersPage()">
+            📦 My Orders
+            <span>›</span>
+        </button>
+
+        <button onclick="openCart()">
+            🛒 My Cart
+            <span>›</span>
+        </button>
+
+        <button onclick="toast('Wishlist opened')">
+            ❤️ Wishlist
+            <span>›</span>
+        </button>
+
+        <button onclick="toast('Address book opened')">
+            📍 My Addresses
+            <span>›</span>
+        </button>
+
+        <button onclick="toast('Settings opened')">
+  

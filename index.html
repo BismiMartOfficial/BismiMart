@@ -2,16 +2,36 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0, user-scalable=no">
 
 <meta name="theme-color" content="#ff5a00">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="description"
+      content="BismiMart - Sab Kuch, Aasaan!">
+
+<link rel="manifest" href="manifest.json">
 
 <title>BismiMart - Online Marketplace</title>
 
 <style>
+
+:root{
+    --orange:#ff5a00;
+    --orange2:#ff7a22;
+    --bg:#f5f6f8;
+    --text:#202124;
+    --muted:#777;
+    --card:#fff;
+    --line:#e8e8e8;
+    --green:#168a45;
+}
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -25,575 +45,650 @@ html{
 
 body{
     font-family:Arial,Helvetica,sans-serif;
-    background:#f3f4f6;
-    color:#222;
+    background:#e9eaed;
+    color:var(--text);
+}
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
 }
 
 button{
-    font-family:inherit;
     cursor:pointer;
 }
 
-.app{
+button:active{
+    transform:scale(.97);
+}
+
+#app{
     width:100%;
     max-width:520px;
     min-height:100vh;
     margin:auto;
-    background:#f5f6f7;
-    padding-bottom:80px;
+    background:var(--bg);
+    padding-bottom:82px;
+    box-shadow:0 0 30px #0001;
 }
+
 
 /* ================= HEADER ================= */
 
 .header{
-    background:#fff;
-    padding:14px 14px 12px;
     position:sticky;
     top:0;
     z-index:50;
-    box-shadow:0 2px 10px rgba(0,0,0,.08);
+    background:#fff;
+    padding:12px 14px 11px;
+    box-shadow:0 2px 12px #00000012;
 }
 
 .header-row{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:9px;
 }
 
 .logo{
-    width:54px;
-    height:54px;
+    width:50px;
+    height:50px;
     border-radius:15px;
-    background:#ff5a00;
+    background:var(--orange);
     color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:34px;
-    font-weight:bold;
+    display:grid;
+    place-items:center;
+    font-size:31px;
+    font-weight:800;
 }
 
 .brand{
     flex:1;
+    min-width:0;
 }
 
-.brand h2{
-    font-size:24px;
+.brand h1{
+    font-size:23px;
+    line-height:1;
 }
 
 .brand p{
     font-size:11px;
     color:#777;
-    margin-top:3px;
+    margin-top:5px;
 }
 
-.header-icon{
-    width:46px;
-    height:46px;
+.icon-btn{
+    position:relative;
+    width:45px;
+    height:45px;
     border:0;
     border-radius:50%;
     background:#f4f5f6;
-    font-size:24px;
-    position:relative;
-}
-
-.cart-badge{
-    position:absolute;
-    right:-2px;
-    top:-2px;
-    width:20px;
-    height:20px;
-    background:#ff5a00;
-    color:#fff;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:10px;
-    font-weight:bold;
-}
-
-.search-box{
-    margin-top:12px;
-    background:#f1f2f4;
-    border-radius:14px;
-    padding:13px 15px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.search-box span{
     font-size:22px;
 }
 
-.search-box input{
-    width:100%;
+.badge{
+    position:absolute;
+    right:-1px;
+    top:-2px;
+    min-width:19px;
+    height:19px;
+    padding:0 5px;
+    border-radius:12px;
+    background:var(--orange);
+    color:#fff;
+    font-size:10px;
+    font-weight:800;
+    display:grid;
+    place-items:center;
+}
+
+.search{
+    margin-top:11px;
+    background:#f1f2f4;
+    border-radius:14px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    padding:0 14px;
+    gap:9px;
+}
+
+.search span{
+    font-size:21px;
+}
+
+.search input{
     border:0;
     outline:0;
     background:transparent;
+    width:100%;
     font-size:16px;
 }
+
 
 /* ================= SCREENS ================= */
 
 .screen{
     display:none;
-    padding:18px;
-    min-height:calc(100vh - 160px);
+    padding:16px;
+    min-height:calc(100vh - 155px);
 }
 
 .screen.active{
     display:block;
+    animation:fade .16s ease;
 }
 
-.screen-header{
+@keyframes fade{
+    from{
+        opacity:.3;
+        transform:translateY(5px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.screen-head{
     display:flex;
     align-items:center;
-    gap:12px;
-    margin-bottom:18px;
+    gap:10px;
+    margin-bottom:15px;
 }
 
-.back-btn{
+.back{
     width:42px;
     height:42px;
     border:0;
-    background:#fff;
     border-radius:12px;
-    font-size:26px;
+    background:#fff;
+    font-size:28px;
 }
 
-.screen-header h2{
+.screen-head h2{
     font-size:22px;
 }
+
 
 /* ================= HOME ================= */
 
 .hero{
     background:#fff0e5;
-    border-radius:25px;
-    padding:25px;
-    min-height:420px;
+    border-radius:24px;
+    padding:24px;
+    min-height:405px;
     position:relative;
     overflow:hidden;
 }
 
-.hero-label{
-    color:#ee5700;
+.kicker{
     font-size:12px;
-    font-weight:bold;
+    font-weight:800;
     letter-spacing:2px;
+    color:#ed5700;
 }
 
-.hero h1{
-    font-size:36px;
-    line-height:1.08;
-    margin-top:30px;
+.hero h2{
     position:relative;
     z-index:2;
+    font-size:36px;
+    line-height:1.08;
+    margin-top:28px;
+    max-width:95%;
 }
 
-.hero h1 span{
-    color:#ff5700;
+.hero h2 span{
+    color:var(--orange);
 }
 
 .hero p{
-    color:#666;
-    font-size:17px;
-    line-height:1.5;
-    margin:22px 0;
     position:relative;
-    z-index:2;
+    z-index:3;
+    color:#666;
+    font-size:16px;
+    line-height:1.5;
+    margin:18px 0;
+    max-width:92%;
 }
 
-.primary-btn{
-    background:#ff5a00;
-    color:#fff;
+.btn{
     border:0;
     border-radius:11px;
-    padding:14px 20px;
-    font-size:16px;
-    font-weight:bold;
-    box-shadow:0 5px 12px rgba(255,90,0,.2);
+    padding:13px 18px;
+    font-weight:800;
+    background:var(--orange);
+    color:#fff;
+    box-shadow:0 5px 12px #ff5a0030;
+}
+
+.btn.light{
+    background:#fff;
+    color:var(--orange);
+    box-shadow:none;
+    border:1px solid #eee;
 }
 
 .hero-circle{
     position:absolute;
-    width:260px;
-    height:260px;
+    width:270px;
+    height:270px;
     border-radius:50%;
     background:#ff9c4b;
-    right:-55px;
-    bottom:-55px;
+    right:-58px;
+    bottom:-66px;
 }
 
-.hero-products{
+.hero-items{
     position:absolute;
-    right:20px;
-    bottom:15px;
-    font-size:48px;
-    line-height:1.3;
     z-index:3;
+    right:17px;
+    bottom:17px;
+    font-size:46px;
+    line-height:1.25;
 }
 
-.section-title{
+.section-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin:28px 2px 14px;
+    margin:25px 2px 13px;
 }
 
-.section-title h2{
-    font-size:23px;
+.section-head h2{
+    font-size:22px;
 }
 
-.section-title button{
+.section-head button{
     border:0;
     background:none;
-    color:#ff5a00;
-    font-weight:bold;
+    color:var(--orange);
+    font-weight:800;
 }
+
 
 /* ================= CATEGORIES ================= */
 
-.category-grid{
+.cat-grid{
     display:grid;
     grid-template-columns:repeat(3,1fr);
-    gap:10px;
+    gap:9px;
 }
 
-.category-card{
+.cat{
     background:#fff;
     border:1px solid #eee;
     border-radius:17px;
-    padding:18px 7px;
-    min-height:115px;
+    min-height:112px;
+    padding:12px 5px;
     display:flex;
     flex-direction:column;
-    align-items:center;
     justify-content:center;
-    gap:10px;
-    font-weight:bold;
+    align-items:center;
+    gap:8px;
+    font-weight:800;
 }
 
-.category-card:active{
-    transform:scale(.96);
+.cat-icon{
+    font-size:37px;
 }
 
-.category-icon{
-    font-size:40px;
+.cat small{
+    font-size:12px;
 }
 
-/* ================= FLASH ================= */
+
+/* ================= FLASH SALE ================= */
 
 .flash{
     background:#fff0eb;
     border-radius:20px;
-    padding:22px;
+    padding:20px;
+    min-height:180px;
     position:relative;
     overflow:hidden;
-    min-height:175px;
 }
 
-.flash h2{
+.flash h3{
     color:#df4935;
-    margin-bottom:8px;
+    font-size:20px;
 }
 
 .flash p{
-    color:#555;
-    margin-bottom:12px;
+    color:#666;
+    margin:8px 0;
 }
 
 .timer{
-    color:#df4935;
-    font-weight:bold;
     font-size:20px;
-    margin-bottom:12px;
+    font-weight:800;
+    color:#df4935;
+    margin:9px 0 12px;
 }
 
-.flash-icon{
+.flash-art{
     position:absolute;
-    right:22px;
-    top:48px;
+    right:20px;
+    top:43px;
     font-size:70px;
 }
 
+
 /* ================= PRODUCTS ================= */
 
-.product-grid{
+.grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:12px;
+    gap:11px;
 }
 
-.product-card{
+.card{
     background:#fff;
+    border:1px solid #eee;
     border-radius:17px;
     overflow:hidden;
-    border:1px solid #eee;
+    min-width:0;
 }
 
-.product-image{
-    height:160px;
-    background:#f2f3f4;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:72px;
+.pic{
+    height:158px;
+    background:#f2f3f5;
+    display:grid;
+    place-items:center;
     position:relative;
+    font-size:70px;
 }
 
-.sale-label{
+.tag{
     position:absolute;
-    top:8px;
     left:8px;
-    background:#ff5a00;
-    color:white;
-    font-size:10px;
-    padding:5px 8px;
+    top:8px;
+    background:var(--orange);
+    color:#fff;
+    padding:5px 7px;
     border-radius:6px;
-    font-weight:bold;
+    font-size:9px;
+    font-weight:800;
 }
 
-.product-info{
-    padding:11px;
+.info{
+    padding:10px;
 }
 
-.product-name{
-    font-weight:bold;
+.name{
     font-size:14px;
-    min-height:36px;
+    font-weight:800;
     line-height:1.3;
+    min-height:37px;
 }
 
-.rating{
+.stars{
     font-size:11px;
     color:#777;
-    margin-top:5px;
+    margin-top:4px;
 }
 
 .price{
-    color:#ff5700;
+    color:var(--orange);
     font-size:17px;
-    font-weight:bold;
+    font-weight:900;
     margin-top:6px;
 }
 
-.old-price{
+.old{
+    font-size:10px;
     color:#999;
     text-decoration:line-through;
-    font-size:10px;
     margin-left:3px;
 }
 
-.add-cart{
+.add{
     width:calc(100% - 20px);
     margin:0 10px 10px;
     border:0;
     border-radius:9px;
     padding:10px;
-    background:#ff5a00;
-    color:white;
-    font-weight:bold;
+    background:var(--orange);
+    color:#fff;
+    font-weight:800;
 }
 
-/* ================= PRODUCT DETAIL ================= */
 
-.detail-card{
+/* ================= PRODUCT DETAILS ================= */
+
+.detail{
     background:#fff;
     border-radius:20px;
-    padding:15px;
+    padding:14px;
 }
 
-.detail-image{
+.detail-pic{
     height:290px;
-    border-radius:17px;
-    background:#f2f3f4;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    background:#f2f3f5;
+    border-radius:16px;
+    display:grid;
+    place-items:center;
     font-size:130px;
+    overflow:hidden;
 }
 
-.detail-name{
-    font-size:24px;
-    margin-top:18px;
+.detail h1{
+    font-size:23px;
+    margin-top:16px;
 }
 
-.detail-rating{
+.detail .stars{
     margin-top:8px;
 }
 
 .detail-price{
-    color:#ff5700;
     font-size:28px;
-    font-weight:bold;
-    margin-top:12px;
+    color:var(--orange);
+    font-weight:900;
+    margin-top:10px;
 }
 
-.detail-description{
+.desc{
     color:#666;
-    line-height:1.6;
-    margin:16px 0;
+    line-height:1.55;
+    margin:13px 0 17px;
 }
 
-.buy-buttons{
+.buy-row{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:10px;
+    gap:9px;
 }
 
-.buy-btn{
+.buy-row button{
     border:0;
-    padding:14px;
     border-radius:10px;
-    background:#ff5a00;
+    padding:14px;
+    font-weight:800;
     color:#fff;
-    font-weight:bold;
+    background:var(--orange);
 }
 
-.buy-btn.secondary{
-    background:#ff8b43;
+.buy-row .alt{
+    background:#ff8a43;
 }
+
 
 /* ================= CART ================= */
 
-.cart-item{
+.cart-row{
     background:#fff;
     border-radius:16px;
-    padding:11px;
+    padding:10px;
     display:flex;
-    gap:11px;
+    gap:10px;
     margin-bottom:10px;
 }
 
-.cart-image{
-    width:78px;
-    height:78px;
+.cart-pic{
+    width:76px;
+    height:76px;
     border-radius:12px;
-    background:#f2f3f4;
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    background:#f2f3f5;
+    display:grid;
+    place-items:center;
     font-size:40px;
+    overflow:hidden;
+    flex:none;
 }
 
 .cart-info{
     flex:1;
+    min-width:0;
 }
 
 .cart-info h3{
     font-size:14px;
-    margin-bottom:5px;
 }
 
-.quantity{
+.cart-info .price{
+    font-size:15px;
+}
+
+.qty{
     display:flex;
     align-items:center;
-    gap:8px;
-    margin-top:8px;
+    gap:7px;
+    margin-top:7px;
 }
 
-.quantity button{
+.qty button{
     width:28px;
     height:28px;
     border:0;
     border-radius:7px;
     background:#eee;
-    font-weight:bold;
+    font-weight:900;
 }
 
 .remove{
     border:0;
     background:none;
-    color:#ff5a00;
+    color:var(--orange);
     font-size:11px;
-    margin-top:6px;
+    margin-top:4px;
 }
 
-.order-summary{
+.summary{
     background:#fff;
     border-radius:17px;
-    padding:17px;
-    margin-top:15px;
+    padding:16px;
+    margin-top:13px;
 }
 
-.summary-row{
+.sum{
     display:flex;
     justify-content:space-between;
-    margin:10px 0;
+    margin:9px 0;
+    color:#555;
 }
 
-.summary-total{
+.total{
     border-top:1px solid #eee;
-    padding-top:13px;
+    padding-top:12px;
+    margin-top:12px;
     font-size:19px;
-    font-weight:bold;
+    font-weight:900;
+    color:#222;
 }
 
-/* ================= FORMS ================= */
-
-.form-card{
+.empty{
     background:#fff;
     border-radius:18px;
-    padding:17px;
-}
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    font-size:13px;
-    font-weight:bold;
-    margin-bottom:7px;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    padding:13px;
-    border:1px solid #ddd;
-    border-radius:10px;
-    outline:none;
-    font-size:14px;
-}
-
-.payment-option{
-    background:#f5f5f5;
-    padding:13px;
-    border-radius:10px;
-    margin-bottom:8px;
-}
-
-/* ================= ACCOUNT ================= */
-
-.account-banner{
-    background:linear-gradient(135deg,#ff5a00,#ff8c3d);
-    color:#fff;
-    padding:25px;
-    border-radius:20px;
+    padding:42px 18px;
     text-align:center;
 }
 
+.empty .big{
+    font-size:58px;
+    margin-bottom:10px;
+}
+
+.empty p{
+    color:#777;
+    margin:8px 0 18px;
+}
+
+
+/* ================= FORMS ================= */
+
+.form{
+    background:#fff;
+    border-radius:18px;
+    padding:16px;
+}
+
+.field{
+    margin-bottom:14px;
+}
+
+.field label{
+    display:block;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:7px;
+}
+
+.field input,
+.field textarea,
+.field select{
+    width:100%;
+    border:1px solid #ddd;
+    border-radius:10px;
+    padding:12px;
+    outline:none;
+    background:#fff;
+}
+
+.payment{
+    background:#f5f5f5;
+    border-radius:10px;
+    padding:12px;
+    margin:7px 0;
+}
+
+.payment label{
+    font-size:14px;
+}
+
+
+/* ================= ACCOUNT ================= */
+
+.account-top{
+    background:linear-gradient(
+        135deg,
+        #ff5a00,
+        #ff8b3d
+    );
+    color:#fff;
+    border-radius:20px;
+    text-align:center;
+    padding:24px;
+}
+
 .avatar{
-    width:70px;
-    height:70px;
+    width:68px;
+    height:68px;
     border-radius:50%;
     background:#fff;
-    color:#ff5a00;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:35px;
+    color:var(--orange);
+    display:grid;
+    place-items:center;
     margin:auto;
+    font-size:33px;
 }
 
 .account-menu{
-    margin-top:15px;
+    margin-top:13px;
     background:#fff;
     border-radius:17px;
     overflow:hidden;
@@ -601,127 +696,189 @@ button{
 
 .account-menu button{
     width:100%;
-    border:0;
     background:#fff;
+    border:0;
+    border-bottom:1px solid #eee;
     padding:17px;
     text-align:left;
-    border-bottom:1px solid #eee;
     font-size:15px;
 }
 
+.account-menu button:last-child{
+    border-bottom:0;
+}
+
+
 /* ================= ORDERS ================= */
 
-.order-card{
+.order{
     background:#fff;
     border-radius:17px;
-    padding:16px;
-    margin-bottom:12px;
+    padding:15px;
+    margin-bottom:11px;
 }
 
-.order-status{
-    color:#159447;
-    font-weight:bold;
-    float:right;
+.order-top{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:#777;
 }
 
-/* ================= EMPTY ================= */
-
-.empty{
-    background:#fff;
-    border-radius:18px;
-    padding:40px 20px;
-    text-align:center;
+.status{
+    color:var(--green);
+    font-weight:800;
 }
 
-.empty-icon{
-    font-size:60px;
-    margin-bottom:15px;
+.order h3{
+    font-size:15px;
+    margin:9px 0;
 }
+
+.order p{
+    font-size:13px;
+    color:#666;
+}
+
 
 /* ================= BOTTOM NAV ================= */
 
-.bottom-nav{
+.bottom{
     position:fixed;
-    bottom:0;
     left:50%;
+    bottom:0;
     transform:translateX(-50%);
     width:100%;
     max-width:520px;
     height:72px;
     background:#fff;
     border-top:1px solid #ddd;
+    z-index:100;
     display:grid;
     grid-template-columns:repeat(5,1fr);
-    z-index:100;
 }
 
-.bottom-nav button{
+.bottom button{
     border:0;
     background:#fff;
     color:#777;
     font-size:10px;
 }
 
-.bottom-nav button span{
+.bottom button span{
     display:block;
-    font-size:22px;
+    font-size:21px;
     margin-bottom:3px;
 }
 
-.bottom-nav button.active{
-    color:#ff5a00;
-    font-weight:bold;
+.bottom button.active{
+    color:var(--orange);
+    font-weight:900;
 }
+
 
 /* ================= TOAST ================= */
 
 .toast{
     position:fixed;
+    z-index:300;
     left:50%;
-    bottom:90px;
-    transform:translateX(-50%) translateY(20px);
+    bottom:88px;
+    transform:translate(-50%,20px);
     background:#222;
     color:#fff;
     padding:12px 18px;
-    border-radius:25px;
+    border-radius:24px;
+    font-size:13px;
     opacity:0;
     pointer-events:none;
     transition:.25s;
-    z-index:200;
     white-space:nowrap;
 }
 
 .toast.show{
     opacity:1;
-    transform:translateX(-50%) translateY(0);
+    transform:translate(-50%,0);
 }
 
-/* ================= RESPONSIVE ================= */
+
+/* ================= MODAL ================= */
+
+.modal-back{
+    position:fixed;
+    inset:0;
+    background:#0007;
+    z-index:250;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+}
+
+.modal-back.show{
+    display:flex;
+}
+
+.modal{
+    width:100%;
+    max-width:520px;
+    background:#fff;
+    border-radius:24px 24px 0 0;
+    padding:20px;
+    max-height:85vh;
+    overflow:auto;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.close{
+    border:0;
+    background:#f1f2f4;
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    font-size:20px;
+}
+
+
+/* ================= MOBILE ================= */
 
 @media(max-width:360px){
 
-    .hero h1{
+    .hero h2{
         font-size:30px;
     }
 
-    .category-grid{
-        gap:7px;
-    }
-
-    .category-card{
-        font-size:13px;
-    }
-
-    .product-grid{
+    .grid{
         gap:8px;
     }
+
+    .cat-grid{
+        gap:6px;
+    }
+
+    .cat{
+        font-size:12px;
+    }
+
+    .pic{
+        height:145px;
+    }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
-<div class="app">
+<div id="app">
+
 
 <!-- ================= HEADER ================= -->
 
@@ -729,332 +886,556 @@ button{
 
     <div class="header-row">
 
-        <div class="logo">B</div>
-
-        <div class="brand">
-            <h2>BismiMart</h2>
-            <p>Sab Kuch, Aasaan!</p>
+        <div class="logo">
+            B
         </div>
 
-        <button class="header-icon" onclick="openScreen('account')">
+        <div class="brand">
+
+            <h1>
+                BismiMart
+            </h1>
+
+            <p>
+                Sab Kuch, Aasaan!
+            </p>
+
+        </div>
+
+        <button
+            class="icon-btn"
+            onclick="showScreen('account')">
+
             👤
+
         </button>
 
-        <button class="header-icon" onclick="openCart()">
+
+        <button
+            class="icon-btn"
+            onclick="showScreen('cart')">
+
             🛒
-            <span class="cart-badge" id="cartBadge">0</span>
+
+            <b
+                class="badge"
+                id="cartBadge">
+
+                0
+
+            </b>
+
         </button>
 
     </div>
 
-    <div class="search-box">
 
-        <span>🔍</span>
+    <div class="search">
+
+        <span>
+            🔍
+        </span>
 
         <input
-            type="text"
             id="searchInput"
             placeholder="Search products..."
-            onkeydown="searchProducts(event)"
-        >
+            autocomplete="off">
 
     </div>
 
 </header>
 
 
-<!-- ================================================= -->
-<!-- HOME -->
-<!-- ================================================= -->
 
-<section id="homeScreen" class="screen active">
+<!-- ================= HOME ================= -->
+
+<section
+    class="screen active"
+    id="home">
+
 
     <div class="hero">
 
-        <div class="hero-label">
+        <div class="kicker">
+
             WELCOME TO BISMI MART
+
         </div>
 
-        <h1>
+
+        <h2>
+
             Everything You Need,
-            <span>All in One Place.</span>
-        </h1>
+
+            <span>
+                All in One Place.
+            </span>
+
+        </h2>
+
 
         <p>
-            Shop mobiles, electronics, fashion, home products and much more.
+
+            Shop mobiles, electronics,
+            fashion, home products and much more.
+
         </p>
 
-        <button class="primary-btn" onclick="openShop()">
+
+        <button
+            class="btn"
+            onclick="openShop()">
+
             Shop Now →
+
         </button>
+
 
         <div class="hero-circle"></div>
 
-        <div class="hero-products">
-            📱 🎧<br>
+
+        <div class="hero-items">
+
+            📱 🎧
+            <br>
             👜 👟
+
         </div>
 
     </div>
 
 
-    <div class="section-title">
-        <h2>Shop by Category</h2>
-        <button onclick="openCategories()">View All</button>
+
+    <div class="section-head">
+
+        <h2>
+            Shop by Category
+        </h2>
+
+        <button
+            onclick="showScreen('categories')">
+
+            View All
+
+        </button>
+
     </div>
 
-    <div class="category-grid" id="homeCategories"></div>
 
+    <div
+        class="cat-grid"
+        id="homeCats">
 
-    <div class="section-title">
-        <h2>Flash Sale ⚡</h2>
-        <button onclick="openFlashSale()">View All</button>
     </div>
+
+
+
+    <div class="section-head">
+
+        <h2>
+            Flash Sale ⚡
+        </h2>
+
+        <button
+            onclick="openShop('sale')">
+
+            View All
+
+        </button>
+
+    </div>
+
 
     <div class="flash">
 
-        <h2>FLASH SALE ⚡</h2>
+        <h3>
+            FLASH SALE ⚡
+        </h3>
 
-        <p>Up to 60% OFF</p>
+        <p>
+            Up to 60% OFF
+        </p>
 
-        <div class="timer" id="timer">
+
+        <div
+            class="timer"
+            id="timer">
+
             02 : 45 : 30
+
         </div>
 
-        <button class="primary-btn" onclick="openFlashSale()">
+
+        <button
+            class="btn"
+            onclick="openShop('sale')">
+
             Shop Now
+
         </button>
 
-        <div class="flash-icon">
+
+        <div class="flash-art">
+
             🎧
+
         </div>
 
     </div>
 
 
-    <div class="section-title">
-        <h2>Top Products</h2>
-        <button onclick="openShop()">View All</button>
+
+    <div class="section-head">
+
+        <h2>
+            Top Products
+        </h2>
+
+        <button
+            onclick="openShop()">
+
+            View All
+
+        </button>
+
     </div>
 
-    <div class="product-grid" id="homeProducts"></div>
+
+    <div
+        class="grid"
+        id="homeProducts">
+
+    </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- SHOP -->
-<!-- ================================================= -->
 
-<section id="shopScreen" class="screen">
+<!-- ================= SHOP ================= -->
 
-    <div class="screen-header">
+<section
+    class="screen"
+    id="shop">
 
-        <button class="back-btn" onclick="goBack()">
+
+    <div class="screen-head">
+
+        <button
+            class="back"
+            onclick="goBack()">
+
             ‹
+
         </button>
 
+
         <h2 id="shopTitle">
+
             Shop
+
         </h2>
 
     </div>
 
-    <div class="product-grid" id="shopProducts"></div>
+
+    <div
+        class="grid"
+        id="shopProducts">
+
+    </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- CATEGORIES -->
-<!-- ================================================= -->
 
-<section id="categoriesScreen" class="screen">
+<!-- ================= CATEGORIES ================= -->
 
-    <div class="screen-header">
+<section
+    class="screen"
+    id="categories">
 
-        <button class="back-btn" onclick="goBack()">
+
+    <div class="screen-head">
+
+        <button
+            class="back"
+            onclick="goBack()">
+
             ‹
+
         </button>
 
-        <h2>Categories</h2>
+
+        <h2>
+            Categories
+        </h2>
 
     </div>
 
-    <div class="category-grid" id="allCategories"></div>
+
+    <div
+        class="cat-grid"
+        id="allCats">
+
+    </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- SEARCH -->
-<!-- ================================================= -->
 
-<section id="searchScreen" class="screen">
+<!-- ================= SEARCH ================= -->
 
-    <div class="screen-header">
+<section
+    class="screen"
+    id="search">
 
-        <button class="back-btn" onclick="goBack()">
+
+    <div class="screen-head">
+
+        <button
+            class="back"
+            onclick="goBack()">
+
             ‹
+
         </button>
 
-        <h2>Search Results</h2>
+
+        <h2>
+            Search Results
+        </h2>
 
     </div>
 
-    <div class="product-grid" id="searchResults"></div>
+
+    <p
+        id="searchText"
+        style="color:#777;margin-bottom:12px">
+
+    </p>
+
+
+    <div
+        class="grid"
+        id="searchResults">
+
+    </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- PRODUCT DETAILS -->
-<!-- ================================================= -->
 
-<section id="productScreen" class="screen">
+<!-- ================= PRODUCT DETAIL ================= -->
 
-    <div class="screen-header">
+<section
+    class="screen"
+    id="detail">
 
-        <button class="back-btn" onclick="goBack()">
+
+    <div class="screen-head">
+
+        <button
+            class="back"
+            onclick="goBack()">
+
             ‹
+
         </button>
 
-        <h2>Product Details</h2>
+
+        <h2>
+            Product Details
+        </h2>
 
     </div>
 
-    <div id="productDetails"></div>
+
+    <div
+        id="detailContent">
+
+    </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- CART -->
-<!-- ================================================= -->
 
-<section id="cartScreen" class="screen">
+<!-- ================= CART ================= -->
 
-    <div class="screen-header">
+<section
+    class="screen"
+    id="cart">
 
-        <button class="back-btn" onclick="goBack()">
+
+    <div class="screen-head">
+
+        <button
+            class="back"
+            onclick="goBack()">
+
             ‹
+
         </button>
 
-        <h2>My Cart</h2>
+
+        <h2>
+            My Cart
+        </h2>
 
     </div>
 
-    <div id="cartContent"></div>
+
+    <div
+        id="cartContent">
+
+    </div>
 
 </section>
 
 
-<!-- ================================================= -->
-<!-- CHECKOUT -->
-<!-- ================================================= -->
 
-<section id="checkoutScreen" class="screen">
+<!-- ================= CHECKOUT ================= -->
 
-    <div class="screen-header">
+<section
+    class="screen"
+    id="checkout">
 
-        <button class="back-btn" onclick="goBack()">
+
+    <div class="screen-head">
+
+        <button
+            class="back"
+            onclick="goBack()">
+
             ‹
+
         </button>
 
-        <h2>Checkout</h2>
+
+        <h2>
+            Checkout
+        </h2>
 
     </div>
 
-    <div class="form-card">
 
-        <div class="form-group">
+    <div class="form">
 
-            <label>Full Name</label>
+
+        <div class="field">
+
+            <label>
+                Full Name
+            </label>
 
             <input
-                type="text"
                 id="customerName"
-                placeholder="Enter your name"
-            >
+                placeholder="Enter your name">
 
         </div>
 
 
-        <div class="form-group">
 
-            <label>Mobile Number</label>
+        <div class="field">
+
+            <label>
+                Mobile Number
+            </label>
 
             <input
-                type="tel"
                 id="customerPhone"
-                placeholder="03XXXXXXXXX"
-            >
+                type="tel"
+                placeholder="03XXXXXXXXX">
 
         </div>
 
 
-        <div class="form-group">
 
-            <label>Delivery Address</label>
+        <div class="field">
+
+            <label>
+                Delivery Address
+            </label>
 
             <textarea
                 id="customerAddress"
                 rows="4"
-                placeholder="Enter complete delivery address"
-            ></textarea>
+                placeholder="House, street, area, city"></textarea>
 
         </div>
 
 
-        <div class="form-group">
 
-            <label>Payment Method</label>
+        <div class="field">
 
-            <div class="payment-option">
+            <label>
+                Payment Method
+            </label>
+
+
+            <div class="payment">
+
                 <label>
+
                     <input
                         type="radio"
                         name="payment"
                         value="Cash on Delivery"
-                        checked
-                    >
+                        checked>
+
                     💵 Cash on Delivery
+
                 </label>
+
             </div>
 
-            <div class="payment-option">
+
+            <div class="payment">
+
                 <label>
+
                     <input
                         type="radio"
                         name="payment"
-                        value="Easypaisa"
-                    >
+                        value="Easypaisa">
+
                     📱 Easypaisa
+
                 </label>
+
             </div>
 
-            <div class="payment-option">
+
+            <div class="payment">
+
                 <label>
+
                     <input
                         type="radio"
                         name="payment"
-                        value="JazzCash"
-                    >
+                        value="JazzCash">
+
                     📱 JazzCash
+
                 </label>
+
             </div>
 
         </div>
 
 
-        <div id="checkoutSummary"></div>
+        <div
+            id="checkoutSummary">
+
+        </div>
+
 
         <button
-            class="primary-btn"
-            style="width:100%;margin-top:15px"
-            onclick="placeOrder()"
-        >
+            class="btn"
+            style="width:100%;margin-top:12px"
+            onclick="placeOrder()">
+
             Place Order
+
         </button>
 
     </div>
@@ -1062,1123 +1443,5 @@ button{
 </section>
 
 
-<!-- ================================================= -->
-<!-- ORDERS -->
-<!-- ================================================= -->
 
-<section id="ordersScreen" class="screen">
-
-    <div class="screen-header">
-
-        <button class="back-btn" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>My Orders</h2>
-
-    </div>
-
-    <div id="ordersContent"></div>
-
-</section>
-
-
-<!-- ================================================= -->
-<!-- WISHLIST -->
-<!-- ================================================= -->
-
-<section id="wishlistScreen" class="screen">
-
-    <div class="screen-header">
-
-        <button class="back-btn" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Wishlist ❤️</h2>
-
-    </div>
-
-    <div class="product-grid" id="wishlistContent"></div>
-
-</section>
-
-
-<!-- ================================================= -->
-<!-- ACCOUNT -->
-<!-- ================================================= -->
-
-<section id="accountScreen" class="screen">
-
-    <div class="screen-header">
-
-        <button class="back-btn" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>My Account</h2>
-
-    </div>
-
-
-    <div class="account-banner">
-
-        <div class="avatar">
-            👤
-        </div>
-
-        <h2 style="margin-top:12px">
-            <span id="accountName">
-                Welcome
-            </span>
-        </h2>
-
-        <p style="margin-top:6px">
-            Manage your BismiMart account
-        </p>
-
-    </div>
-
-
-    <div class="account-menu">
-
-        <button onclick="loginUser()">
-            👤 Login / Sign Up
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="openOrders()">
-            📦 My Orders
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="openCart()">
-            🛒 My Cart
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="openWishlist()">
-            ❤️ Wishlist
-            <span style="float:right">›</span>
-        
-        <button onclick="openWishlist()">
-            ❤️ Wishlist
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="openCategories()">
-            🛍️ Shop by Category
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="showHelp()">
-            ❓ Help & Support
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="showAbout()">
-            ℹ️ About BismiMart
-            <span style="float:right">›</span>
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================================================= -->
-<!-- LOGIN / SIGN UP -->
-<!-- ================================================= -->
-
-<section id="loginScreen" class="screen">
-
-    <div class="screen-header">
-
-        <button class="back-btn" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Login / Sign Up</h2>
-
-    </div>
-
-    <div class="form-card">
-
-        <div class="form-group">
-
-            <label>Mobile Number</label>
-
-            <input
-                type="tel"
-                id="loginPhone"
-                placeholder="03XXXXXXXXX"
-            >
-
-        </div>
-
-        <div class="form-group">
-
-            <label>Password</label>
-
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Enter password"
-            >
-
-        </div>
-
-        <button
-            class="primary-btn"
-            style="width:100%"
-            onclick="loginAccount()"
-        >
-            Login
-        </button>
-
-        <p style="text-align:center;margin:18px 0;color:#777">
-            Don't have an account?
-        </p>
-
-        <button
-            class="buy-btn secondary"
-            style="width:100%"
-            onclick="signupAccount()"
-        >
-            Create New Account
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================================================= -->
-<!-- HELP -->
-<!-- ================================================= -->
-
-<section id="helpScreen" class="screen">
-
-    <div class="screen-header">
-
-        <button class="back-btn" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>Help & Support</h2>
-
-    </div>
-
-    <div class="account-menu">
-
-        <button onclick="showToast('Customer support will be available soon')">
-            📞 Contact Support
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="showToast('Orders can be tracked from My Orders')">
-            📦 Track My Order
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="showToast('Returns & refunds information coming soon')">
-            🔄 Returns & Refunds
-            <span style="float:right">›</span>
-        </button>
-
-        <button onclick="showToast('Payment support available soon')">
-            💳 Payment Help
-            <span style="float:right">›</span>
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================================================= -->
-<!-- ABOUT -->
-<!-- ================================================= -->
-
-<section id="aboutScreen" class="screen">
-
-    <div class="screen-header">
-
-        <button class="back-btn" onclick="goBack()">
-            ‹
-        </button>
-
-        <h2>About BismiMart</h2>
-
-    </div>
-
-    <div class="form-card">
-
-        <div style="text-align:center;font-size:60px">
-            🛍️
-        </div>
-
-        <h2 style="text-align:center;margin:15px 0">
-            BismiMart
-        </h2>
-
-        <p style="text-align:center;color:#666;line-height:1.7">
-            Sab Kuch, Aasaan!
-        </p>
-
-        <p style="margin-top:20px;color:#666;line-height:1.7">
-            BismiMart is an online marketplace concept where
-            customers can discover mobiles, electronics, fashion,
-            home products and many other items in one place.
-        </p>
-
-        <div style="
-            margin-top:20px;
-            padding:15px;
-            background:#fff0e5;
-            border-radius:12px;
-            text-align:center;
-        ">
-            🛒 Shop Easy &nbsp; • &nbsp;
-            🚚 Fast Delivery &nbsp; • &nbsp;
-            ⭐ Quality Products
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================================================= -->
-<!-- BOTTOM NAVIGATION -->
-<!-- ================================================= -->
-
-<nav class="bottom-nav">
-
-    <button
-        id="navHome"
-        class="active"
-        onclick="openHome()"
-    >
-        <span>🏠</span>
-        Home
-    </button>
-
-    <button
-        id="navCategories"
-        onclick="openCategories()"
-    >
-        <span>▦</span>
-        Categories
-    </button>
-
-    <button
-        id="navCart"
-        onclick="openCart()"
-    >
-        <span style="position:relative">
-            🛒
-            <small
-                id="bottomCartBadge"
-                style="
-                    position:absolute;
-                    top:-5px;
-                    right:-10px;
-                    background:#ff5a00;
-                    color:#fff;
-                    border-radius:50%;
-                    width:17px;
-                    height:17px;
-                    font-size:9px;
-                    display:none;
-                    align-items:center;
-                    justify-content:center;
-                "
-            >0</small>
-        </span>
-        Cart
-    </button>
-
-    <button
-        id="navOrders"
-        onclick="openOrders()"
-    >
-        <span>📦</span>
-        Orders
-    </button>
-
-    <button
-        id="navAccount"
-        onclick="openScreen('account')"
-    >
-        <span>👤</span>
-        Account
-    </button>
-
-</nav>
-
-
-<!-- ================================================= -->
-<!-- TOAST -->
-<!-- ================================================= -->
-
-<div id="toast" class="toast">
-    Added to cart
-</div>
-
-</div>
-
-
-<!-- ================================================= -->
-<!-- JAVASCRIPT -->
-<!-- ================================================= -->
-
-<script>
-
-const products = [
-
-    {
-        id:1,
-        name:"Smartphone Pro Max",
-        category:"Mobiles",
-        price:59999,
-        oldPrice:69999,
-        rating:"⭐ 4.8",
-        icon:"📱",
-        sale:true,
-        description:"Powerful smartphone with modern design, large display and excellent performance."
-    },
-
-    {
-        id:2,
-        name:"Wireless Headphones",
-        category:"Electronics",
-        price:3999,
-        oldPrice:5999,
-        rating:"⭐ 4.7",
-        icon:"🎧",
-        sale:true,
-        description:"Comfortable wireless headphones with clear sound and long battery life."
-    },
-
-    {
-        id:3,
-        name:"Men's Fashion T-Shirt",
-        category:"Fashion",
-        price:1499,
-        oldPrice:1999,
-        rating:"⭐ 4.5",
-        icon:"👕",
-        sale:true,
-        description:"Comfortable and stylish casual T-shirt for everyday wear."
-    },
-
-    {
-        id:4,
-        name:"Running Shoes",
-        category:"Fashion",
-        price:4499,
-        oldPrice:5999,
-        rating:"⭐ 4.6",
-        icon:"👟",
-        sale:true,
-        description:"Lightweight running shoes designed for comfort and daily use."
-    },
-
-    {
-        id:5,
-        name:"Ladies Handbag",
-        category:"Fashion",
-        price:2999,
-        oldPrice:3999,
-        rating:"⭐ 4.7",
-        icon:"👜",
-        sale:false,
-        description:"Elegant handbag suitable for daily use and special occasions."
-    },
-
-    {
-        id:6,
-        name:"Smart Watch",
-        category:"Electronics",
-        price:4999,
-        oldPrice:6999,
-        rating:"⭐ 4.4",
-        icon:"⌚",
-        sale:true,
-        description:"Smart watch with fitness tracking, notifications and modern design."
-    },
-
-    {
-        id:7,
-        name:"Home Kitchen Set",
-        category:"Home",
-        price:2499,
-        oldPrice:3499,
-        rating:"⭐ 4.5",
-        icon:"🍳",
-        sale:false,
-        description:"Useful kitchen accessories for your everyday home needs."
-    },
-
-    {
-        id:8,
-        name:"Bluetooth Speaker",
-        category:"Electronics",
-        price:2799,
-        oldPrice:3999,
-        rating:"⭐ 4.6",
-        icon:"🔊",
-        sale:true,
-        description:"Portable Bluetooth speaker with powerful sound."
-    },
-
-    {
-        id:9,
-        name:"Laptop",
-        category:"Computers",
-        price:99999,
-        oldPrice:119999,
-        rating:"⭐ 4.8",
-        icon:"💻",
-        sale:true,
-        description:"Modern laptop suitable for work, study and entertainment."
-    },
-
-    {
-        id:10,
-        name:"Gaming Mouse",
-        category:"Computers",
-        price:1999,
-        oldPrice:2499,
-        rating:"⭐ 4.5",
-        icon:"🖱️",
-        sale:false,
-        description:"Responsive gaming mouse with comfortable ergonomic design."
-    }
-
-];
-
-
-const categories = [
-
-    {
-        name:"Mobiles",
-        icon:"📱"
-    },
-
-    {
-        name:"Electronics",
-        icon:"🎧"
-    },
-
-    {
-        name:"Fashion",
-        icon:"👕"
-    },
-
-    {
-        name:"Home",
-        icon:"🏠"
-    },
-
-    {
-        name:"Computers",
-        icon:"💻"
-    },
-
-    {
-        name:"Beauty",
-        icon:"💄"
-    },
-
-    {
-        name:"Grocery",
-        icon:"🛒"
-    },
-
-    {
-        name:"Shoes",
-        icon:"👟"
-    },
-
-    {
-        name:"Accessories",
-        icon:"⌚"
-    }
-
-];
-
-
-let cart = JSON.parse(
-    localStorage.getItem("bismiMartCart") || "[]"
-);
-
-let wishlist = JSON.parse(
-    localStorage.getItem("bismiMartWishlist") || "[]"
-);
-
-let orders = JSON.parse(
-    localStorage.getItem("bismiMartOrders") || "[]"
-);
-
-let currentScreen = "home";
-
-let previousScreen = "home";
-
-
-/* ================================================= */
-/* SCREEN SYSTEM */
-/* ================================================= */
-
-function openScreen(screen){
-
-    previousScreen = currentScreen;
-
-    document.querySelectorAll(".screen").forEach(
-        screenElement => {
-            screenElement.classList.remove("active");
-        }
-    );
-
-    const target =
-        document.getElementById(screen + "Screen");
-
-    if(target){
-        target.classList.add("active");
-        currentScreen = screen;
-    }
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-    updateBottomNavigation();
-
-}
-
-
-function goBack(){
-
-    openScreen(previousScreen || "home");
-
-}
-
-
-function openHome(){
-
-    previousScreen = currentScreen;
-
-    openScreen("home");
-
-}
-
-
-function openShop(){
-
-    previousScreen = currentScreen;
-
-    renderProducts(
-        products,
-        "shopProducts"
-    );
-
-    document.getElementById("shopTitle").textContent =
-        "Shop All Products";
-
-    openScreen("shop");
-
-}
-
-
-function openCategories(){
-
-    previousScreen = currentScreen;
-
-    renderCategories(
-        "allCategories"
-    );
-
-    openScreen("categories");
-
-}
-
-
-function openCart(){
-
-    previousScreen = currentScreen;
-
-    renderCart();
-
-    openScreen("cart");
-
-}
-
-
-function openOrders(){
-
-    previousScreen = currentScreen;
-
-    renderOrders();
-
-    openScreen("orders");
-
-}
-
-
-function openWishlist(){
-
-    previousScreen = currentScreen;
-
-    renderWishlist();
-
-    openScreen("wishlist");
-
-}
-
-
-function openFlashSale(){
-
-    previousScreen = currentScreen;
-
-    const saleProducts =
-        products.filter(product => product.sale);
-
-    document.getElementById("shopTitle").textContent =
-        "Flash Sale ⚡";
-
-    renderProducts(
-        saleProducts,
-        "shopProducts"
-    );
-
-    openScreen("shop");
-
-}
-
-
-/* ================================================= */
-/* CATEGORIES */
-/* ================================================= */
-
-function renderCategories(targetId){
-
-    const target =
-        document.getElementById(targetId);
-
-    target.innerHTML = "";
-
-    categories.forEach(category => {
-
-        const card =
-            document.createElement("button");
-
-        card.className = "category-card";
-
-        card.innerHTML = `
-            <div class="category-icon">
-                ${category.icon}
-            </div>
-
-            <div>
-                ${category.name}
-            </div>
-        `;
-
-        card.onclick = function(){
-
-            openCategory(
-                category.name
-            );
-
-        };
-
-        target.appendChild(card);
-
-    });
-
-}
-
-
-function openCategory(category){
-
-    previousScreen = currentScreen;
-
-    const result =
-        products.filter(
-            product =>
-            product.category.toLowerCase()
-            === category.toLowerCase()
-        );
-
-    document.getElementById("shopTitle").textContent =
-        category;
-
-    renderProducts(
-        result,
-        "shopProducts"
-    );
-
-    openScreen("shop");
-
-}
-
-
-/* ================================================= */
-/* PRODUCTS */
-/* ================================================= */
-
-function renderProducts(list,targetId){
-
-    const target =
-        document.getElementById(targetId);
-
-    target.innerHTML = "";
-
-    if(list.length === 0){
-
-        target.innerHTML = `
-            <div class="empty" style="grid-column:1/-1">
-                <div class="empty-icon">😔</div>
-                <h3>No Products Found</h3>
-                <p style="color:#777;margin-top:8px">
-                    Try another category or search.
-                </p>
-            </div>
-        `;
-
-        return;
-
-    }
-
-
-    list.forEach(product => {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "product-card";
-
-        card.innerHTML = `
-
-            <div
-                class="product-image"
-                onclick="openProduct(${product.id})"
-            >
-
-                ${
-                    product.sale
-                    ? `<div class="sale-label">SALE</div>`
-                    : ""
-                }
-
-                <span>
-                    ${product.icon}
-                </span>
-
-            </div>
-
-            <div class="product-info">
-
-                <div
-                    class="product-name"
-                    onclick="openProduct(${product.id})"
-                >
-                    ${product.name}
-                </div>
-
-                <div class="rating">
-                    ${product.rating}
-                </div>
-
-                <div class="price">
-                    Rs. ${product.price.toLocaleString()}
-                    <span class="old-price">
-                        Rs. ${product.oldPrice.toLocaleString()}
-                    </span>
-                </div>
-
-            </div>
-
-            <button
-                class="add-cart"
-                onclick="addToCart(${product.id})"
-            >
-                🛒 Add to Cart
-            </button>
-
-        `;
-
-        target.appendChild(card);
-
-    });
-
-}
-
-
-/* ================================================= */
-/* PRODUCT DETAIL */
-/* ================================================= */
-
-function openProduct(id){
-
-    previousScreen = currentScreen;
-
-    const product =
-        products.find(
-            item => item.id === id
-        );
-
-    if(!product) return;
-
-    const isWishlisted =
-        wishlist.includes(product.id);
-
-    document.getElementById(
-        "productDetails"
-    ).innerHTML = `
-
-        <div class="detail-card">
-
-            <div class="detail-image">
-                ${product.icon}
-            </div>
-
-            <h1 class="detail-name">
-                ${product.name}
-            </h1>
-
-            <div class="detail-rating">
-                ${product.rating}
-                &nbsp; • &nbsp;
-                ${product.category}
-            </div>
-
-            <div class="detail-price">
-                Rs. ${product.price.toLocaleString()}
-            </div>
-
-            <div style="
-                color:#999;
-                text-decoration:line-through;
-                margin-top:5px;
-            ">
-                Rs. ${product.oldPrice.toLocaleString()}
-            </div>
-
-            <p class="detail-description">
-                ${product.description}
-            </p>
-
-            <button
-                style="
-                    width:100%;
-                    padding:12px;
-                    border:1px solid #eee;
-                    background:#fff;
-                    border-radius:10px;
-                    margin-bottom:12px;
-                "
-                onclick="toggleWishlist(${product.id})"
-            >
-                ${
-                    isWishlisted
-                    ? "❤️ Remove from Wishlist"
-                    : "♡ Add to Wishlist"
-                }
-            </button>
-
-            <div class="buy-buttons">
-
-                <button
-                    class="buy-btn secondary"
-                    onclick="addToCart(${product.id})"
-                >
-                    🛒 Add to Cart
-                </button>
-
-                <button
-                    class="buy-btn"
-                    onclick="buyNow(${product.id})"
-                >
-                    Buy Now
-                </button>
-
-            </div>
-
-        </div>
-
-    `;
-
-    openScreen("product");
-
-}
-
-
-/* ================================================= */
-/* CART */
-/* ================================================= */
-
-function addToCart(id){
-
-    const existing =
-        cart.find(
-            item => item.id === id
-        );
-
-    if(existing){
-
-        existing.quantity++;
-
-    }else{
-
-        cart.push({
-            id:id,
-            quantity:1
-        });
-
-    }
-
-    saveCart();
-
-    updateCartBadge();
-
-    showToast("Added to cart 🛒");
-
-}
-
-
-function saveCart(){
-
-    localStorage.setItem(
-        "bismiMartCart",
-        JSON.stringify(cart)
-    );
-
-}
-
-
-function updateCartBadge(){
-
-    const total =
-        cart.reduce(
-            (sum,item) =>
-            sum + item.quantity,
-            0
-        );
-
-    document.getElementById(
-        "cartBadge"
-    ).textContent = total;
-
-    const badge =
-        document.getElementById(
-            "bottomCartBadge"
-        );
-
-    badge.textContent = total;
-
-    badge.style.display =
-        total > 0
-        ? "flex"
-        : "none";
-
-}
-
-
-function renderCart(){
-
-    const target =
-        document.getElementById(
-            "cartContent"
-        );
-
-    if(cart.length === 0){
-
-        target.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    🛒
-                </div>
-
-                <h3>Your Cart is Empty</h3>
-
-                <p style="
-                    color:#777;
-                    margin:10px 0 20px;
-                ">
-                    Add products to your cart.
-                </p>
-
-                <button
-                    class="primary-btn"
-                    onclick="openShop()"
-                >
-                    Start Shopping
-                </button>
-
-            </div>
-
-        `;
-
-        return;
-
-    }
-
-
-    let subtotal = 0;
-
-    let html = "";
-
-
-    cart.forEach(item => {
-
-        const product =
-            products.find(
-                product => product.id === item.id
-            );
-
-        if(!product) return;
-
-        const itemTotal =
-            product.price *
-            item.quantity;
-
-        subtotal += itemTotal;
-
-
-        html += `
-
-            <div class="cart-item">
-
-                <div class="cart-image">
-                    ${product.icon}
-                </div>
-
-                <div class="cart-info">
-
-                    <h3>
-                        ${product.name}
-                    </h3>
-
-                    <div class="price">
-                        Rs.
-                        ${product.price.toLocaleString()}
-                    </div>
-
-                    <div class="quantity">
-
-                        <button
-                            onclick="changeQuantity(
-                                ${product.id},
-                                -1
-                            )"
-                        >
-                            −
-                        </button>
-
-                        <strong>
-              
+<!-- ================= ORDERS ==

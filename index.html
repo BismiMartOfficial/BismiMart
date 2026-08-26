@@ -1,1139 +1,1171 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0,
-        maximum-scale=1.0, user-scalable=no">
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
 
-  <meta name="theme-color" content="#ff5a00">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#ff5a00">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
 
-  <title>BismiMart - Online Marketplace</title>
+<title>BismiMart - Sab Kuch, Aasaan!</title>
 
-  <link rel="stylesheet" href="style.css">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f5f6f8;
+    color:#171717;
+    overflow-x:hidden;
+}
+
+button{
+    font-family:inherit;
+    border:0;
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    min-height:100vh;
+    padding-bottom:82px;
+}
+
+/* ================= HEADER ================= */
+
+.header{
+    background:#fff;
+    padding:25px 18px 14px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+
+.brand-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.logo{
+    width:74px;
+    height:74px;
+    border-radius:25px;
+    background:#ff5a00;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:47px;
+    font-weight:700;
+    box-shadow:0 8px 20px rgba(255,90,0,.22);
+}
+
+.brand{
+    flex:1;
+}
+
+.brand h1{
+    font-size:36px;
+    line-height:1;
+    margin-bottom:7px;
+}
+
+.brand p{
+    color:#777;
+    font-size:19px;
+}
+
+.header-actions{
+    display:flex;
+    gap:10px;
+}
+
+.circle-btn{
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#f2f3f5;
+    font-size:28px;
+    position:relative;
+}
+
+.badge{
+    position:absolute;
+    top:-3px;
+    right:-3px;
+    min-width:29px;
+    height:29px;
+    padding:0 7px;
+    border-radius:20px;
+    background:#ff5a00;
+    color:#fff;
+    font-size:15px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* ================= SEARCH ================= */
+
+.search-box{
+    display:flex;
+    margin-top:20px;
+    background:#f0f1f3;
+    border-radius:25px;
+    padding:7px;
+    align-items:center;
+}
+
+.search-icon{
+    font-size:31px;
+    margin-left:12px;
+}
+
+.search-box input{
+    flex:1;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    padding:15px 10px;
+    font-size:21px;
+}
+
+.search-btn{
+    background:#ff5a00;
+    color:white;
+    padding:17px 24px;
+    border-radius:20px;
+    font-size:19px;
+    font-weight:bold;
+}
+
+/* ================= SCREEN ================= */
+
+.screen{
+    display:none;
+    padding:22px 18px 30px;
+    animation:screenIn .2s ease;
+}
+
+.screen.active{
+    display:block;
+}
+
+@keyframes screenIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ================= HERO ================= */
+
+.hero{
+    min-height:610px;
+    border-radius:38px;
+    background:#fff0e6;
+    padding:65px 34px 30px;
+    position:relative;
+    overflow:hidden;
+}
+
+.hero small{
+    color:#bd4d19;
+    font-size:17px;
+    font-weight:bold;
+    letter-spacing:2px;
+}
+
+.hero h2{
+    font-size:54px;
+    line-height:1.02;
+    margin-top:45px;
+    max-width:490px;
+}
+
+.orange-text{
+    color:#ff5a00;
+}
+
+.hero p{
+    color:#777;
+    font-size:21px;
+    line-height:1.55;
+    margin-top:38px;
+    max-width:470px;
+}
+
+.hero-circle{
+    width:480px;
+    height:480px;
+    background:#ff9a43;
+    border-radius:50%;
+    position:absolute;
+    right:-170px;
+    bottom:-220px;
+}
+
+.hero-product{
+    position:absolute;
+    right:45px;
+    bottom:55px;
+    font-size:100px;
+}
+
+.shop-btn{
+    background:#ff5a00;
+    color:#fff;
+    border-radius:18px;
+    padding:18px 30px;
+    font-size:20px;
+    font-weight:bold;
+    margin-top:25px;
+    position:relative;
+    z-index:5;
+}
+
+/* ================= TITLES ================= */
+
+.section-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:25px 3px 16px;
+}
+
+.section-title h2{
+    font-size:25px;
+}
+
+.section-title button{
+    background:none;
+    color:#ff5a00;
+    font-weight:bold;
+    font-size:15px;
+}
+
+/* ================= CATEGORIES ================= */
+
+.category-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.category{
+    background:white;
+    border-radius:18px;
+    padding:15px 5px;
+    text-align:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+.category-icon{
+    width:55px;
+    height:55px;
+    margin:auto;
+    border-radius:17px;
+    background:#fff0e6;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+}
+
+.category span{
+    display:block;
+    margin-top:8px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+/* ================= PRODUCTS ================= */
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.product{
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 3px 12px rgba(0,0,0,.07);
+    position:relative;
+}
+
+.product-image{
+    height:170px;
+    background:#f4f4f4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:75px;
+}
+
+.product-info{
+    padding:13px;
+}
+
+.product-info h3{
+    font-size:16px;
+    line-height:1.3;
+    min-height:42px;
+}
+
+.rating{
+    color:#ff9800;
+    font-size:13px;
+    margin:7px 0;
+}
+
+.price{
+    color:#ff5a00;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.old-price{
+    color:#999;
+    text-decoration:line-through;
+    font-size:12px;
+    margin-left:5px;
+}
+
+.product-actions{
+    display:flex;
+    gap:7px;
+    margin-top:10px;
+}
+
+.add-btn{
+    flex:1;
+    background:#ff5a00;
+    color:#fff;
+    border-radius:10px;
+    padding:10px 4px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.heart-btn{
+    width:42px;
+    border-radius:10px;
+    background:#f1f1f1;
+    font-size:20px;
+}
+
+/* ================= PAGE HEADER ================= */
+
+.page-header{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.back-btn{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+    background:#fff;
+    font-size:25px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.page-header h1{
+    font-size:28px;
+}
+
+/* ================= CART ================= */
+
+.cart-item{
+    background:#fff;
+    border-radius:18px;
+    padding:13px;
+    margin-bottom:12px;
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+
+.cart-img{
+    width:75px;
+    height:75px;
+    border-radius:15px;
+    background:#f3f3f3;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:38px;
+}
+
+.cart-info{
+    flex:1;
+}
+
+.cart-info h3{
+    font-size:16px;
+}
+
+.cart-info p{
+    color:#ff5a00;
+    font-weight:bold;
+    margin-top:5px;
+}
+
+.qty{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-top:7px;
+}
+
+.qty button{
+    width:27px;
+    height:27px;
+    border-radius:8px;
+    background:#eee;
+    font-size:17px;
+}
+
+.cart-summary{
+    background:#fff;
+    border-radius:20px;
+    padding:20px;
+    margin-top:20px;
+}
+
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin:12px 0;
+    color:#666;
+}
+
+.summary-total{
+    border-top:1px solid #eee;
+    padding-top:15px;
+    font-size:20px;
+    font-weight:bold;
+    color:#111;
+}
+
+.checkout-btn{
+    width:100%;
+    background:#ff5a00;
+    color:#fff;
+    padding:17px;
+    border-radius:15px;
+    font-size:18px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+/* ================= ACCOUNT ================= */
+
+.account-card{
+    background:#fff;
+    border-radius:25px;
+    padding:25px;
+    text-align:center;
+}
+
+.avatar{
+    width:90px;
+    height:90px;
+    margin:auto;
+    background:#ff5a00;
+    color:#fff;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:48px;
+}
+
+.account-card h2{
+    margin-top:15px;
+}
+
+.account-card p{
+    color:#777;
+    margin-top:7px;
+}
+
+.login-btn{
+    width:100%;
+    background:#ff5a00;
+    color:#fff;
+    padding:16px;
+    border-radius:14px;
+    margin-top:20px;
+    font-weight:bold;
+    font-size:17px;
+}
+
+.account-menu{
+    margin-top:15px;
+}
+
+.account-item{
+    width:100%;
+    background:#fff;
+    border-radius:15px;
+    padding:17px;
+    margin-bottom:10px;
+    text-align:left;
+    font-size:16px;
+}
+
+/* ================= ORDERS ================= */
+
+.order-card{
+    background:#fff;
+    border-radius:20px;
+    padding:18px;
+    margin-bottom:13px;
+}
+
+.order-top{
+    display:flex;
+    justify-content:space-between;
+}
+
+.status{
+    color:#0a9b4b;
+    font-weight:bold;
+}
+
+.order-product{
+    display:flex;
+    gap:12px;
+    margin-top:15px;
+}
+
+.order-product-icon{
+    width:60px;
+    height:60px;
+    background:#f3f3f3;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+}
+
+/* ================= EMPTY ================= */
+
+.empty{
+    text-align:center;
+    padding:70px 20px;
+    color:#777;
+}
+
+.empty-icon{
+    font-size:75px;
+    margin-bottom:15px;
+}
+
+.empty h2{
+    color:#222;
+    margin-bottom:8px;
+}
+
+/* ================= PRODUCT DETAIL ================= */
+
+.detail-card{
+    background:#fff;
+    border-radius:25px;
+    overflow:hidden;
+}
+
+.detail-image{
+    height:330px;
+    background:#f4f4f4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:140px;
+}
+
+.detail-info{
+    padding:22px;
+}
+
+.detail-info h1{
+    font-size:27px;
+    line-height:1.2;
+}
+
+.detail-rating{
+    margin:12px 0;
+    color:#ff9800;
+}
+
+.detail-price{
+    color:#ff5a00;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.detail-description{
+    color:#666;
+    line-height:1.6;
+    margin-top:15px;
+}
+
+.detail-buttons{
+    display:flex;
+    gap:10px;
+    margin-top:20px;
+}
+
+.detail-buttons button{
+    flex:1;
+    padding:16px 8px;
+    border-radius:14px;
+    font-weight:bold;
+    font-size:15px;
+}
+
+.buy-now{
+    background:#ff5a00;
+    color:#fff;
+}
+
+.detail-cart{
+    background:#ffe4d3;
+    color:#ff5a00;
+}
+
+/* ================= LOGIN ================= */
+
+.login-box{
+    background:#fff;
+    border-radius:25px;
+    padding:25px;
+}
+
+.login-box h2{
+    font-size:28px;
+    margin-bottom:7px;
+}
+
+.login-box p{
+    color:#777;
+    margin-bottom:22px;
+}
+
+.login-box input{
+    width:100%;
+    padding:16px;
+    margin-bottom:12px;
+    border:1px solid #ddd;
+    border-radius:13px;
+    font-size:16px;
+    outline:none;
+}
+
+.login-submit{
+    width:100%;
+    padding:16px;
+    background:#ff5a00;
+    color:#fff;
+    border-radius:13px;
+    font-size:17px;
+    font-weight:bold;
+}
+
+.switch-login{
+    text-align:center;
+    margin-top:18px;
+    color:#777;
+}
+
+.switch-login span{
+    color:#ff5a00;
+    font-weight:bold;
+}
+
+/* ================= BOTTOM NAV ================= */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:78px;
+    background:rgba(255,255,255,.98);
+    border-top:1px solid #eee;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    z-index:999;
+    box-shadow:0 -4px 15px rgba(0,0,0,.08);
+}
+
+.nav-btn{
+    background:transparent;
+    color:#999;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    font-size:11px;
+}
+
+.nav-btn .nav-icon{
+    font-size:25px;
+}
+
+.nav-btn.active{
+    color:#ff5a00;
+    font-weight:bold;
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:95px;
+    transform:translateX(-50%) translateY(20px);
+    background:#222;
+    color:#fff;
+    padding:13px 20px;
+    border-radius:30px;
+    z-index:2000;
+    opacity:0;
+    pointer-events:none;
+    transition:.25s;
+    white-space:nowrap;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:380px){
+
+    .brand h1{
+        font-size:29px;
+    }
+
+    .logo{
+        width:65px;
+        height:65px;
+        font-size:40px;
+    }
+
+    .circle-btn{
+        width:50px;
+        height:50px;
+    }
+
+    .hero h2{
+        font-size:44px;
+    }
+
+    .hero{
+        padding-left:25px;
+        padding-right:25px;
+    }
+
+    .category-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+</style>
 </head>
 
 <body>
 
-<!-- =========================
-     APP
-========================= -->
-
 <div class="app">
 
-  <!-- =========================
-       TOP HEADER
-  ========================== -->
+<!-- ================= HEADER ================= -->
 
-  <header class="top-header">
+<header class="header">
 
-    <div class="brand-area" onclick="showScreen('home')">
+    <div class="brand-row">
 
-      <div class="brand-logo">B</div>
+        <button class="logo" onclick="goHome()">B</button>
 
-      <div>
-        <div class="brand-name">BismiMart</div>
-        <div class="brand-tagline">Sab Kuch, Aasaan!</div>
-      </div>
+        <div class="brand" onclick="goHome()">
+            <h1>BismiMart</h1>
+            <p>Sab Kuch, Aasaan!</p>
+        </div>
 
+        <div class="header-actions">
+
+            <button class="circle-btn"
+                    onclick="showScreen('wishlist')">
+                ❤️
+                <span class="badge" id="wishBadge">0</span>
+            </button>
+
+            <button class="circle-btn"
+                    onclick="showScreen('cart')">
+                🛒
+                <span class="badge" id="cartBadge">0</span>
+            </button>
+
+        </div>
     </div>
-
-    <div class="header-actions">
-
-      <button class="icon-btn" onclick="showScreen('wishlist')" aria-label="Wishlist">
-        ❤️
-        <span id="wishlistCount" class="badge">0</span>
-      </button>
-
-      <button class="icon-btn" onclick="showScreen('cart')" aria-label="Cart">
-        🛒
-        <span id="cartCount" class="badge">0</span>
-      </button>
-
-    </div>
-
-  </header>
-
-
-  <!-- =========================
-       SEARCH
-  ========================== -->
-
-  <div class="search-area">
 
     <div class="search-box">
 
-      <span class="search-icon">🔍</span>
+        <span class="search-icon">🔍</span>
 
-      <input
-        type="text"
-        id="searchInput"
-        placeholder="Search products..."
-        onkeydown="handleSearchKey(event)"
-      >
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Search products..."
+            onkeydown="searchKey(event)"
+        >
 
-      <button onclick="searchProducts()">
-        Search
-      </button>
+        <button class="search-btn"
+                onclick="searchProducts()">
+            Search
+        </button>
 
     </div>
 
-  </div>
+</header>
 
 
-  <!-- =========================
-       MAIN CONTENT
-  ========================== -->
+<!-- ================= HOME ================= -->
 
-  <main id="mainContent">
+<section id="home" class="screen active">
 
+    <div class="hero">
 
-    <!-- =========================
-         HOME SCREEN
-    ========================== -->
+        <small>WELCOME TO BISMI MART</small>
 
-    <section id="homeScreen" class="screen active">
-
-      <div class="hero">
-
-        <div class="hero-content">
-
-          <div class="hero-small">
-            WELCOME TO BISMI MART
-          </div>
-
-          <h1>
-            Everything You Need,
-            <span>All in One Place.</span>
-          </h1>
-
-          <p>
-            Shop mobiles, electronics, fashion, home products
-            and much more.
-          </p>
-
-          <button class="primary-btn hero-btn"
-                  onclick="showScreen('categories')">
-            Shop Now →
-          </button>
-
-        </div>
-
-        <div class="hero-circle">
-
-          <div class="hero-product phone">📱</div>
-          <div class="hero-product headphones">🎧</div>
-          <div class="hero-product bag">👜</div>
-          <div class="hero-product shoes">👟</div>
-
-        </div>
-
-      </div>
-
-
-      <!-- Categories -->
-
-      <div class="section-heading">
-
-        <h2>Shop by Category</h2>
-
-        <button onclick="showScreen('categories')">
-          View All
-        </button>
-
-      </div>
-
-      <div class="category-row">
-
-        <button class="category-card"
-                onclick="filterCategory('Mobiles')">
-          <div class="category-icon">📱</div>
-          <span>Mobiles</span>
-        </button>
-
-        <button class="category-card"
-                onclick="filterCategory('Electronics')">
-          <div class="category-icon">💻</div>
-          <span>Electronics</span>
-        </button>
-
-        <button class="category-card"
-                onclick="filterCategory('Fashion')">
-          <div class="category-icon">👕</div>
-          <span>Fashion</span>
-        </button>
-
-        <button class="category-card"
-                onclick="filterCategory('Home')">
-          <div class="category-icon">🏠</div>
-          <span>Home</span>
-        </button>
-
-        <button class="category-card"
-                onclick="filterCategory('Beauty')">
-          <div class="category-icon">💄</div>
-          <span>Beauty</span>
-        </button>
-
-      </div>
-
-
-      <!-- Popular Products -->
-
-      <div class="section-heading">
-
-        <h2>Popular Products</h2>
-
-        <button onclick="showScreen('categories')">
-          See All
-        </button>
-
-      </div>
-
-      <div id="homeProducts" class="product-grid"></div>
-
-    </section>
-
-
-
-    <!-- =========================
-         CATEGORIES SCREEN
-    ========================== -->
-
-    <section id="categoriesScreen" class="screen">
-
-      <div class="page-title">
-
-        <button class="back-btn" onclick="goBack()">
-          ←
-        </button>
-
-        <div>
-          <h1>Categories</h1>
-          <p>Choose a category</p>
-        </div>
-
-      </div>
-
-
-      <div class="all-categories">
-
-        <button onclick="filterCategory('All')">
-          <span>🛍️</span>
-          <strong>All Products</strong>
-        </button>
-
-        <button onclick="filterCategory('Mobiles')">
-          <span>📱</span>
-          <strong>Mobiles</strong>
-        </button>
-
-        <button onclick="filterCategory('Electronics')">
-          <span>💻</span>
-          <strong>Electronics</strong>
-        </button>
-
-        <button onclick="filterCategory('Fashion')">
-          <span>👕</span>
-          <strong>Fashion</strong>
-        </button>
-
-        <button onclick="filterCategory('Home')">
-          <span>🏠</span>
-          <strong>Home</strong>
-        </button>
-
-        <button onclick="filterCategory('Beauty')">
-          <span>💄</span>
-          <strong>Beauty</strong>
-        </button>
-
-      </div>
-
-
-      <div class="section-heading">
-
-        <h2 id="categoryProductTitle">
-          All Products
+        <h2>
+            Everything<br>
+            You Need,<br>
+            <span class="orange-text">
+                All in One<br>
+                Place.
+            </span>
         </h2>
 
-      </div>
+        <p>
+            Shop mobiles, electronics,
+            fashion, home products and
+            much more.
+        </p>
 
-      <div id="categoryProducts" class="product-grid"></div>
-
-    </section>
-
-
-
-    <!-- =========================
-         ORDERS SCREEN
-    ========================== -->
-
-    <section id="ordersScreen" class="screen">
-
-      <div class="page-title">
-
-        <div>
-          <h1>My Orders</h1>
-          <p>Track your orders</p>
-        </div>
-
-      </div>
-
-      <div id="ordersContent"></div>
-
-    </section>
-
-
-
-    <!-- =========================
-         WISHLIST SCREEN
-    ========================== -->
-
-    <section id="wishlistScreen" class="screen">
-
-      <div class="page-title">
-
-        <div>
-          <h1>Wishlist</h1>
-          <p>Your saved products</p>
-        </div>
-
-      </div>
-
-      <div id="wishlistProducts" class="product-grid"></div>
-
-    </section>
-
-
-
-    <!-- =========================
-         ACCOUNT SCREEN
-    ========================== -->
-
-    <section id="accountScreen" class="screen">
-
-      <div class="account-header">
-
-        <div class="account-avatar">
-          👤
-        </div>
-
-        <div>
-          <h1>My Account</h1>
-          <p>Login to manage your account</p>
-        </div>
-
-      </div>
-
-
-      <button class="login-card" onclick="openLogin()">
-
-        <div class="login-icon">
-          🔐
-        </div>
-
-        <div>
-          <strong>Login / Sign Up</strong>
-          <span>Access your BismiMart account</span>
-        </div>
-
-        <b>›</b>
-
-      </button>
-
-
-      <div class="account-menu">
-
-        <button onclick="showScreen('orders')">
-          <span>📦</span>
-          <div>
-            <strong>My Orders</strong>
-            <small>View your orders</small>
-          </div>
-          <b>›</b>
+        <button class="shop-btn"
+                onclick="showScreen('products')">
+            Shop Now
         </button>
 
-        <button onclick="showScreen('wishlist')">
-          <span>❤️</span>
-          <div>
-            <strong>Wishlist</strong>
-            <small>Saved products</small>
-          </div>
-          <b>›</b>
-        </button>
+        <div class="hero-circle"></div>
 
-        <button onclick="openSeller()">
-          <span>🏪</span>
-          <div>
-            <strong>Become a Seller</strong>
-            <small>Start selling on BismiMart</small>
-          </div>
-          <b>›</b>
-        </button>
-
-        <button onclick="showToast('Settings coming soon')">
-          <span>⚙️</span>
-          <div>
-            <strong>Settings</strong>
-            <small>Manage your preferences</small>
-          </div>
-          <b>›</b>
-        </button>
-
-        <button onclick="showToast('Help Center coming soon')">
-          <span>❓</span>
-          <div>
-            <strong>Help Center</strong>
-            <small>Need help?</small>
-          </div>
-          <b>›</b>
-        </button>
-
-      </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         CART SCREEN
-    ========================== -->
-
-    <section id="cartScreen" class="screen">
-
-      <div class="page-title">
-
-        <div>
-          <h1>Shopping Cart</h1>
-          <p>Your selected products</p>
+        <div class="hero-product">
+            📱
         </div>
-
-      </div>
-
-      <div id="cartContent"></div>
-
-    </section>
-
-
-
-    <!-- =========================
-         SEARCH SCREEN
-    ========================== -->
-
-    <section id="searchScreen" class="screen">
-
-      <div class="page-title">
-
-        <button class="back-btn" onclick="showScreen('home')">
-          ←
-        </button>
-
-        <div>
-          <h1>Search Results</h1>
-          <p id="searchResultText">Products</p>
-        </div>
-
-      </div>
-
-      <div id="searchProducts" class="product-grid"></div>
-
-    </section>
-
-
-
-    <!-- =========================
-         PRODUCT DETAIL SCREEN
-    ========================== -->
-
-    <section id="productScreen" class="screen">
-
-      <div id="productDetail"></div>
-
-    </section>
-
-
-
-    <!-- =========================
-         CHECKOUT SCREEN
-    ========================== -->
-
-    <section id="checkoutScreen" class="screen">
-
-      <div class="page-title">
-
-        <button class="back-btn" onclick="showScreen('cart')">
-          ←
-        </button>
-
-        <div>
-          <h1>Checkout</h1>
-          <p>Complete your order</p>
-        </div>
-
-      </div>
-
-      <div class="checkout-box">
-
-        <h2>Delivery Address</h2>
-
-        <input
-          id="customerName"
-          class="form-input"
-          placeholder="Full Name"
-        >
-
-        <input
-          id="customerPhone"
-          class="form-input"
-          placeholder="Phone Number"
-          type="tel"
-        >
-
-        <textarea
-          id="customerAddress"
-          class="form-input"
-          placeholder="Complete Delivery Address"
-        ></textarea>
-
-
-        <h2>Payment Method</h2>
-
-        <label class="payment-option">
-          <input type="radio"
-                 name="payment"
-                 value="cod"
-                 checked>
-          <span>💵</span>
-          Cash on Delivery
-        </label>
-
-        <label class="payment-option">
-          <input type="radio"
-                 name="payment"
-                 value="easypaisa">
-          <span>💳</span>
-          Easypaisa
-        </label>
-
-        <label class="payment-option">
-          <input type="radio"
-                 name="payment"
-                 value="jazzcash">
-          <span>💳</span>
-          JazzCash
-        </label>
-
-
-        <div class="checkout-total">
-
-          <span>Total</span>
-
-          <strong id="checkoutTotal">
-            Rs. 0
-          </strong>
-
-        </div>
-
-        <button class="primary-btn full-btn"
-                onclick="placeOrder()">
-          Place Order
-        </button>
-
-      </div>
-
-    </section>
-
-
-  </main>
-
-
-
-  <!-- =========================
-       BOTTOM NAVIGATION
-  ========================== -->
-
-  <nav class="bottom-nav">
-
-    <button id="navHome"
-            class="nav-item active"
-            onclick="showScreen('home')">
-
-      <span>⌂</span>
-      <small>Home</small>
-
-    </button>
-
-
-    <button id="navCategories"
-            class="nav-item"
-            onclick="showScreen('categories')">
-
-      <span>▦</span>
-      <small>Categories</small>
-
-    </button>
-
-
-    <button id="navOrders"
-            class="nav-item"
-            onclick="showScreen('orders')">
-
-      <span>📦</span>
-      <small>Orders</small>
-
-    </button>
-
-
-    <button id="navWishlist"
-            class="nav-item"
-            onclick="showScreen('wishlist')">
-
-      <span>♥</span>
-      <small>Wishlist</small>
-
-    </button>
-
-
-    <button id="navAccount"
-            class="nav-item"
-            onclick="showScreen('account')">
-
-      <span>👤</span>
-      <small>Account</small>
-
-    </button>
-
-  </nav>
-
-</div>
-
-
-
-<!-- =========================
-     LOGIN MODAL
-========================= -->
-
-<div id="loginModal" class="modal">
-
-  <div class="modal-card">
-
-    <button class="modal-close"
-            onclick="closeLogin()">
-      ×
-    </button>
-
-    <div class="modal-logo">
-      B
-    </div>
-
-    <h2>Welcome to BismiMart</h2>
-
-    <p>Login or create your account</p>
-
-    <input
-      id="loginPhone"
-      class="form-input"
-      type="tel"
-      placeholder="Phone Number"
-    >
-
-    <input
-      id="loginPassword"
-      class="form-input"
-      type="password"
-      placeholder="Password"
-    >
-
-    <button class="primary-btn full-btn"
-            onclick="loginUser()">
-      Login
-    </button>
-
-    <button class="outline-btn full-btn"
-            onclick="signupUser()">
-      Create New Account
-    </button>
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================
-     SELLER MODAL
-========================= -->
-
-<div id="sellerModal" class="modal">
-
-  <div class="modal-card">
-
-    <button class="modal-close"
-            onclick="closeSeller()">
-      ×
-    </button>
-
-    <div class="modal-logo">
-      🏪
-    </div>
-
-    <h2>Become a Seller</h2>
-
-    <p>
-      Start selling your products on BismiMart.
-    </p>
-
-    <input
-      id="sellerName"
-      class="form-input"
-      placeholder="Business Name"
-    >
-
-    <input
-      id="sellerPhone"
-      class="form-input"
-      placeholder="Phone Number"
-      type="tel"
-    >
-
-    <button class="primary-btn full-btn"
-            onclick="registerSeller()">
-      Start Selling
-    </button>
-
-  </div>
-
-</div>
-
-
-
-<!-- =========================
-     TOAST
-========================= -->
-
-<div id="toast" class="toast"></div>
-
-
-
-<script>
-
-/* =====================================================
-   BISMI MART
-   COMPLETE FRONTEND JAVASCRIPT
-===================================================== */
-
-
-/* =========================
-   PRODUCTS
-========================= */
-
-const products = [
-
-  {
-    id: 1,
-    name: "Vivo Y17s",
-    category: "Mobiles",
-    price: 32999,
-    oldPrice: 36999,
-    icon: "📱",
-    rating: 4.5
-  },
-
-  {
-    id: 2,
-    name: "Samsung Galaxy A15",
-    category: "Mobiles",
-    price: 49999,
-    oldPrice: 54999,
-    icon: "📱",
-    rating: 4.6
-  },
-
-  {
-    id: 3,
-    name: "Wireless Headphones",
-    category: "Electronics",
-    price: 3999,
-    oldPrice: 4999,
-    icon: "🎧",
-    rating: 4.4
-  },
-
-  {
-    id: 4,
-    name: "Smart Watch",
-    category: "Electronics",
-    price: 5499,
-    oldPrice: 6999,
-    icon: "⌚",
-    rating: 4.3
-  },
-
-  {
-    id: 5,
-    name: "Men Casual T-Shirt",
-    category: "Fashion",
-    price: 1499,
-    oldPrice: 1999,
-    icon: "👕",
-    rating: 4.2
-  },
-
-  {
-    id: 6,
-    name: "Ladies Hand Bag",
-    category: "Fashion",
-    price: 2499,
-    oldPrice: 3299,
-    icon: "👜",
-    rating: 4.5
-  },
-
-  {
-    id: 7,
-    name: "LED Table Lamp",
-    category: "Home",
-    price: 1799,
-    oldPrice: 2299,
-    icon: "💡",
-    rating: 4.1
-  },
-
-  {
-    id: 8,
-    name: "Kitchen Organizer",
-    category: "Home",
-    price: 1299,
-    oldPrice: 1699,
-    icon: "🏠",
-    rating: 4.0
-  },
-
-  {
-    id: 9,
-    name: "Face Beauty Kit",
-    category: "Beauty",
-    price: 1999,
-    oldPrice: 2599,
-    icon: "💄",
-    rating: 4.4
-  },
-
-  {
-    id: 10,
-    name: "Sports Running Shoes",
-    category: "Fashion",
-    price: 2999,
-    oldPrice: 3999,
-    icon: "👟",
-    rating: 4.6
-  }
-
-];
-
-
-/* =========================
-   DATA
-========================= */
-
-let cart = JSON.parse(
-  localStorage.getItem("bismiMartCart") || "[]"
-);
-
-let wishlist = JSON.parse(
-  localStorage.getItem("bismiMartWishlist") || "[]"
-);
-
-let orders = JSON.parse(
-  localStorage.getItem("bismiMartOrders") || "[]"
-);
-
-let previousScreen = "home";
-
-
-/* =========================
-   INITIAL LOAD
-========================= */
-
-document.addEventListener("DOMContentLoaded", function() {
-
-  renderHomeProducts();
-  renderCategories();
-  renderWishlist();
-  renderCart();
-  renderOrders();
-  updateCounts();
-
-});
-
-
-/* =========================
-   SCREEN NAVIGATION
-========================= */
-
-function showScreen(screen) {
-
-  const screens = document.querySelectorAll(".screen");
-
-  screens.forEach(function(item) {
-    item.classList.remove("active");
-  });
-
-
-  const target = document.getElementById(
-    screen + "Screen"
-  );
-
-  if (!target) {
-    return;
-  }
-
-
-  target.classList.add("active");
-
-
-  previousScreen = screen;
-
-
-  updateNavigation(screen);
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-
-  if (screen === "wishlist") {
-    renderWishlist();
-  }
-
-  if (screen === "cart") {
-    renderCart();
-  }
-
-  if (screen === "orders") {
-    renderOrders();
-  }
-
-  if (screen === "categories") {
-    renderCategories();
-  }
-
-}
-
-
-function updateNavigation(screen) {
-
-  document.querySelectorAll(".nav-item")
-    .forEach(function(item) {
-      item.classList.remove("active");
-    });
-
-
-  const mapping = {
-
-    home: "navHome",
-    categories: "navCategories",
-    orders: "navOrders",
-    wishlist: "navWishlist",
-    account: "navAccount"
-
-  };
-
-
-  if (mapping[screen]) {
-
-    document
-      .getElementById(mapping[screen])
-      .classList.add("active");
-
-  }
-
-}
-
-
-function goBack() {
-
-  showScreen("home");
-
-}
-
-
-/* =========================
-   PRODUCT CARD
-========================= */
-
-function productCard(product) {
-
-  const isWishlisted =
-    wishlist.includes(product.id);
-
-  return `
-
-    <div class="product-card">
-
-      <button
-        class="wishlist-btn ${isWishlisted ? "liked" : ""}"
-        onclick="toggleWishlist(${product.id})">
-
-        ${isWishlisted ? "❤️" : "♡"}
-
-      </button>
-
-
-      <div
-        class="product-image"
-        onclick="openProduct(${product.id})">
-
-        <span>${product.icon}</span>
-
-      </div>
-
-
-      <div
-        class="product-info"
-        onclick="openProduct(${product.id})">
-
-        <div class="product-category">
-          ${product.category}
-        </div>
-
-        <h3>
-          ${product.name}
-        </h3>
-
-        <div class="rating">
-          ⭐ ${product.rating}
-        </div>
-
-        <div class="price-row">
-
-          <strong>
-            Rs. ${formatPrice(product.price)}
-          </strong>
-
-          <del>
-            Rs. ${formatPrice(product.oldPrice)}
-          </del>
-
-        </div>
-
-      </div>
-
-
-      <button
-        class="add-cart-btn"
-        onclick="addToCart(${product.id})">
-
-        Add to Cart
-
-      </button>
 
     </div>
 
-  `;
 
-}
+    <div class="section-title">
+        <h2>Categories</h2>
+        <button onclick="showScreen('categories')">
+            See All
+        </button>
+    </div>
 
+    <div class="category-grid">
 
-/* =========================
-   HOME PRODUCTS
-========================= */
+        <button class="category"
+                onclick="openCategory('Mobiles')">
+            <div class="category-icon">📱</div>
+            <span>Mobiles</span>
+        </button>
 
-function renderHomeProducts() {
+        <button class="category"
+                onclick="openCategory('Electronics')">
+            <div class="category-icon">💻</div>
+            <span>Electronics</span>
+        </button>
 
-  const box =
-    document.getElementById("homeProducts");
+        <button class="category"
+                onclick="openCategory('Fashion')">
+            <div class="category-icon">👕</div>
+            <span>Fashion</span>
+        </button>
 
-  box.innerHTML =
-    products
-      .slice(0, 6)
-      .map(productCard)
-      .join("");
+        <button class="category"
+                onclick="openCategory('Home')">
+            <div class="category-icon">🏠</div>
+            <span>Home</span>
+        </button>
 
-}
-
-
-/* =========================
-   CATEGORIES
-========================= */
-
-function renderCategories(
-  category = "All"
-) {
-
-  const box =
-    document.getElementById("categoryProducts");
-
-  const title =
-    document.getElementById(
-      "categoryProductTitle"
-    );
+    </div>
 
 
-  let list = products;
+    <div class="section-title">
+        <h2>Popular Products</h2>
+        <button onclick="showScreen('products')">
+            See All
+        </button>
+    </div>
+
+    <div class="products" id="homeProducts"></div>
+
+</section>
 
 
-  if (category !== "All") {
+<!-- ================= CATEGORIES ================= -->
 
-    list =
-      products.filter(function(product) {
-        return product.category === category;
-      });
+<section id="categories" class="screen">
 
-  }
+    <div class="page-header">
+
+        <button class="back-btn"
+                onclick="goHome()">
+            ←
+        </button>
+
+        <h1>Categories</h1>
+
+    </div>
+
+    <div class="category-grid">
+
+        <button class="category"
+                onclick="openCategory('Mobiles')">
+            <div class="category-icon">📱</div>
+            <span>Mobiles</span>
+        </button>
+
+        <button class="category"
+                onclick="openCategory('Electronics')">
+            <div class="category-icon">💻</div>
+            <span>Electronics</span>
+        </button>
+
+        <button class="category"
+                onclick="openCategory('Fashion')">
+            <div class="category-icon">👕</div>
+            <span>Fashion</span>
+        </button>
+
+        <button class="category"
+                onclick="openCategory('Home')">
+            <div class="category-icon">🏠</div>
+            <span>Home</span>
+        </button>
+
+        <button class="category"
+                onclick="openCategory('Beauty')">
+            <div class="category-icon">💄</div>
+            <span>Beauty</span>
+        </button>
+
+        <button class="category"
+                onclick="openCategory('Grocery')">
+            <div class="category-icon">🛒</div>
+            <span>Grocery</span>
+        </button>
+
+        <button class="category"
+                onclick="openCategory('Sports')">
+            <div class="category-icon">⚽</div>
+            <span>Sports</span>
+        </button>
+
+        <button class="category"
+                onclick="openCategory('Kids')">
+            <div class="category-icon">🧸</div>
+            <span>Kids</span>
+        </button>
+
+    </div>
+
+</section>
 
 
-  title.textContent =
-    category === "All"
-      ? "All Products"
-      : category + " Products";
+<!-- ================= PRODUCTS ================= -->
+
+<section id="products" class="screen">
+
+    <div class="page-header">
+
+        <button class="back-btn"
+                onclick="goHome()">
+            ←
+        </button>
+
+        <h1 id="productsTitle">
+            Products
+        </h1>
+
+    </div>
+
+    <div class="products" id="productList"></div>
+
+</section>
 
 
-  if (list.length === 0) {
+<!-- ================= PRODUCT DETAIL ================= -->
 
-    box.innerHTML = `
-      <div class="empty-state">
-        <div>📦</div>
-        <h2>No Products Found</h2>
-        <p>Products will appear here.</p>
-      </div>
-    `;
+<section id="detail" class="screen">
 
-    return;
-  }
+    <div class="page-header">
+
+        <button class="back-btn"
+                onclick="showScreen('products')">
+            ←
+        </button>
+
+        <h1>Product</h1>
+
+    </div>
+
+    <div class="detail-card">
+
+        <div class="detail-image"
+             id="detailImage">
+            📱
+        </div>
+
+        <div class="detail-info">
+
+            <h1 id="detailName">
+                Product
+            </h1>
+
+            <div class="detail-rating">
+                ⭐⭐⭐⭐⭐ 4.8
+            </div>
+
+            <div class="detail-price"
+                 id="detailPrice">
+                Rs. 0
+            </div>
+
+            <p class="detail-description">
+                High quality product available
+                at BismiMart. Fast delivery,
+                easy shopping and secure
+                ordering.
+            </p>
+
+            <div class="detail-buttons">
+
+                <button class="detail-cart"
+                        onclick="addCurrentProduct()">
+                    🛒 Add to Cart
+                </button>
+
+                <button class="buy-now"
+                        onclick="buyCurrentProduct()">
+                    Buy Now
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-  box.innerHTML =
-    list.map(productCard).join("");
+<!-- ================= CART ================= -->
 
-}
+<section id="cart" class="screen">
 
+    <div class="page-header">
 
-function filterCategory(category) {
+        <button class="back-btn"
+                onclick="goHome()">
+            ←
+        </button>
 
-  showScreen("categories");
+        <h1>My Cart</h1>
 
-  renderCategories(category);
+    </div>
 
-}
+    <div id="cartList"></div>
 
+    <div id="cartSummary"></div>
 
-/* =========================
-   PRODUCT DETAIL
-========================= */
-
-function openProduct(id) {
-
-  const product =
-    products.find(function(item) {
-      return item.id === id;
-    });
+</section>
 
 
-  if 
+<!-- ================= WISHLIST ================= -->
+
+<section id="wishlist" class="screen">
+
+    <div class="page-header">
+
+        <button class="back-btn"
+                onclick="goHome()">
+            ←
+        </button>
+
+        <h1>Wishlist</h1>
+
+    </div>
+
+    <div class="products"
+         id="wishlistList"></div>
+
+</section>
+
+
+<!-- ================= ORDERS ================= -->
+
+<section id="orders" class="screen">
+
+    <div class="page-header">
+
+        <button class="back-btn"
+                onclick="goHome()">
+            ←
+        </button>
+
+        <h1>My Orders</h1>
+
+    </div>
+
+    <div id="ordersList">
+
+        <div class="empty">
+
+            <div class="empty-icon">
+                📦
+            </div>
+
+            <h2>No Orders Yet</h2>
+
+            <p>
+                Your order

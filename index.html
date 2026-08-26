@@ -11,866 +11,36 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-<meta name="description"
-      content="BismiMart - Sab Kuch, Aasaan!">
-
-<link rel="manifest" href="manifest.json">
+<meta name="description" content="BismiMart - Sab Kuch, Aasaan!">
 
 <title>BismiMart - Online Marketplace</title>
 
-<style>
-:root{
-    --orange:#ff5a00;
-    --orange2:#ff7a22;
-    --bg:#f5f6f8;
-    --text:#202124;
-    --muted:#777;
-    --card:#fff;
-    --line:#e8e8e8;
-    --green:#168a45;
-    --red:#e53935;
-}
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-    -webkit-tap-highlight-color:transparent;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#e9eaed;
-    color:var(--text);
-}
-
-button,input,textarea,select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-button:active{
-    transform:scale(.97);
-}
-
-#app{
-    width:100%;
-    max-width:520px;
-    min-height:100vh;
-    margin:auto;
-    background:var(--bg);
-    padding-bottom:82px;
-    box-shadow:0 0 30px #0001;
-}
-
-/* HEADER */
-
-.header{
-    position:sticky;
-    top:0;
-    z-index:50;
-    background:#fff;
-    padding:12px 14px 11px;
-    box-shadow:0 2px 12px #00000012;
-}
-
-.header-row{
-    display:flex;
-    align-items:center;
-    gap:9px;
-}
-
-.logo{
-    width:50px;
-    height:50px;
-    border-radius:15px;
-    background:var(--orange);
-    color:#fff;
-    display:grid;
-    place-items:center;
-    font-size:31px;
-    font-weight:800;
-}
-
-.brand{
-    flex:1;
-}
-
-.brand h1{
-    font-size:23px;
-}
-
-.brand p{
-    font-size:11px;
-    color:#777;
-    margin-top:4px;
-}
-
-.icon-btn{
-    position:relative;
-    width:45px;
-    height:45px;
-    border:0;
-    border-radius:50%;
-    background:#f4f5f6;
-    font-size:22px;
-}
-
-.badge{
-    position:absolute;
-    right:-1px;
-    top:-2px;
-    min-width:19px;
-    height:19px;
-    padding:0 5px;
-    border-radius:12px;
-    background:var(--orange);
-    color:#fff;
-    font-size:10px;
-    font-weight:800;
-    display:grid;
-    place-items:center;
-}
-
-.search{
-    margin-top:11px;
-    background:#f1f2f4;
-    border-radius:14px;
-    height:48px;
-    display:flex;
-    align-items:center;
-    padding:0 14px;
-    gap:9px;
-}
-
-.search span{
-    font-size:21px;
-}
-
-.search input{
-    border:0;
-    outline:0;
-    background:transparent;
-    width:100%;
-    font-size:16px;
-}
-
-/* SCREENS */
-
-.screen{
-    display:none;
-    padding:16px;
-    min-height:calc(100vh - 155px);
-}
-
-.screen.active{
-    display:block;
-    animation:fade .16s ease;
-}
-
-@keyframes fade{
-    from{
-        opacity:.3;
-        transform:translateY(5px);
-    }
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
-.screen-head{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:15px;
-}
-
-.back{
-    width:42px;
-    height:42px;
-    border:0;
-    border-radius:12px;
-    background:#fff;
-    font-size:28px;
-}
-
-/* HOME */
-
-.hero{
-    background:#fff0e5;
-    border-radius:24px;
-    padding:24px;
-    min-height:405px;
-    position:relative;
-    overflow:hidden;
-}
-
-.kicker{
-    font-size:12px;
-    font-weight:800;
-    letter-spacing:2px;
-    color:#ed5700;
-}
-
-.hero h2{
-    position:relative;
-    z-index:2;
-    font-size:36px;
-    line-height:1.08;
-    margin-top:28px;
-}
-
-.hero h2 span{
-    color:var(--orange);
-}
-
-.hero p{
-    position:relative;
-    z-index:3;
-    color:#666;
-    font-size:16px;
-    line-height:1.5;
-    margin:18px 0;
-}
-
-.btn{
-    border:0;
-    border-radius:11px;
-    padding:13px 18px;
-    font-weight:800;
-    background:var(--orange);
-    color:#fff;
-    box-shadow:0 5px 12px #ff5a0030;
-}
-
-.btn.light{
-    background:#fff;
-    color:var(--orange);
-    border:1px solid #eee;
-    box-shadow:none;
-}
-
-.hero-circle{
-    position:absolute;
-    width:270px;
-    height:270px;
-    border-radius:50%;
-    background:#ff9c4b;
-    right:-58px;
-    bottom:-66px;
-}
-
-.hero-items{
-    position:absolute;
-    z-index:3;
-    right:17px;
-    bottom:17px;
-    font-size:46px;
-    line-height:1.25;
-}
-
-.section-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin:25px 2px 13px;
-}
-
-.section-head h2{
-    font-size:22px;
-}
-
-.section-head button{
-    border:0;
-    background:none;
-    color:var(--orange);
-    font-weight:800;
-}
-
-/* CATEGORIES */
-
-.cat-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:9px;
-}
-
-.cat{
-    background:#fff;
-    border:1px solid #eee;
-    border-radius:17px;
-    min-height:112px;
-    padding:12px 5px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    gap:8px;
-    font-weight:800;
-}
-
-.cat-icon{
-    font-size:37px;
-}
-
-.cat small{
-    font-size:12px;
-}
-
-/* FLASH */
-
-.flash{
-    background:#fff0eb;
-    border-radius:20px;
-    padding:20px;
-    min-height:180px;
-    position:relative;
-    overflow:hidden;
-}
-
-.flash h3{
-    color:#df4935;
-    font-size:20px;
-}
-
-.flash p{
-    color:#666;
-    margin:8px 0;
-}
-
-.timer{
-    font-size:20px;
-    font-weight:800;
-    color:#df4935;
-    margin:9px 0 12px;
-}
-
-.flash-art{
-    position:absolute;
-    right:20px;
-    top:43px;
-    font-size:70px;
-}
-
-/* PRODUCTS */
-
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:11px;
-}
-
-.card{
-    background:#fff;
-    border:1px solid #eee;
-    border-radius:17px;
-    overflow:hidden;
-}
-
-.pic{
-    height:158px;
-    background:#f2f3f5;
-    display:grid;
-    place-items:center;
-    position:relative;
-    font-size:70px;
-}
-
-.tag{
-    position:absolute;
-    left:8px;
-    top:8px;
-    background:var(--orange);
-    color:#fff;
-    padding:5px 7px;
-    border-radius:6px;
-    font-size:9px;
-    font-weight:800;
-}
-
-.info{
-    padding:10px;
-}
-
-.name{
-    font-size:14px;
-    font-weight:800;
-    line-height:1.3;
-    min-height:37px;
-}
-
-.stars{
-    font-size:11px;
-    color:#777;
-    margin-top:4px;
-}
-
-.price{
-    color:var(--orange);
-    font-size:17px;
-    font-weight:900;
-    margin-top:6px;
-}
-
-.old{
-    font-size:10px;
-    color:#999;
-    text-decoration:line-through;
-    margin-left:3px;
-}
-
-.add{
-    width:calc(100% - 20px);
-    margin:0 10px 10px;
-    border:0;
-    border-radius:9px;
-    padding:10px;
-    background:var(--orange);
-    color:#fff;
-    font-weight:800;
-}
-
-/* DETAIL */
-
-.detail{
-    background:#fff;
-    border-radius:20px;
-    padding:14px;
-}
-
-.detail-pic{
-    height:290px;
-    background:#f2f3f5;
-    border-radius:16px;
-    display:grid;
-    place-items:center;
-    font-size:130px;
-}
-
-.detail h1{
-    font-size:23px;
-    margin-top:16px;
-}
-
-.detail-price{
-    font-size:28px;
-    color:var(--orange);
-    font-weight:900;
-    margin-top:10px;
-}
-
-.desc{
-    color:#666;
-    line-height:1.55;
-    margin:13px 0 17px;
-}
-
-.buy-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
-}
-
-.buy-row button{
-    border:0;
-    border-radius:10px;
-    padding:14px;
-    font-weight:800;
-    color:#fff;
-    background:var(--orange);
-}
-
-.buy-row .alt{
-    background:#ff8a43;
-}
-
-/* CART */
-
-.cart-row{
-    background:#fff;
-    border-radius:16px;
-    padding:10px;
-    display:flex;
-    gap:10px;
-    margin-bottom:10px;
-}
-
-.cart-pic{
-    width:76px;
-    height:76px;
-    border-radius:12px;
-    background:#f2f3f5;
-    display:grid;
-    place-items:center;
-    font-size:40px;
-}
-
-.cart-info{
-    flex:1;
-}
-
-.cart-info h3{
-    font-size:14px;
-}
-
-.qty{
-    display:flex;
-    align-items:center;
-    gap:7px;
-    margin-top:7px;
-}
-
-.qty button{
-    width:28px;
-    height:28px;
-    border:0;
-    border-radius:7px;
-    background:#eee;
-    font-weight:900;
-}
-
-.remove{
-    border:0;
-    background:none;
-    color:var(--orange);
-    font-size:11px;
-    margin-top:4px;
-}
-
-.summary{
-    background:#fff;
-    border-radius:17px;
-    padding:16px;
-    margin-top:13px;
-}
-
-.sum{
-    display:flex;
-    justify-content:space-between;
-    margin:9px 0;
-    color:#555;
-}
-
-.total{
-    border-top:1px solid #eee;
-    padding-top:12px;
-    margin-top:12px;
-    font-size:19px;
-    font-weight:900;
-}
-
-/* FORMS */
-
-.form{
-    background:#fff;
-    border-radius:18px;
-    padding:16px;
-}
-
-.field{
-    margin-bottom:14px;
-}
-
-.field label{
-    display:block;
-    font-size:13px;
-    font-weight:800;
-    margin-bottom:7px;
-}
-
-.field input,
-.field textarea,
-.field select{
-    width:100%;
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:12px;
-    outline:none;
-    background:#fff;
-}
-
-.payment{
-    background:#f5f5f5;
-    border-radius:10px;
-    padding:12px;
-    margin:7px 0;
-}
-
-/* ACCOUNT */
-
-.account-top{
-    background:linear-gradient(135deg,#ff5a00,#ff8b3d);
-    color:#fff;
-    border-radius:20px;
-    text-align:center;
-    padding:24px;
-}
-
-.avatar{
-    width:68px;
-    height:68px;
-    border-radius:50%;
-    background:#fff;
-    color:var(--orange);
-    display:grid;
-    place-items:center;
-    margin:auto;
-    font-size:33px;
-}
-
-.account-menu{
-    margin-top:13px;
-    background:#fff;
-    border-radius:17px;
-    overflow:hidden;
-}
-
-.account-menu button{
-    width:100%;
-    background:#fff;
-    border:0;
-    border-bottom:1px solid #eee;
-    padding:17px;
-    text-align:left;
-    font-size:15px;
-}
-
-/* ORDERS */
-
-.order{
-    background:#fff;
-    border-radius:17px;
-    padding:15px;
-    margin-bottom:11px;
-}
-
-.order-top{
-    display:flex;
-    justify-content:space-between;
-    font-size:12px;
-    color:#777;
-}
-
-.status{
-    color:var(--green);
-    font-weight:800;
-}
-
-.order h3{
-    font-size:15px;
-    margin:9px 0;
-}
-
-.order p{
-    font-size:13px;
-    color:#666;
-}
-
-/* EMPTY */
-
-.empty{
-    background:#fff;
-    border-radius:18px;
-    padding:42px 18px;
-    text-align:center;
-}
-
-.empty .big{
-    font-size:58px;
-    margin-bottom:10px;
-}
-
-.empty p{
-    color:#777;
-    margin:8px 0 18px;
-}
-
-/* BOTTOM */
-
-.bottom{
-    position:fixed;
-    left:50%;
-    bottom:0;
-    transform:translateX(-50%);
-    width:100%;
-    max-width:520px;
-    height:72px;
-    background:#fff;
-    border-top:1px solid #ddd;
-    z-index:100;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-}
-
-.bottom button{
-    border:0;
-    background:#fff;
-    color:#777;
-    font-size:10px;
-}
-
-.bottom button span{
-    display:block;
-    font-size:21px;
-    margin-bottom:3px;
-}
-
-.bottom button.active{
-    color:var(--orange);
-    font-weight:900;
-}
-
-/* TOAST */
-
-.toast{
-    position:fixed;
-    z-index:300;
-    left:50%;
-    bottom:88px;
-    transform:translate(-50%,20px);
-    background:#222;
-    color:#fff;
-    padding:12px 18px;
-    border-radius:24px;
-    font-size:13px;
-    opacity:0;
-    pointer-events:none;
-    transition:.25s;
-}
-
-.toast.show{
-    opacity:1;
-    transform:translate(-50%,0);
-}
-
-/* MODAL */
-
-.modal-back{
-    position:fixed;
-    inset:0;
-    background:#0007;
-    z-index:250;
-    display:none;
-    align-items:flex-end;
-    justify-content:center;
-}
-
-.modal-back.show{
-    display:flex;
-}
-
-.modal{
-    width:100%;
-    max-width:520px;
-    background:#fff;
-    border-radius:24px 24px 0 0;
-    padding:20px;
-    max-height:85vh;
-    overflow:auto;
-}
-
-.modal-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:15px;
-}
-
-.close{
-    border:0;
-    background:#f1f2f4;
-    width:36px;
-    height:36px;
-    border-radius:50%;
-    font-size:20px;
-}
-
-/* SELLER / ADMIN */
-
-.dashboard-card{
-    background:#fff;
-    border-radius:18px;
-    padding:17px;
-    margin-bottom:12px;
-}
-
-.dashboard-card h3{
-    margin-bottom:8px;
-}
-
-.stat-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-}
-
-.stat{
-    background:#f7f7f7;
-    border-radius:14px;
-    padding:15px;
-}
-
-.stat b{
-    display:block;
-    font-size:23px;
-    color:var(--orange);
-    margin-top:5px;
-}
-
-/* MOBILE */
-
-@media(max-width:360px){
-    .hero h2{
-        font-size:30px;
-    }
-
-    .grid{
-        gap:8px;
-    }
-
-    .cat-grid{
-        gap:6px;
-    }
-
-    .cat{
-        font-size:12px;
-    }
-
-    .pic{
-        height:145px;
-    }
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div id="app">
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
     <div class="header-row">
 
-        <div class="logo">B</div>
+        <button class="logo" onclick="showScreen('home')">
+            B
+        </button>
 
-        <div class="brand">
+        <div class="brand" onclick="showScreen('home')">
             <h1>BismiMart</h1>
             <p>Sab Kuch, Aasaan!</p>
         </div>
 
         <button class="icon-btn"
-                onclick="showScreen('account')">
-            👤
+                onclick="showScreen('wishlist')">
+            ❤️
+            <b class="badge" id="wishBadge">0</b>
         </button>
 
         <button class="icon-btn"
@@ -882,18 +52,24 @@ button:active{
     </div>
 
     <div class="search">
+
         <span>🔍</span>
 
         <input
             id="searchInput"
+            type="search"
             placeholder="Search products..."
-            autocomplete="off">
+            autocomplete="off"
+            onkeydown="searchOnEnter(event)">
+
+        <button onclick="performSearch()">Search</button>
+
     </div>
 
 </header>
 
 
-<!-- HOME -->
+<!-- ================= HOME ================= -->
 
 <section class="screen active" id="home">
 
@@ -928,50 +104,60 @@ button:active{
 
 
     <div class="section-head">
+
         <h2>Shop by Category</h2>
 
         <button onclick="showScreen('categories')">
             View All
         </button>
+
     </div>
 
     <div class="cat-grid" id="homeCats"></div>
 
 
     <div class="section-head">
+
         <h2>Flash Sale ⚡</h2>
 
         <button onclick="openShop('sale')">
             View All
         </button>
+
     </div>
 
     <div class="flash">
 
-        <h3>FLASH SALE ⚡</h3>
+        <div>
+            <h3>FLASH SALE ⚡</h3>
 
-        <p>Up to 60% OFF</p>
+            <p>Up to 60% OFF</p>
 
-        <div class="timer" id="timer">
-            02 : 45 : 30
+            <div class="timer" id="timer">
+                02 : 45 : 30
+            </div>
+
+            <button class="btn"
+                    onclick="openShop('sale')">
+                Shop Now
+            </button>
         </div>
 
-        <button class="btn"
-                onclick="openShop('sale')">
-            Shop Now
-        </button>
-
-        <div class="flash-art">🎧</div>
+        <div class="flash-art">
+            🎧
+        </div>
 
     </div>
 
 
     <div class="section-head">
+
         <h2>Top Products</h2>
 
         <button onclick="openShop()">
             View All
         </button>
+
     </div>
 
     <div class="grid" id="homeProducts"></div>
@@ -979,7 +165,7 @@ button:active{
 </section>
 
 
-<!-- SHOP -->
+<!-- ================= SHOP ================= -->
 
 <section class="screen" id="shop">
 
@@ -989,7 +175,25 @@ button:active{
             ‹
         </button>
 
-        <h2 id="shopTitle">Shop</h2>
+        <h2 id="shopTitle">
+            Shop
+        </h2>
+
+    </div>
+
+    <div class="filter-row">
+
+        <button onclick="openShop()">
+            All
+        </button>
+
+        <button onclick="openShop('sale')">
+            ⚡ Sale
+        </button>
+
+        <button onclick="showScreen('categories')">
+            Categories
+        </button>
 
     </div>
 
@@ -998,7 +202,7 @@ button:active{
 </section>
 
 
-<!-- CATEGORIES -->
+<!-- ================= CATEGORIES ================= -->
 
 <section class="screen" id="categories">
 
@@ -1017,7 +221,7 @@ button:active{
 </section>
 
 
-<!-- SEARCH -->
+<!-- ================= SEARCH ================= -->
 
 <section class="screen" id="search">
 
@@ -1032,14 +236,17 @@ button:active{
     </div>
 
     <p id="searchText"
-       style="color:#777;margin-bottom:12px"></p>
+       class="muted-text">
+    </p>
 
-    <div class="grid" id="searchResults"></div>
+    <div class="grid"
+         id="searchResults">
+    </div>
 
 </section>
 
 
-<!-- PRODUCT DETAIL -->
+<!-- ================= PRODUCT DETAIL ================= -->
 
 <section class="screen" id="detail">
 
@@ -1058,7 +265,7 @@ button:active{
 </section>
 
 
-<!-- CART -->
+<!-- ================= CART ================= -->
 
 <section class="screen" id="cart">
 
@@ -1077,7 +284,7 @@ button:active{
 </section>
 
 
-<!-- CHECKOUT -->
+<!-- ================= CHECKOUT ================= -->
 
 <section class="screen" id="checkout">
 
@@ -1094,66 +301,77 @@ button:active{
     <div class="form">
 
         <div class="field">
+
             <label>Full Name</label>
 
-            <input id="customerName"
-                   placeholder="Enter your name">
+            <input
+                id="customerName"
+                placeholder="Enter your name">
+
         </div>
 
+
         <div class="field">
+
             <label>Mobile Number</label>
 
-            <input id="customerPhone"
-                   type="tel"
-                   placeholder="03XXXXXXXXX">
+            <input
+                id="customerPhone"
+                type="tel"
+                placeholder="03XXXXXXXXX">
+
         </div>
+
 
         <div class="field">
+
             <label>Delivery Address</label>
 
-            <textarea id="customerAddress"
-                      rows="4"
-                      placeholder="House, street, area, city"></textarea>
+            <textarea
+                id="customerAddress"
+                rows="4"
+                placeholder="House, street, area, city">
+            </textarea>
+
         </div>
+
 
         <div class="field">
 
             <label>Payment Method</label>
 
-            <div class="payment">
-                <label>
-                    <input type="radio"
-                           name="payment"
-                           value="Cash on Delivery"
-                           checked>
-                    💵 Cash on Delivery
-                </label>
-            </div>
+            <label class="payment">
+                <input
+                    type="radio"
+                    name="payment"
+                    value="Cash on Delivery"
+                    checked>
+                💵 Cash on Delivery
+            </label>
 
-            <div class="payment">
-                <label>
-                    <input type="radio"
-                           name="payment"
-                           value="Easypaisa">
-                    📱 Easypaisa
-                </label>
-            </div>
+            <label class="payment">
+                <input
+                    type="radio"
+                    name="payment"
+                    value="Easypaisa">
+                📱 Easypaisa
+            </label>
 
-            <div class="payment">
-                <label>
-                    <input type="radio"
-                           name="payment"
-                           value="JazzCash">
-                    📱 JazzCash
-                </label>
-            </div>
+            <label class="payment">
+                <input
+                    type="radio"
+                    name="payment"
+                    value="JazzCash">
+                📱 JazzCash
+            </label>
 
         </div>
 
+
         <div id="checkoutSummary"></div>
 
-        <button class="btn"
-                style="width:100%;margin-top:12px"
+
+        <button class="btn full"
                 onclick="placeOrder()">
             Place Order
         </button>
@@ -1163,7 +381,7 @@ button:active{
 </section>
 
 
-<!-- ORDERS -->
+<!-- ================= ORDERS ================= -->
 
 <section class="screen" id="orders">
 
@@ -1182,7 +400,7 @@ button:active{
 </section>
 
 
-<!-- WISHLIST -->
+<!-- ================= WISHLIST ================= -->
 
 <section class="screen" id="wishlist">
 
@@ -1196,12 +414,14 @@ button:active{
 
     </div>
 
-    <div class="grid" id="wishlistContent"></div>
+    <div class="grid"
+         id="wishlistContent">
+    </div>
 
 </section>
 
 
-<!-- ACCOUNT -->
+<!-- ================= ACCOUNT ================= -->
 
 <section class="screen" id="account">
 
@@ -1215,56 +435,59 @@ button:active{
 
     </div>
 
+
     <div class="account-top">
 
-        <div class="avatar">👤</div>
+        <div class="avatar">
+            👤
+        </div>
 
-        <h2 id="accountName"
-            style="margin-top:12px">
+        <h2 id="accountName">
             Welcome
         </h2>
 
-        <p style="margin-top:6px">
+        <p>
             Manage your BismiMart account
         </p>
 
     </div>
 
+
     <div class="account-menu">
 
         <button onclick="openLogin()">
             👤 Login / Sign Up
-            <span style="float:right">›</span>
+            <span>›</span>
         </button>
 
         <button onclick="showScreen('orders')">
             📦 My Orders
-            <span style="float:right">›</span>
+            <span>›</span>
         </button>
 
         <button onclick="showScreen('cart')">
             🛒 My Cart
-            <span style="float:right">›</span>
+            <span>›</span>
         </button>
 
         <button onclick="showScreen('wishlist')">
             ❤️ Wishlist
-            <span style="float:right">›</span>
+            <span>›</span>
         </button>
 
         <button onclick="showSeller()">
             🏪 Seller Center
-            <span style="float:right">›</span>
+            <span>›</span>
         </button>
 
         <button onclick="showAdmin()">
             🛠️ Admin Panel
-            <span style="float:right">›</span>
+            <span>›</span>
         </button>
 
         <button onclick="showCourier()">
             🚚 Courier Panel
-            <span style="float:right">›</span>
+            <span>›</span>
         </button>
 
     </div>
@@ -1272,7 +495,7 @@ button:active{
 </section>
 
 
-<!-- LOGIN -->
+<!-- ================= LOGIN ================= -->
 
 <section class="screen" id="login">
 
@@ -1286,4 +509,598 @@ button:active{
 
     </div>
 
-    <div 
+
+    <div class="form">
+
+        <div class="login-tabs">
+
+            <button id="loginTab"
+                    class="active"
+                    onclick="setLoginMode('login')">
+                Login
+            </button>
+
+            <button id="signupTab"
+                    onclick="setLoginMode('signup')">
+                Sign Up
+            </button>
+
+        </div>
+
+
+        <div id="signupNameField"
+             class="field hidden">
+
+            <label>Full Name</label>
+
+            <input
+                id="loginName"
+                placeholder="Enter your name">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Email or Mobile</label>
+
+            <input
+                id="loginContact"
+                placeholder="Email or mobile number">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Password</label>
+
+            <input
+                id="loginPassword"
+                type="password"
+                placeholder="Password">
+
+        </div>
+
+
+        <button class="btn full"
+                onclick="submitLogin()">
+            Continue
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SELLER ================= -->
+
+<section class="screen" id="seller">
+
+    <div class="screen-head">
+
+        <button class="back" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>Seller Center</h2>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <h3>Seller Dashboard</h3>
+
+        <p class="muted-text">
+            Manage products, orders and sales.
+        </p>
+
+    </div>
+
+
+    <div class="stat-grid">
+
+        <div class="stat">
+            Products
+            <b>24</b>
+        </div>
+
+        <div class="stat">
+            Orders
+            <b>18</b>
+        </div>
+
+        <div class="stat">
+            Sales
+            <b>Rs. 85K</b>
+        </div>
+
+        <div class="stat">
+            Customers
+            <b>42</b>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-card action-card">
+
+        <button onclick="sellerAddProduct()">
+            ➕ Add Product
+        </button>
+
+        <button onclick="sellerProducts()">
+            📦 My Products
+        </button>
+
+        <button onclick="sellerOrders()">
+            🧾 Seller Orders
+        </button>
+
+        <button onclick="showToast('Payment section opened')">
+            💰 Payments
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ADMIN ================= -->
+
+<section class="screen" id="admin">
+
+    <div class="screen-head">
+
+        <button class="back" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>Admin Panel</h2>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <h3>Admin Dashboard</h3>
+
+        <p class="muted-text">
+            Manage BismiMart marketplace.
+        </p>
+
+    </div>
+
+
+    <div class="stat-grid">
+
+        <div class="stat">
+            Users
+            <b>1,245</b>
+        </div>
+
+        <div class="stat">
+            Sellers
+            <b>84</b>
+        </div>
+
+        <div class="stat">
+            Orders
+            <b>562</b>
+        </div>
+
+        <div class="stat">
+            Revenue
+            <b>Rs. 9.8L</b>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-card action-card">
+
+        <button onclick="showToast('User management opened')">
+            👥 Users
+        </button>
+
+        <button onclick="showToast('Seller management opened')">
+            🏪 Sellers
+        </button>
+
+        <button onclick="showToast('Product management opened')">
+            📦 Products
+        </button>
+
+        <button onclick="showToast('Order management opened')">
+            🧾 Orders
+        </button>
+
+        <button onclick="showToast('Settings opened')">
+            ⚙️ Settings
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= COURIER ================= -->
+
+<section class="screen" id="courier">
+
+    <div class="screen-head">
+
+        <button class="back" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>Courier Panel</h2>
+
+    </div>
+
+
+    <div class="dashboard-card">
+
+        <h3>Courier Dashboard</h3>
+
+        <p class="muted-text">
+            Manage deliveries and shipments.
+        </p>
+
+    </div>
+
+
+    <div class="stat-grid">
+
+        <div class="stat">
+            New
+            <b>12</b>
+        </div>
+
+        <div class="stat">
+            Pickup
+            <b>7</b>
+        </div>
+
+        <div class="stat">
+            Delivered
+            <b>46</b>
+        </div>
+
+        <div class="stat">
+            Returns
+            <b>3</b>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-card action-card">
+
+        <button onclick="showToast('New deliveries opened')">
+            📦 New Deliveries
+        </button>
+
+        <button onclick="showToast('Pickup list opened')">
+            🚚 Pickup
+        </button>
+
+        <button onclick="showToast('Delivery history opened')">
+            🧾 Delivery History
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SELLER ADD PRODUCT ================= -->
+
+<section class="screen" id="addProduct">
+
+    <div class="screen-head">
+
+        <button class="back" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>Add Product</h2>
+
+    </div>
+
+
+    <div class="form">
+
+        <div class="field">
+
+            <label>Product Name</label>
+
+            <input id="newProductName"
+                   placeholder="Product name">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Price</label>
+
+            <input id="newProductPrice"
+                   type="number"
+                   placeholder="Price">
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Category</label>
+
+            <select id="newProductCategory">
+
+                <option>Mobiles</option>
+                <option>Electronics</option>
+                <option>Fashion</option>
+                <option>Beauty</option>
+                <option>Home</option>
+                <option>Sports</option>
+
+            </select>
+
+        </div>
+
+
+        <div class="field">
+
+            <label>Description</label>
+
+            <textarea
+                id="newProductDescription"
+                rows="4"
+                placeholder="Product description">
+            </textarea>
+
+        </div>
+
+
+        <button class="btn full"
+                onclick="addSellerProduct()">
+            Add Product
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SELLER PRODUCTS ================= -->
+
+<section class="screen" id="sellerProducts">
+
+    <div class="screen-head">
+
+        <button class="back" onclick="goBack()">
+            ‹
+        </button>
+
+        <h2>My Products</h2>
+
+    </div>
+
+    <div class="grid"
+         id="sellerProductsContent">
+    </div>
+
+</section>
+
+
+<!-- ================= TOAST ================= -->
+
+<div class="toast"
+     id="toast">
+</div>
+
+
+<!-- ================= BOTTOM NAV ================= -->
+
+<nav class="bottom">
+
+    <button id="navHome"
+            class="active"
+            onclick="showScreen('home')">
+
+        <span>⌂</span>
+        Home
+
+    </button>
+
+
+    <button id="navCategories"
+            onclick="showScreen('categories')">
+
+        <span>▦</span>
+        Categories
+
+    </button>
+
+
+    <button id="navOrders"
+            onclick="showScreen('orders')">
+
+        <span>📦</span>
+        Orders
+
+    </button>
+
+
+    <button id="navWishlist"
+            onclick="showScreen('wishlist')">
+
+        <span>❤️</span>
+        Wishlist
+
+    </button>
+
+
+    <button id="navAccount"
+            onclick="showScreen('account')">
+
+        <span>👤</span>
+        Account
+
+    </button>
+
+</nav>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+"use strict";
+
+
+/* ================= DATA ================= */
+
+const products = [
+
+    {
+        id:1,
+        name:"Vivo Y17s",
+        category:"Mobiles",
+        price:29999,
+        oldPrice:32999,
+        rating:"4.7",
+        emoji:"📱",
+        sale:true,
+        description:"Vivo Y17s smartphone with stylish design and reliable performance."
+    },
+
+    {
+        id:2,
+        name:"Wireless Headphones",
+        category:"Electronics",
+        price:3499,
+        oldPrice:4999,
+        rating:"4.6",
+        emoji:"🎧",
+        sale:true,
+        description:"Comfortable wireless headphones with clear sound."
+    },
+
+    {
+        id:3,
+        name:"Smart Watch",
+        category:"Electronics",
+        price:4299,
+        oldPrice:5999,
+        rating:"4.5",
+        emoji:"⌚",
+        sale:true,
+        description:"Modern smart watch for daily fitness and notifications."
+    },
+
+    {
+        id:4,
+        name:"Ladies Handbag",
+        category:"Fashion",
+        price:2499,
+        oldPrice:3499,
+        rating:"4.8",
+        emoji:"👜",
+        sale:true,
+        description:"Stylish ladies handbag suitable for everyday use."
+    },
+
+    {
+        id:5,
+        name:"Running Shoes",
+        category:"Fashion",
+        price:2999,
+        oldPrice:3999,
+        rating:"4.6",
+        emoji:"👟",
+        sale:false,
+        description:"Comfortable running shoes for walking and sports."
+    },
+
+    {
+        id:6,
+        name:"Beauty Skin Care Kit",
+        category:"Beauty",
+        price:1899,
+        oldPrice:2499,
+        rating:"4.5",
+        emoji:"💄",
+        sale:true,
+        description:"Complete beauty care kit for everyday use."
+    },
+
+    {
+        id:7,
+        name:"Kitchen Set",
+        category:"Home",
+        price:2199,
+        oldPrice:2999,
+        rating:"4.4",
+        emoji:"🍳",
+        sale:false,
+        description:"Useful kitchen set for your home."
+    },
+
+    {
+        id:8,
+        name:"Sports Football",
+        category:"Sports",
+        price:1599,
+        oldPrice:1999,
+        rating:"4.7",
+        emoji:"⚽",
+        sale:false,
+        description:"Durable football suitable for training and games."
+    },
+
+    {
+        id:9,
+        name:"Bluetooth Speaker",
+        category:"Electronics",
+        price:2299,
+        oldPrice:2999,
+        rating:"4.6",
+        emoji:"🔊",
+        sale:true,
+        description:"Portable Bluetooth speaker with powerful sound."
+    },
+
+    {
+        id:10,
+        name:"Men's T-Shirt",
+        category:"Fashion",
+        price:999,
+        oldPrice:1499,
+        rating:"4.4",
+        emoji:"👕",
+        sale:true,
+        description:"Comfortable casual men's T-shirt."
+    },
+
+    {
+        id:11,
+        name:"Mobile Charger",
+        category:"Electronics",
+        price:799,
+        oldPrice:999,
+        rating:"4.5",
+        emoji:"🔌",
+        sale:false,
+        description:"Fast and reliable mobile charger."
+    },
+
+    {
+        id:12,
+        name:"Home Lamp",
+        category:"Home",
+  

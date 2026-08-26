@@ -844,4 +844,600 @@ function renderCart() {
               ✕
             </button>
 
-         
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }).join("");
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('home')"
+      >
+        ←
+      </button>
+
+      <h1>
+        My Cart
+        (${cart.reduce(
+          (total, item) =>
+            total + item.qty,
+          0
+        )})
+      </h1>
+
+    </div>
+
+
+    <div class="list">
+
+      ${itemsHTML}
+
+    </div>
+
+
+    <div class="summary">
+
+      <div class="sum">
+
+        <span>
+          Subtotal
+        </span>
+
+        <b>
+          ${money(subtotal)}
+        </b>
+
+      </div>
+
+
+      <div class="sum">
+
+        <span>
+          Delivery
+        </span>
+
+        <b>
+          FREE
+        </b>
+
+      </div>
+
+
+      <div class="sum total">
+
+        <span>
+          Total
+        </span>
+
+        <span>
+          ${money(subtotal)}
+        </span>
+
+      </div>
+
+
+      <button
+        class="primary full"
+        onclick="checkout()"
+      >
+        Proceed to Checkout
+      </button>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================
+   WISHLIST
+========================= */
+
+function toggleWish(id) {
+
+  if (wish.includes(id)) {
+
+    wish = wish.filter(
+      (item) => item !== id
+    );
+
+    toast("Removed from wishlist");
+
+  } else {
+
+    wish.push(id);
+
+    toast("Added to wishlist ❤️");
+  }
+
+  save();
+
+  home();
+}
+
+
+function renderWish() {
+
+  const screen = document.getElementById("wishlist");
+
+  if (!screen) return;
+
+  const list = products.filter(
+    (product) =>
+      wish.includes(product.id)
+  );
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('home')"
+      >
+        ←
+      </button>
+
+      <h1>
+        My Wishlist
+      </h1>
+
+    </div>
+
+
+    ${
+      list.length
+        ? `
+          <div class="products">
+            ${list.map(card).join("")}
+          </div>
+        `
+        : `
+          <div class="empty">
+
+            <div>
+              ♡
+            </div>
+
+            <h2>
+              Wishlist is Empty
+            </h2>
+
+            <button
+              class="primary"
+              onclick="go('products')"
+            >
+              Browse Products
+            </button>
+
+          </div>
+        `
+    }
+
+  `;
+}
+
+
+/* =========================
+   CHECKOUT
+========================= */
+
+function checkout() {
+
+  if (!cart.length) {
+
+    toast("Your cart is empty");
+
+    go("products");
+
+    return;
+  }
+
+
+  const total = cart.reduce(
+    (sum, item) => {
+
+      const product =
+        products.find(
+          (p) => p.id === item.id
+        );
+
+      return sum +
+        product.price * item.qty;
+
+    },
+    0
+  );
+
+
+  const screen =
+    document.getElementById("checkout");
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('cart')"
+      >
+        ←
+      </button>
+
+      <h1>
+        Checkout
+      </h1>
+
+    </div>
+
+
+    <div class="checkout-section">
+
+      <h3>
+        Delivery Address
+      </h3>
+
+      <b>
+        Ayesha Khan
+      </b>
+
+      <p>
+        House 25, Street 01,
+        Karachi, Pakistan
+      </p>
+
+      <button class="link">
+        Change
+      </button>
+
+    </div>
+
+
+    <div class="checkout-section">
+
+      <h3>
+        Payment Method
+      </h3>
+
+
+      <button
+        class="pay selected"
+        onclick="selectPay(this)"
+      >
+        💵 &nbsp;
+        Cash on Delivery
+        <span style="float:right">
+          ●
+        </span>
+      </button>
+
+
+      <button
+        class="pay"
+        onclick="selectPay(this)"
+      >
+        🔴 &nbsp;
+        JazzCash
+        <span style="float:right">
+          ○
+        </span>
+      </button>
+
+
+      <button
+        class="pay"
+        onclick="selectPay(this)"
+      >
+        🟢 &nbsp;
+        Easypaisa
+        <span style="float:right">
+          ○
+        </span>
+      </button>
+
+
+      <button
+        class="pay"
+        onclick="selectPay(this)"
+      >
+        💳 &nbsp;
+        Credit / Debit Card
+        <span style="float:right">
+          ○
+        </span>
+      </button>
+
+    </div>
+
+
+    <div class="summary">
+
+      <div class="sum">
+
+        <span>
+          Items
+        </span>
+
+        <b>
+          ${money(total)}
+        </b>
+
+      </div>
+
+
+      <div class="sum">
+
+        <span>
+          Delivery
+        </span>
+
+        <b>
+          FREE
+        </b>
+
+      </div>
+
+
+      <div class="sum total">
+
+        <span>
+          Total Payable
+        </span>
+
+        <span>
+          ${money(total)}
+        </span>
+
+      </div>
+
+
+      <button
+        class="primary full"
+        onclick="placeOrder()"
+      >
+        Place Order
+      </button>
+
+    </div>
+
+  `;
+
+  go("checkout");
+}
+
+
+function selectPay(element) {
+
+  document
+    .querySelectorAll(".pay")
+    .forEach((button) => {
+
+      button.classList.remove(
+        "selected"
+      );
+
+      const circle =
+        button.querySelector(
+          "span"
+        );
+
+      if (circle) {
+        circle.textContent = "○";
+      }
+
+    });
+
+
+  element.classList.add("selected");
+
+  const circle =
+    element.querySelector("span");
+
+  if (circle) {
+    circle.textContent = "●";
+  }
+}
+
+
+/* =========================
+   BUY NOW
+========================= */
+
+function buyNow() {
+
+  if (!current) return;
+
+  cart = [
+    {
+      id: current.id,
+      qty: 1
+    }
+  ];
+
+  save();
+
+  checkout();
+}
+
+
+/* =========================
+   PLACE ORDER
+========================= */
+
+function placeOrder() {
+
+  if (!cart.length) {
+
+    toast("Your cart is empty");
+
+    return;
+  }
+
+
+  const order = {
+
+    id:
+      "BM" +
+      Date.now()
+        .toString()
+        .slice(-6),
+
+    date:
+      new Date()
+        .toLocaleDateString(),
+
+    status:
+      "Processing",
+
+    items:
+      [...cart]
+
+  };
+
+
+  orders.unshift(order);
+
+  cart = [];
+
+  save();
+
+  toast(
+    "Order placed successfully 🎉"
+  );
+
+
+  setTimeout(() => {
+
+    go("orders");
+
+  }, 600);
+}
+
+
+/* =========================
+   ORDERS
+========================= */
+
+function renderOrders() {
+
+  const screen =
+    document.getElementById("orders");
+
+  if (!screen) return;
+
+
+  if (!orders.length) {
+
+    screen.innerHTML = `
+
+      <div class="page-head">
+
+        <button
+          class="back"
+          onclick="go('home')"
+        >
+          ←
+        </button>
+
+        <h1>
+          My Orders
+        </h1>
+
+      </div>
+
+
+      <div class="empty">
+
+        <div>
+          📦
+        </div>
+
+        <h2>
+          No Orders Yet
+        </h2>
+
+        <button
+          class="primary"
+          onclick="go('products')"
+        >
+          Start Shopping
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  screen.innerHTML = `
+
+    <div class="page-head">
+
+      <button
+        class="back"
+        onclick="go('home')"
+      >
+        ←
+      </button>
+
+      <h1>
+        My Orders
+      </h1>
+
+    </div>
+
+
+    ${orders.map((order) => `
+
+      <div
+        class="order"
+        onclick="tracking('${order.id}')"
+      >
+
+        <div class="order-top">
+
+          <b>
+            Order #${order.id}
+          </b>
+
+          <span class="status">
+            ${order.status}
+          </span>
+
+        </div>
+
+
+        <p>
+          Placed on ${order.date}
+        </p>
+
+
+        <button class="link">
+          Track Order →
+        </button>
+
+      </div>
+
+    `).join("")}
+
+  `;
+}
+
+
+/* =========================
+   TRACKING
+=========

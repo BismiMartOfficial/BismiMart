@@ -1,6 +1,7 @@
 /* =====================================================
    BISMI MART
-   COMPLETE CORRECTED SCRIPT
+   COMPLETE SELLER + SHOP SCRIPT
+   Compatible with existing index.html
 ===================================================== */
 
 
@@ -8,7 +9,7 @@
    DEFAULT PRODUCTS
 ===================================================== */
 
-const products = [
+const defaultProducts = [
 
   {
     id: 1,
@@ -118,22 +119,105 @@ const products = [
 
 
 /* =====================================================
-   LOCAL STORAGE DATA
+   MAIN PRODUCT ARRAY
+===================================================== */
+
+const products = [];
+
+
+/* =====================================================
+   SAFE LOCAL STORAGE
+===================================================== */
+
+function readStorage(key, fallback) {
+
+  try {
+
+    const value =
+      localStorage.getItem(key);
+
+    if (!value) {
+      return fallback;
+    }
+
+    const parsed =
+      JSON.parse(value);
+
+    return parsed;
+
+  } catch (error) {
+
+    console.warn(
+      "Storage read error:",
+      key,
+      error
+    );
+
+    return fallback;
+
+  }
+
+}
+
+
+function writeStorage(key, value) {
+
+  try {
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(value)
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "Storage write error:",
+      key,
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   USER DATA
 ===================================================== */
 
 let cart =
-  JSON.parse(localStorage.getItem("bismiCart") || "[]");
+  readStorage("bismiCart", []);
 
 let wishlist =
-  JSON.parse(localStorage.getItem("bismiWishlist") || "[]");
+  readStorage("bismiWishlist", []);
 
 let orders =
-  JSON.parse(localStorage.getItem("bismiOrders") || "[]");
+  readStorage("bismiOrders", []);
 
 let sellerProducts =
-  JSON.parse(
-    localStorage.getItem("bismiSellerProducts") || "[]"
-  );
+  readStorage("bismiSellerProducts", []);
+
+
+/* =====================================================
+   NORMALIZE DATA
+===================================================== */
+
+if (!Array.isArray(cart)) {
+  cart = [];
+}
+
+if (!Array.isArray(wishlist)) {
+  wishlist = [];
+}
+
+if (!Array.isArray(orders)) {
+  orders = [];
+}
+
+if (!Array.isArray(sellerProducts)) {
+  sellerProducts = [];
+}
 
 
 /* =====================================================
@@ -145,62 +229,90 @@ let toastTimer = null;
 
 
 /* =====================================================
-   LOAD SELLER PRODUCTS INTO SHOP
-   IMPORTANT FOR REFRESH
+   BUILD SHOP PRODUCTS
 ===================================================== */
 
-function loadSellerProductsIntoShop() {
+function rebuildProducts() {
+
+  products.length = 0;
+
+
+  /* DEFAULT PRODUCTS */
+
+  defaultProducts.forEach(function(product) {
+
+    products.push({
+      ...product
+    });
+
+  });
+
+
+  /* SELLER PRODUCTS */
 
   sellerProducts.forEach(function(sellerProduct) {
 
-    const id = Number(sellerProduct.id);
+    const sellerId =
+      Number(sellerProduct.id);
 
-    const exists =
+    if (!sellerId) {
+      return;
+    }
+
+
+    const alreadyExists =
       products.some(function(product) {
 
-        return Number(product.id) === id;
+        return Number(product.id) === sellerId;
 
       });
 
 
-    if (!exists) {
-
-      products.push({
-
-        id: id,
-
-        name:
-          sellerProduct.name || "Product",
-
-        category:
-          sellerProduct.category || "Other",
-
-        price:
-          Number(sellerProduct.price) || 0,
-
-        oldPrice:
-          Number(sellerProduct.oldPrice) ||
-          Number(sellerProduct.price) ||
-          0,
-
-        rating:
-          Number(sellerProduct.rating) || 4.5,
-
-        emoji:
-          sellerProduct.emoji || "📦",
-
-        image:
-          sellerProduct.image || "",
-
-        description:
-          sellerProduct.description ||
-          "Quality product available at BismiMart.",
-
-        sellerProduct: true
-
-      });
-
+    if (alreadyExists) {
+      return;
     }
+
+
+    products.push({
+
+      id: sellerId,
+
+      name:
+        sellerProduct.name ||
+        "Product",
+
+      category:
+        sellerProduct.category ||
+        "Other",
+
+      price:
+        Number(sellerProduct.price) || 0,
+
+      oldPrice:
+        Number(sellerProduct.oldPrice) ||
+        Number(sellerProduct.price) ||
+        0,
+
+      rating:
+        Number(sellerProduct.rating) ||
+        4.5,
+
+      emoji:
+        sellerProduct.emoji ||
+        "📦",
+
+      image:
+        sellerProduct.image ||
+        "",
+
+      description:
+        sellerProduct.description ||
+        "Quality product available at BismiMart.",
+
+      sellerProduct:
+        true
+
+    });
 
   });
 
@@ -208,62 +320,79 @@ function loadSellerProductsIntoShop() {
 
 
 /* =====================================================
-   APP START
+   INITIAL BUILD
+===================================================== */
+
+rebuildProducts();
+
+
+/* =====================================================
+   DOM READY
 ===================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
   function() {
 
-    /* VERY IMPORTANT */
-    loadSellerProductsIntoShop();
-
-    renderHomeProducts();
-
-    renderProducts(products);
-
-    renderCart();
-
-    renderWishlist();
-
-    renderOrders();
-
-    renderAccount();
-
-    updateBadges();
-
-    renderSellerCenter();
-
-    showScreen("home", false);
+    initializeApp();
 
   }
 );
 
 
 /* =====================================================
-   SAVE DATA
+   INITIALIZE APP
+===================================================== */
+
+function initializeApp() {
+
+  rebuildProducts();
+
+  renderHomeProducts();
+
+  renderProducts(products);
+
+  renderCart();
+
+  renderWishlist();
+
+  renderOrders();
+
+  renderAccount();
+
+  renderSellerCenter();
+
+  updateBadges();
+
+  showScreen("home", false);
+
+}
+
+
+/* =====================================================
+   SAVE ALL DATA
 ===================================================== */
 
 function saveData() {
 
-  localStorage.setItem(
+  writeStorage(
     "bismiCart",
-    JSON.stringify(cart)
+    cart
   );
 
-  localStorage.setItem(
+  writeStorage(
     "bismiWishlist",
-    JSON.stringify(wishlist)
+    wishlist
   );
 
-  localStorage.setItem(
+  writeStorage(
     "bismiOrders",
-    JSON.stringify(orders)
+    orders
   );
 
-  localStorage.setItem(
+  writeStorage(
     "bismiSellerProducts",
-    JSON.stringify(sellerProducts)
+    sellerProducts
   );
 
   updateBadges();
@@ -272,14 +401,17 @@ function saveData() {
 
 
 /* =====================================================
-   MONEY
+   MONEY FORMAT
 ===================================================== */
 
 function money(value) {
 
+  const number =
+    Number(value) || 0;
+
   return (
     "Rs. " +
-    Number(value || 0).toLocaleString("en-PK")
+    number.toLocaleString("en-PK")
   );
 
 }
@@ -291,11 +423,36 @@ function money(value) {
 
 function getProduct(id) {
 
-  return products.find(function(product) {
+  return products.find(
+    function(product) {
 
-    return Number(product.id) === Number(id);
+      return (
+        Number(product.id) ===
+        Number(id)
+      );
 
-  });
+    }
+  );
+
+}
+
+
+/* =====================================================
+   GET SELLER PRODUCT
+===================================================== */
+
+function getSellerProduct(id) {
+
+  return sellerProducts.find(
+    function(product) {
+
+      return (
+        Number(product.id) ===
+        Number(id)
+      );
+
+    }
+  );
 
 }
 
@@ -308,15 +465,17 @@ function escapeHtml(text) {
 
   return String(text ?? "").replace(
     /[&<>"']/g,
-    function(c) {
+    function(character) {
 
       return {
+
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
         '"': "&quot;",
         "'": "&#039;"
-      }[c];
+
+      }[character];
 
     }
   );
@@ -330,7 +489,10 @@ function escapeHtml(text) {
 
 function imageHTML(product) {
 
-  if (product.image) {
+  if (
+    product &&
+    product.image
+  ) {
 
     return `
 
@@ -375,7 +537,7 @@ function imageHTML(product) {
         font-size:70px;
       "
     >
-      ${product.emoji || "📦"}
+      ${product?.emoji || "📦"}
     </span>
 
   `;
@@ -387,19 +549,26 @@ function imageHTML(product) {
    SCREEN SYSTEM
 ===================================================== */
 
-function showScreen(screen, scroll = true) {
+function showScreen(
+  screen,
+  scroll = true
+) {
 
   const target =
     document.getElementById(screen);
 
-  if (!target) return;
+  if (!target) {
+    return;
+  }
 
 
   document
     .querySelectorAll(".screen")
-    .forEach(function(s) {
+    .forEach(function(section) {
 
-      s.classList.remove("active");
+      section.classList.remove(
+        "active"
+      );
 
     });
 
@@ -409,56 +578,49 @@ function showScreen(screen, scroll = true) {
 
   document
     .querySelectorAll(".nav-btn")
-    .forEach(function(btn) {
+    .forEach(function(button) {
 
-      btn.classList.toggle(
+      button.classList.toggle(
         "active",
-        btn.dataset.screen === screen
+        button.dataset.screen === screen
       );
 
     });
 
 
   if (screen === "cart") {
-
     renderCart();
-
   }
 
 
   if (screen === "wishlist") {
-
     renderWishlist();
-
   }
 
 
   if (screen === "orders") {
-
     renderOrders();
-
   }
 
 
   if (screen === "account") {
-
     renderAccount();
-
   }
 
 
   if (screen === "sellerCenter") {
-
     renderSellerCenter();
-
   }
 
 
   if (scroll) {
 
     window.scrollTo({
+
       top: 0,
+
       behavior: "smooth"
+
     });
 
   }
@@ -487,7 +649,10 @@ function updateBadges() {
     cart.reduce(
       function(total, item) {
 
-        return total + Number(item.qty || 0);
+        return (
+          total +
+          Number(item.qty || 0)
+        );
 
       },
       0
@@ -495,15 +660,21 @@ function updateBadges() {
 
 
   const cartBadge =
-    document.getElementById("cartBadge");
+    document.getElementById(
+      "cartBadge"
+    );
+
 
   const wishBadge =
-    document.getElementById("wishBadge");
+    document.getElementById(
+      "wishBadge"
+    );
 
 
   if (cartBadge) {
 
-    cartBadge.textContent = cartCount;
+    cartBadge.textContent =
+      cartCount;
 
   }
 
@@ -525,9 +696,13 @@ function updateBadges() {
 function renderHomeProducts() {
 
   const box =
-    document.getElementById("homeProducts");
+    document.getElementById(
+      "homeProducts"
+    );
 
-  if (!box) return;
+  if (!box) {
+    return;
+  }
 
 
   box.innerHTML =
@@ -546,12 +721,16 @@ function renderHomeProducts() {
 function renderProducts(list) {
 
   const box =
-    document.getElementById("productList");
+    document.getElementById(
+      "productList"
+    );
 
-  if (!box) return;
+  if (!box) {
+    return;
+  }
 
 
-  if (!list.length) {
+  if (!Array.isArray(list) || !list.length) {
 
     box.innerHTML = `
 
@@ -595,8 +774,20 @@ function renderProducts(list) {
 
 function productCard(product) {
 
+  const id =
+    Number(product.id);
+
+
   const wished =
-    wishlist.includes(Number(product.id));
+    wishlist.some(
+      function(itemId) {
+
+        return (
+          Number(itemId) === id
+        );
+
+      }
+    );
 
 
   return `
@@ -605,7 +796,7 @@ function productCard(product) {
 
       <div
         class="product-image"
-        onclick="openProduct(${product.id})"
+        onclick="openProduct(${id})"
         style="cursor:pointer"
       >
 
@@ -615,7 +806,7 @@ function productCard(product) {
           class="wish-btn"
           onclick="
             event.stopPropagation();
-            toggleWishlist(${product.id})
+            toggleWishlist(${id});
           "
         >
           ${wished ? "❤️" : "♡"}
@@ -632,7 +823,10 @@ function productCard(product) {
 
 
         <div class="rating">
-          ⭐ ${Number(product.rating || 4.5).toFixed(1)}
+          ⭐
+          ${Number(
+            product.rating || 4.5
+          ).toFixed(1)}
         </div>
 
 
@@ -643,12 +837,17 @@ function productCard(product) {
           </span>
 
           ${
-            Number(product.oldPrice) > Number(product.price)
+            Number(product.oldPrice) >
+            Number(product.price)
+
               ? `
+
                 <span class="old-price">
                   ${money(product.oldPrice)}
                 </span>
+
               `
+
               : ""
           }
 
@@ -659,7 +858,7 @@ function productCard(product) {
 
           <button
             class="add-btn"
-            onclick="addToCart(${product.id})"
+            onclick="addToCart(${id})"
           >
             🛒 Add
           </button>
@@ -667,7 +866,7 @@ function productCard(product) {
 
           <button
             class="buy-btn"
-            onclick="openProduct(${product.id})"
+            onclick="openProduct(${id})"
           >
             View
           </button>
@@ -692,75 +891,40 @@ function openProduct(id) {
   const product =
     getProduct(id);
 
-  if (!product) return;
+  if (!product) {
+
+    toast(
+      "Product not found."
+    );
+
+    return;
+
+  }
 
 
   currentProductId =
     Number(product.id);
 
 
-  const image =
-    document.getElementById("detailImage");
+  const imageBox =
+    document.getElementById(
+      "detailImage"
+    );
 
 
-  if (image) {
+  if (imageBox) {
 
-    if (product.image) {
-
-      image.innerHTML = `
-
-        <img
-          src="${escapeHtml(product.image)}"
-          alt="${escapeHtml(product.name)}"
-          onerror="
-            this.style.display='none';
-            if(this.nextElementSibling){
-              this.nextElementSibling.style.display='flex';
-            }
-          "
-        >
-
-        <span
-          style="
-            display:none;
-            align-items:center;
-            justify-content:center;
-            font-size:110px;
-            width:100%;
-            height:100%;
-          "
-        >
-          ${product.emoji || "📦"}
-        </span>
-
-      `;
-
-    } else {
-
-      image.innerHTML = `
-
-        <span
-          style="
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            font-size:110px;
-            width:100%;
-            height:100%;
-          "
-        >
-          ${product.emoji || "📦"}
-        </span>
-
-      `;
-
-    }
+    imageBox.innerHTML =
+      imageHTML(product);
 
   }
 
 
   const name =
-    document.getElementById("detailName");
+    document.getElementById(
+      "detailName"
+    );
+
 
   if (name) {
 
@@ -771,7 +935,10 @@ function openProduct(id) {
 
 
   const price =
-    document.getElementById("detailPrice");
+    document.getElementById(
+      "detailPrice"
+    );
+
 
   if (price) {
 
@@ -782,7 +949,10 @@ function openProduct(id) {
 
 
   const oldPrice =
-    document.getElementById("detailOldPrice");
+    document.getElementById(
+      "detailOldPrice"
+    );
+
 
   if (oldPrice) {
 
@@ -804,19 +974,27 @@ function openProduct(id) {
 
 
   const rating =
-    document.getElementById("detailRating");
+    document.getElementById(
+      "detailRating"
+    );
+
 
   if (rating) {
 
     rating.textContent =
       "⭐⭐⭐⭐⭐ " +
-      Number(product.rating || 4.5).toFixed(1);
+      Number(
+        product.rating || 4.5
+      ).toFixed(1);
 
   }
 
 
   const description =
-    document.querySelector(".detail-description");
+    document.querySelector(
+      ".detail-description"
+    );
+
 
   if (description) {
 
@@ -838,19 +1016,34 @@ function openProduct(id) {
 
 function openCategory(category) {
 
+  const selectedCategory =
+    String(category || "")
+      .trim()
+      .toLowerCase();
+
+
   const filtered =
-    products.filter(function(product) {
+    products.filter(
+      function(product) {
 
-      return (
-        String(product.category).toLowerCase() ===
-        String(category).toLowerCase()
-      );
+        return (
+          String(
+            product.category || ""
+          )
+            .trim()
+            .toLowerCase() ===
+          selectedCategory
+        );
 
-    });
+      }
+    );
 
 
   const title =
-    document.getElementById("productsTitle");
+    document.getElementById(
+      "productsTitle"
+    );
+
 
   if (title) {
 
@@ -868,12 +1061,15 @@ function openCategory(category) {
 
 
 /* =====================================================
-   SEARCH
+   SEARCH KEY
 ===================================================== */
 
 function searchKey(event) {
 
-  if (event.key === "Enter") {
+  if (
+    event &&
+    event.key === "Enter"
+  ) {
 
     searchProducts();
 
@@ -882,12 +1078,20 @@ function searchKey(event) {
 }
 
 
+/* =====================================================
+   SEARCH PRODUCTS
+===================================================== */
+
 function searchProducts() {
 
   const input =
-    document.getElementById("searchInput");
+    document.getElementById(
+      "searchInput"
+    );
 
-  if (!input) return;
+  if (!input) {
+    return;
+  }
 
 
   const query =
@@ -899,7 +1103,10 @@ function searchProducts() {
   if (!query) {
 
     const title =
-      document.getElementById("productsTitle");
+      document.getElementById(
+        "productsTitle"
+      );
+
 
     if (title) {
 
@@ -919,38 +1126,52 @@ function searchProducts() {
 
 
   const results =
-    products.filter(function(product) {
+    products.filter(
+      function(product) {
 
-      return (
+        const name =
+          String(
+            product.name || ""
+          ).toLowerCase();
 
-        String(product.name)
-          .toLowerCase()
-          .includes(query)
 
-        ||
+        const category =
+          String(
+            product.category || ""
+          ).toLowerCase();
 
-        String(product.category)
-          .toLowerCase()
-          .includes(query)
 
-        ||
+        const description =
+          String(
+            product.description || ""
+          ).toLowerCase();
 
-        String(product.description || "")
-          .toLowerCase()
-          .includes(query)
 
-      );
+        return (
 
-    });
+          name.includes(query) ||
+
+          category.includes(query) ||
+
+          description.includes(query)
+
+        );
+
+      }
+    );
 
 
   const title =
-    document.getElementById("productsTitle");
+    document.getElementById(
+      "productsTitle"
+    );
+
 
   if (title) {
 
     title.textContent =
-      "Search: " + input.value.trim();
+      "Search: " +
+      input.value.trim();
 
   }
 
@@ -975,17 +1196,33 @@ function searchProducts() {
    ADD TO CART
 ===================================================== */
 
-function addToCart(id, qty = 1) {
+function addToCart(
+  id,
+  qty = 1
+) {
 
   const product =
     getProduct(id);
 
-  if (!product) return;
+  if (!product) {
+
+    toast(
+      "Product not found."
+    );
+
+    return;
+
+  }
 
 
-  qty = Number(qty);
+  qty =
+    Number(qty);
 
-  if (!qty || qty < 1) {
+
+  if (
+    !Number.isFinite(qty) ||
+    qty < 1
+  ) {
 
     qty = 1;
 
@@ -993,26 +1230,33 @@ function addToCart(id, qty = 1) {
 
 
   const existing =
-    cart.find(function(item) {
+    cart.find(
+      function(item) {
 
-      return Number(item.id) ===
-        Number(product.id);
+        return (
+          Number(item.id) ===
+          Number(product.id)
+        );
 
-    });
+      }
+    );
 
 
   if (existing) {
 
     existing.qty =
-      Number(existing.qty || 0) + qty;
+      Number(existing.qty || 0) +
+      qty;
 
   } else {
 
     cart.push({
 
-      id: Number(product.id),
+      id:
+        Number(product.id),
 
-      qty: qty
+      qty:
+        qty
 
     });
 
@@ -1032,16 +1276,25 @@ function addToCart(id, qty = 1) {
 
 
 /* =====================================================
-   CURRENT PRODUCT CART
+   ADD CURRENT PRODUCT
 ===================================================== */
 
 function addCurrentProduct() {
 
-  if (currentProductId) {
+  if (!currentProductId) {
 
-    addToCart(currentProductId);
+    toast(
+      "Please select a product first."
+    );
+
+    return;
 
   }
+
+
+  addToCart(
+    currentProductId
+  );
 
 }
 
@@ -1050,34 +1303,47 @@ function addCurrentProduct() {
    CHANGE CART QUANTITY
 ===================================================== */
 
-function changeQty(id, amount) {
+function changeQty(
+  id,
+  amount
+) {
 
   const item =
-    cart.find(function(i) {
+    cart.find(
+      function(cartItem) {
 
-      return Number(i.id) ===
-        Number(id);
+        return (
+          Number(cartItem.id) ===
+          Number(id)
+        );
 
-    });
+      }
+    );
 
 
-  if (!item) return;
+  if (!item) {
+    return;
+  }
 
 
   item.qty =
     Number(item.qty || 0) +
-    Number(amount);
+    Number(amount || 0);
 
 
   if (item.qty <= 0) {
 
     cart =
-      cart.filter(function(i) {
+      cart.filter(
+        function(cartItem) {
 
-        return Number(i.id) !==
-          Number(id);
+          return (
+            Number(cartItem.id) !==
+            Number(id)
+          );
 
-      });
+        }
+      );
 
   }
 
@@ -1096,12 +1362,16 @@ function changeQty(id, amount) {
 function removeFromCart(id) {
 
   cart =
-    cart.filter(function(i) {
+    cart.filter(
+      function(item) {
 
-      return Number(i.id) !==
-        Number(id);
+        return (
+          Number(item.id) !==
+          Number(id)
+        );
 
-    });
+      }
+    );
 
 
   saveData();
@@ -1109,7 +1379,7 @@ function removeFromCart(id) {
   renderCart();
 
   toast(
-    "Product removed from cart"
+    "Product removed from cart."
   );
 
 }
@@ -1122,23 +1392,32 @@ function removeFromCart(id) {
 function renderCart() {
 
   const list =
-    document.getElementById("cartList");
+    document.getElementById(
+      "cartList"
+    );
+
 
   const summary =
-    document.getElementById("cartSummary");
+    document.getElementById(
+      "cartSummary"
+    );
 
 
-  if (!list || !summary) return;
+  if (!list || !summary) {
+    return;
+  }
 
 
-  /* REMOVE INVALID PRODUCTS */
+  /* Remove products that no longer exist */
 
   cart =
-    cart.filter(function(item) {
+    cart.filter(
+      function(item) {
 
-      return !!getProduct(item.id);
+        return !!getProduct(item.id);
 
-    });
+      }
+    );
 
 
   if (!cart.length) {
@@ -1172,6 +1451,7 @@ function renderCart() {
 
     `;
 
+
     summary.innerHTML = "";
 
     updateBadges();
@@ -1182,99 +1462,120 @@ function renderCart() {
 
 
   list.innerHTML =
-    cart.map(function(item) {
+    cart
+      .map(
+        function(item) {
 
-      const p =
-        getProduct(item.id);
-
-      if (!p) return "";
-
-
-      return `
-
-        <div class="cart-item">
-
-          <div class="cart-thumb">
-            ${imageHTML(p)}
-          </div>
+          const product =
+            getProduct(item.id);
 
 
-          <div>
-
-            <div class="cart-name">
-              ${escapeHtml(p.name)}
-            </div>
+          if (!product) {
+            return "";
+          }
 
 
-            <div class="cart-price">
-              ${money(
-                Number(p.price) *
-                Number(item.qty)
-              )}
-            </div>
+          const quantity =
+            Number(item.qty || 1);
 
 
-            <div class="qty-controls">
+          const itemTotal =
+            Number(product.price) *
+            quantity;
+
+
+          return `
+
+            <div class="cart-item">
+
+              <div class="cart-thumb">
+                ${imageHTML(product)}
+              </div>
+
+
+              <div>
+
+                <div class="cart-name">
+                  ${escapeHtml(product.name)}
+                </div>
+
+
+                <div class="cart-price">
+                  ${money(itemTotal)}
+                </div>
+
+
+                <div class="qty-controls">
+
+                  <button
+                    onclick="changeQty(${product.id},-1)"
+                  >
+                    −
+                  </button>
+
+
+                  <strong>
+                    ${quantity}
+                  </strong>
+
+
+                  <button
+                    onclick="changeQty(${product.id},1)"
+                  >
+                    +
+                  </button>
+
+                </div>
+
+
+                <button
+                  class="remove-btn"
+                  onclick="removeFromCart(${product.id})"
+                >
+                  Remove
+                </button>
+
+              </div>
+
 
               <button
-                onclick="changeQty(${p.id},-1)"
+                class="remove-btn"
+                onclick="removeFromCart(${product.id})"
               >
-                −
-              </button>
-
-
-              <strong>
-                ${item.qty}
-              </strong>
-
-
-              <button
-                onclick="changeQty(${p.id},1)"
-              >
-                +
+                ✕
               </button>
 
             </div>
 
+          `;
 
-            <button
-              class="remove-btn"
-              onclick="removeFromCart(${p.id})"
-            >
-              Remove
-            </button>
-
-          </div>
-
-
-          <button
-            class="remove-btn"
-            onclick="removeFromCart(${p.id})"
-          >
-            ✕
-          </button>
-
-        </div>
-
-      `;
-
-    }).join("");
+        }
+      )
+      .join("");
 
 
   const subtotal =
-    cart.reduce(function(total, item) {
+    cart.reduce(
+      function(total, item) {
 
-      const p =
-        getProduct(item.id);
-
-      if (!p) return total;
+        const product =
+          getProduct(item.id);
 
 
-      return total +
-        Number(p.price) *
-        Number(item.qty || 0);
+        if (!product) {
+          return total;
+        }
 
-    }, 0);
+
+        return (
+          total +
+          Number(product.price) *
+          Number(item.qty || 0)
+        );
+
+      },
+      0
+    );
 
 
   const delivery =
@@ -1352,15 +1653,26 @@ function renderCart() {
 
 
 /* =====================================================
-   BUY NOW
+   BUY CURRENT PRODUCT
 ===================================================== */
 
 function buyCurrentProduct() {
 
-  if (!currentProductId) return;
+  if (!currentProductId) {
+
+    toast(
+      "Please select a product first."
+    );
+
+    return;
+
+  }
 
 
-  addToCart(currentProductId);
+  addToCart(
+    currentProductId
+  );
+
 
   showScreen("cart");
 
@@ -1385,11 +1697,13 @@ function checkout() {
 
 
   const validCart =
-    cart.filter(function(item) {
+    cart.filter(
+      function(item) {
 
-      return !!getProduct(item.id);
+        return !!getProduct(item.id);
 
-    });
+      }
+    );
 
 
   if (!validCart.length) {
@@ -1403,17 +1717,66 @@ function checkout() {
   }
 
 
+  /* =================================================
+     CREATE ORDER ITEMS
+     IMPORTANT:
+     SAVE PRODUCT SNAPSHOT
+     FOR SELLER HISTORY
+  ================================================= */
+
+  const orderItems =
+    validCart.map(
+      function(item) {
+
+        const product =
+          getProduct(item.id);
+
+
+        return {
+
+          id:
+            Number(product.id),
+
+          qty:
+            Number(item.qty || 1),
+
+          name:
+            product.name,
+
+          category:
+            product.category,
+
+          price:
+            Number(product.price) || 0,
+
+          emoji:
+            product.emoji || "📦",
+
+          image:
+            product.image || "",
+
+          sellerProduct:
+            !!product.sellerProduct
+
+        };
+
+      }
+    );
+
+
   const subtotal =
-    validCart.reduce(function(total, item) {
+    orderItems.reduce(
+      function(total, item) {
 
-      const p =
-        getProduct(item.id);
+        return (
+          total +
+          Number(item.price) *
+          Number(item.qty || 0)
+        );
 
-      return total +
-        Number(p.price) *
-        Number(item.qty || 0);
-
-    }, 0);
+      },
+      0
+    );
 
 
   const delivery =
@@ -1438,17 +1801,7 @@ function checkout() {
       new Date().toLocaleString(),
 
     items:
-      validCart.map(function(item) {
-
-        return {
-
-          id: Number(item.id),
-
-          qty: Number(item.qty || 1)
-
-        };
-
-      }),
+      orderItems,
 
     subtotal:
       subtotal,
@@ -1467,10 +1820,14 @@ function checkout() {
 
   orders.unshift(order);
 
+
+  /* EMPTY CART */
+
   cart = [];
 
 
   saveData();
+
 
   renderCart();
 
@@ -1478,16 +1835,24 @@ function checkout() {
 
   renderSellerCenter();
 
+  renderSellerOrders();
+
+  renderSellerEarnings();
+
+
   toast(
     "Order placed successfully! 📦"
   );
 
 
-  setTimeout(function() {
+  setTimeout(
+    function() {
 
-    showScreen("orders");
+      showScreen("orders");
 
-  }, 600);
+    },
+    600
+  );
 
 }
 
@@ -1498,21 +1863,38 @@ function checkout() {
 
 function toggleWishlist(id) {
 
-  id = Number(id);
+  id =
+    Number(id);
 
 
-  if (wishlist.includes(id)) {
+  const exists =
+    wishlist.some(
+      function(itemId) {
+
+        return (
+          Number(itemId) === id
+        );
+
+      }
+    );
+
+
+  if (exists) {
 
     wishlist =
-      wishlist.filter(function(x) {
+      wishlist.filter(
+        function(itemId) {
 
-        return Number(x) !== id;
+          return (
+            Number(itemId) !== id
+          );
 
-      });
+        }
+      );
 
 
     toast(
-      "Removed from wishlist"
+      "Removed from wishlist."
     );
 
   } else {
@@ -1528,6 +1910,7 @@ function toggleWishlist(id) {
 
   saveData();
 
+
   renderHomeProducts();
 
   renderProducts(products);
@@ -1538,34 +1921,41 @@ function toggleWishlist(id) {
 
 
 /* =====================================================
-   WISHLIST SCREEN
+   RENDER WISHLIST
 ===================================================== */
 
 function renderWishlist() {
 
   const box =
-    document.getElementById("wishlistList");
+    document.getElementById(
+      "wishlistList"
+    );
 
-  if (!box) return;
 
+  if (!box) {
+    return;
+  }
 
-  /* REMOVE PRODUCTS THAT NO LONGER EXIST */
 
   wishlist =
-    wishlist.filter(function(id) {
+    wishlist.filter(
+      function(id) {
 
-      return !!getProduct(id);
+        return !!getProduct(id);
 
-    });
+      }
+    );
 
 
   const saved =
     wishlist
-      .map(function(id) {
+      .map(
+        function(id) {
 
-        return getProduct(id);
+          return getProduct(id);
 
-      })
+        }
+      )
       .filter(Boolean);
 
 
@@ -1617,15 +2007,20 @@ function renderWishlist() {
 
 
 /* =====================================================
-   ORDERS
+   CUSTOMER ORDERS
 ===================================================== */
 
 function renderOrders() {
 
   const box =
-    document.getElementById("ordersList");
+    document.getElementById(
+      "ordersList"
+    );
 
-  if (!box) return;
+
+  if (!box) {
+    return;
+  }
 
 
   if (!orders.length) {
@@ -1665,68 +2060,76 @@ function renderOrders() {
 
 
   box.innerHTML =
-    orders.map(function(order) {
+    orders
+      .map(
+        function(order) {
 
-      const count =
-        (order.items || []).reduce(
-          function(total, item) {
+          const count =
+            (order.items || [])
+              .reduce(
+                function(total, item) {
 
-            return total +
-              Number(item.qty || 0);
+                  return (
+                    total +
+                    Number(item.qty || 0)
+                  );
 
-          },
-          0
-        );
-
-
-      return `
-
-        <div class="order-card">
-
-          <div>
-
-            <strong>
-              Order #${escapeHtml(order.id)}
-            </strong>
+                },
+                0
+              );
 
 
-            <p
-              style="
-                color:#777;
-                font-size:12px;
-                margin-top:5px;
-              "
-            >
-              ${escapeHtml(order.date)}
-            </p>
+          return `
+
+            <div class="order-card">
+
+              <div>
+
+                <strong>
+                  Order #${escapeHtml(order.id)}
+                </strong>
 
 
-            <p style="margin-top:7px">
-
-              ${count} item(s)
-
-              •
-              
-              ${money(order.total)}
-
-            </p>
-
-          </div>
+                <p
+                  style="
+                    color:#777;
+                    font-size:12px;
+                    margin-top:5px;
+                  "
+                >
+                  ${escapeHtml(order.date)}
+                </p>
 
 
-          <div class="order-status">
+                <p style="margin-top:7px">
 
-            ${escapeHtml(
-              order.status || "Order Placed"
-            )}
+                  ${count} item(s)
 
-          </div>
+                  •
 
-        </div>
+                  ${money(order.total)}
 
-      `;
+                </p>
 
-    }).join("");
+              </div>
+
+
+              <div class="order-status">
+
+                ${escapeHtml(
+                  order.status ||
+                  "Order Placed"
+                )}
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      )
+      .join("");
 
 }
 
@@ -1738,9 +2141,14 @@ function renderOrders() {
 function renderAccount() {
 
   const box =
-    document.getElementById("accountContent");
+    document.getElementById(
+      "accountContent"
+    );
 
-  if (!box) return;
+
+  if (!box) {
+    return;
+  }
 
 
   box.innerHTML = `
@@ -1899,7 +2307,9 @@ function sellerCenter() {
 
   closeSellerPanels();
 
-  showScreen("sellerCenter");
+  showScreen(
+    "sellerCenter"
+  );
 
   renderSellerCenter();
 
@@ -1983,19 +2393,22 @@ function closeSellerPanels() {
   ];
 
 
-  panels.forEach(function(id) {
+  panels.forEach(
+    function(id) {
 
-    const panel =
-      document.getElementById(id);
+      const panel =
+        document.getElementById(id);
 
-    if (panel) {
 
-      panel.style.display =
-        "none";
+      if (panel) {
+
+        panel.style.display =
+          "none";
+
+      }
 
     }
-
-  });
+  );
 
 }
 
@@ -2042,11 +2455,14 @@ function openAddProduct() {
 
   if (name) {
 
-    setTimeout(function() {
+    setTimeout(
+      function() {
 
-      name.focus();
+        name.focus();
 
-    }, 100);
+      },
+      100
+    );
 
   }
 
@@ -2118,15 +2534,19 @@ function addSellerProduct() {
 
 
   const category =
-    categoryInput.value;
+    categoryInput.value.trim();
 
 
   const price =
-    Number(priceInput.value);
+    Number(
+      priceInput.value
+    );
 
 
   const oldPrice =
-    Number(oldPriceInput.value);
+    Number(
+      oldPriceInput.value
+    );
 
 
   const emoji =
@@ -2146,16 +2566,23 @@ function addSellerProduct() {
       "Please enter product name."
     );
 
+    nameInput.focus();
+
     return;
 
   }
 
 
-  if (!price || price <= 0) {
+  if (
+    !Number.isFinite(price) ||
+    price <= 0
+  ) {
 
     toast(
       "Please enter a valid price."
     );
+
+    priceInput.focus();
 
     return;
 
@@ -2171,24 +2598,32 @@ function addSellerProduct() {
       "Old price should be higher than selling price."
     );
 
+    oldPriceInput.focus();
+
     return;
 
   }
 
 
-  /* UNIQUE ID */
+  /* =================================================
+     UNIQUE ID
+  ================================================= */
 
   let newId =
     Date.now();
 
 
   while (
-    products.some(function(product) {
+    products.some(
+      function(product) {
 
-      return Number(product.id) ===
-        Number(newId);
+        return (
+          Number(product.id) ===
+          Number(newId)
+        );
 
-    })
+      }
+    )
   ) {
 
     newId++;
@@ -2196,7 +2631,9 @@ function addSellerProduct() {
   }
 
 
-  /* CREATE PRODUCT */
+  /* =================================================
+     NEW SELLER PRODUCT
+  ================================================= */
 
   const newProduct = {
 
@@ -2207,7 +2644,7 @@ function addSellerProduct() {
       name,
 
     category:
-      category,
+      category || "Other",
 
     price:
       price,
@@ -2234,27 +2671,31 @@ function addSellerProduct() {
   };
 
 
-  /* SAVE SELLER PRODUCT */
+  /* =================================================
+     SAVE TO SELLER PRODUCTS
+  ================================================= */
 
   sellerProducts.push(
     newProduct
   );
 
 
-  localStorage.setItem(
+  writeStorage(
     "bismiSellerProducts",
-    JSON.stringify(sellerProducts)
+    sellerProducts
   );
 
 
-  /* ADD TO MAIN SHOP ARRAY */
+  /* =================================================
+     REBUILD SHOP
+  ================================================= */
 
-  products.push(
-    newProduct
-  );
+  rebuildProducts();
 
 
-  /* CLEAR FORM */
+  /* =================================================
+     CLEAR FORM
+  ================================================= */
 
   nameInput.value = "";
 
@@ -2267,7 +2708,9 @@ function addSellerProduct() {
   descriptionInput.value = "";
 
 
-  /* REFRESH EVERYTHING */
+  /* =================================================
+     REFRESH UI
+  ================================================= */
 
   renderHomeProducts();
 
@@ -2278,7 +2721,9 @@ function addSellerProduct() {
   renderSellerProducts();
 
 
-  /* OPEN MY PRODUCTS */
+  /* =================================================
+     OPEN MY PRODUCTS
+  ================================================= */
 
   showSellerProducts();
 
@@ -2330,7 +2775,9 @@ function renderSellerProducts() {
     );
 
 
-  if (!box) return;
+  if (!box) {
+    return;
+  }
 
 
   if (!sellerProducts.length) {
@@ -2371,50 +2818,54 @@ function renderSellerProducts() {
 
   box.innerHTML =
     sellerProducts
-      .map(function(product) {
+      .map(
+        function(product) {
 
-        return `
+          return `
 
-          <div class="seller-product-item">
+            <div class="seller-product-item">
 
-            <div class="seller-product-icon">
+              <div class="seller-product-icon">
 
-              ${product.emoji || "📦"}
+                ${product.emoji || "📦"}
+
+              </div>
+
+
+              <div class="seller-product-info">
+
+                <strong>
+                  ${escapeHtml(product.name)}
+                </strong>
+
+
+                <small>
+                  ${escapeHtml(
+                    product.category || "Other"
+                  )}
+                </small>
+
+
+                <b>
+                  ${money(product.price)}
+                </b>
+
+              </div>
+
+
+              <button
+                class="remove-btn"
+                onclick="deleteSellerProduct(${Number(product.id)})"
+              >
+                🗑️
+              </button>
 
             </div>
 
+          `;
 
-            <div class="seller-product-info">
-
-              <strong>
-                ${escapeHtml(product.name)}
-              </strong>
-
-
-              <small>
-                ${escapeHtml(product.category)}
-              </small>
-
-
-              <b>
-                ${money(product.price)}
-              </b>
-
-            </div>
-
-
-            <button
-              class="remove-btn"
-              onclick="deleteSellerProduct(${product.id})"
-            >
-              🗑️
-            </button>
-
-          </div>
-
-        `;
-
-      })
+        }
+      )
       .join("");
 
 }
@@ -2426,75 +2877,78 @@ function renderSellerProducts() {
 
 function deleteSellerProduct(id) {
 
-  id = Number(id);
+  id =
+    Number(id);
 
 
   const product =
-    sellerProducts.find(function(p) {
-
-      return Number(p.id) === id;
-
-    });
+    getSellerProduct(id);
 
 
-  if (!product) return;
+  if (!product) {
+
+    toast(
+      "Product not found."
+    );
+
+    return;
+
+  }
 
 
-  /* REMOVE FROM SELLER PRODUCTS */
+  /* REMOVE FROM SELLER LIST */
 
   sellerProducts =
-    sellerProducts.filter(function(p) {
+    sellerProducts.filter(
+      function(item) {
 
-      return Number(p.id) !== id;
+        return (
+          Number(item.id) !== id
+        );
 
-    });
+      }
+    );
 
 
-  /* SAVE */
+  /* SAVE SELLER PRODUCTS */
 
-  localStorage.setItem(
+  writeStorage(
     "bismiSellerProducts",
-    JSON.stringify(sellerProducts)
+    sellerProducts
   );
 
 
-  /* REMOVE FROM MAIN PRODUCTS */
+  /* REBUILD SHOP */
 
-  for (
-    let i = products.length - 1;
-    i >= 0;
-    i--
-  ) {
-
-    if (
-      Number(products[i].id) === id
-    ) {
-
-      products.splice(i, 1);
-
-    }
-
-  }
+  rebuildProducts();
 
 
   /* REMOVE FROM CART */
 
   cart =
-    cart.filter(function(item) {
+    cart.filter(
+      function(item) {
 
-      return Number(item.id) !== id;
+        return (
+          Number(item.id) !== id
+        );
 
-    });
+      }
+    );
 
 
   /* REMOVE FROM WISHLIST */
 
   wishlist =
-    wishlist.filter(function(itemId) {
+    wishlist.filter(
+      function(itemId) {
 
-      return Number(itemId) !== id;
+        return (
+          Number(itemId) !== id
+        );
 
-    });
+      }
+    );
 
 
   saveData();
@@ -2511,6 +2965,8 @@ function deleteSellerProduct(id) {
   renderCart();
 
   renderWishlist();
+
+  renderOrders();
 
 
   toast(
@@ -2549,30 +3005,112 @@ function showSellerOrders() {
 
 
 /* =====================================================
+   CHECK WHETHER ORDER ITEM IS SELLER ITEM
+===================================================== */
+
+function isSellerOrderItem(item) {
+
+  if (!item) {
+    return false;
+  }
+
+
+  /* New orders have sellerProduct snapshot */
+
+  if (
+    item.sellerProduct === true
+  ) {
+
+    return true;
+
+  }
+
+
+  /* Existing orders from old version */
+
+  return !!getSellerProduct(
+    item.id
+  );
+
+}
+
+
+/* =====================================================
+   GET SELLER ITEMS FROM ORDER
+===================================================== */
+
+function getSellerItemsFromOrder(order) {
+
+  if (
+    !order ||
+    !Array.isArray(order.items)
+  ) {
+
+    return [];
+
+  }
+
+
+  return order.items.filter(
+    function(item) {
+
+      return isSellerOrderItem(item);
+
+    }
+  );
+
+}
+
+
+/* =====================================================
    GET SELLER ORDERS
 ===================================================== */
 
 function getSellerOrders() {
 
-  return orders.filter(function(order) {
+  return orders.filter(
+    function(order) {
 
-    if (!order.items) return false;
-
-
-    return order.items.some(function(item) {
-
-      return sellerProducts.some(
-        function(product) {
-
-          return Number(product.id) ===
-            Number(item.id);
-
-        }
+      return (
+        getSellerItemsFromOrder(order)
+          .length > 0
       );
 
-    });
+    }
+  );
 
-  });
+}
+
+
+/* =====================================================
+   CALCULATE SELLER ORDER TOTAL
+===================================================== */
+
+function calculateSellerOrderTotal(order) {
+
+  const sellerItems =
+    getSellerItemsFromOrder(order);
+
+
+  return sellerItems.reduce(
+    function(total, item) {
+
+      const quantity =
+        Number(item.qty || 0);
+
+
+      const price =
+        Number(item.price || 0);
+
+
+      return (
+        total +
+        price * quantity
+      );
+
+    },
+    0
+  );
 
 }
 
@@ -2589,7 +3127,9 @@ function renderSellerOrders() {
     );
 
 
-  if (!box) return;
+  if (!box) {
+    return;
+  }
 
 
   const sellerOrders =
@@ -2626,106 +3166,85 @@ function renderSellerOrders() {
 
   box.innerHTML =
     sellerOrders
-      .map(function(order) {
+      .map(
+        function(order) {
 
-        const sellerItems =
-          order.items.filter(function(item) {
-
-            return sellerProducts.some(
-              function(product) {
-
-                return Number(product.id) ===
-                  Number(item.id);
-
-              }
-            );
-
-          });
-
-
-        let sellerTotal = 0;
-
-
-        sellerItems.forEach(function(item) {
-
-          const product =
-            sellerProducts.find(
-              function(p) {
-
-                return Number(p.id) ===
-                  Number(item.id);
-
-              }
+          const sellerItems =
+            getSellerItemsFromOrder(
+              order
             );
 
 
-          if (product) {
-
-            sellerTotal +=
-              Number(product.price) *
-              Number(item.qty || 0);
-
-          }
-
-        });
+          const sellerTotal =
+            calculateSellerOrderTotal(
+              order
+            );
 
 
-        return `
+          const itemCount =
+            sellerItems.reduce(
+              function(total, item) {
 
-          <div class="order-card">
+                return (
+                  total +
+                  Number(item.qty || 0)
+                );
 
-            <div>
-
-              <strong>
-                Order #${escapeHtml(order.id)}
-              </strong>
-
-
-              <p
-                style="
-                  color:#777;
-                  font-size:12px;
-                  margin-top:5px;
-                "
-              >
-                ${escapeHtml(order.date)}
-              </p>
+              },
+              0
+            );
 
 
-              <p style="margin-top:7px">
+          return `
 
-                ${sellerItems.reduce(
-                  function(total, item) {
-                    return total +
-                      Number(item.qty || 0);
-                  },
-                  0
+            <div class="order-card">
+
+              <div>
+
+                <strong>
+                  Order #${escapeHtml(order.id)}
+                </strong>
+
+
+                <p
+                  style="
+                    color:#777;
+                    font-size:12px;
+                    margin-top:5px;
+                  "
+                >
+                  ${escapeHtml(order.date)}
+                </p>
+
+
+                <p style="margin-top:7px">
+
+                  ${itemCount} item(s)
+
+                  •
+
+                  ${money(sellerTotal)}
+
+                </p>
+
+              </div>
+
+
+              <div class="order-status">
+
+                ${escapeHtml(
+                  order.status ||
+                  "Order Placed"
                 )}
-                item(s)
 
-                •
-
-                ${money(sellerTotal)}
-
-              </p>
+              </div>
 
             </div>
 
+          `;
 
-            <div class="order-status">
-
-              ${escapeHtml(
-                order.status ||
-                "Order Placed"
-              )}
-
-            </div>
-
-          </div>
-
-        `;
-
-      })
+        }
+      )
       .join("");
 
 }
@@ -2772,44 +3291,29 @@ function calculateSellerEarnings() {
     getSellerOrders();
 
 
-  sellerOrders.forEach(function(order) {
+  sellerOrders.forEach(
+    function(order) {
 
-    if (!order.items) return;
-
-
-    order.items.forEach(function(item) {
-
-      const product =
-        sellerProducts.find(
-          function(p) {
-
-            return Number(p.id) ===
-              Number(item.id);
-
-          }
+      totalSales +=
+        calculateSellerOrderTotal(
+          order
         );
 
-
-      if (product) {
-
-        totalSales +=
-          Number(product.price) *
-          Number(item.qty || 0);
-
-      }
-
-    });
-
-  });
+    }
+  );
 
 
-  /* 10% BISMI MART COMMISSION */
+  /* =================================================
+     BISMI MART COMMISSION = 10%
+  ================================================= */
 
   const commission =
     totalSales * 0.10;
 
 
-  /* 90% SELLER */
+  /* =================================================
+     SELLER GETS = 90%
+  ================================================= */
 
   const net =
     totalSales - commission;
@@ -2892,196 +3396,109 @@ function renderSellerEarnings() {
 function toast(message) {
 
   const box =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
-  if (!box) return;
+
+  if (!box) {
+    return;
+  }
 
 
-  clearTimeout(toastTimer);
+  clearTimeout(
+    toastTimer
+  );
 
 
   box.textContent =
     message;
 
 
-  box.classList.add("show");
+  box.classList.add(
+    "show"
+  );
 
 
   toastTimer =
-    setTimeout(function() {
+    setTimeout(
+      function() {
 
-      box.classList.remove("show");
+        box.classList.remove(
+          "show"
+        );
 
-    }, 2200);
+      },
+      2200
+    );
 
 }
 
 
 /* =====================================================
    STORAGE SYNC
+   Works when another tab/window changes data
 ===================================================== */
 
 window.addEventListener(
   "storage",
-  function() {
+  function(event) {
 
-    cart =
-      JSON.parse(
-        localStorage.getItem(
-          "bismiCart"
-        ) || "[]"
-      );
+    if (
+      event.key === "bismiCart"
+    ) {
 
+      cart =
+        readStorage(
+          "bismiCart",
+          []
+        );
 
-    wishlist =
-      JSON.parse(
-        localStorage.getItem(
-          "bismiWishlist"
-        ) || "[]"
-      );
+    }
 
 
-    orders =
-      JSON.parse(
-        localStorage.getItem(
-          "bismiOrders"
-        ) || "[]"
-      );
+    if (
+      event.key === "bismiWishlist"
+    ) {
+
+      wishlist =
+        readStorage(
+          "bismiWishlist",
+          []
+        );
+
+    }
 
 
-    sellerProducts =
-      JSON.parse(
-        localStorage.getItem(
-          "bismiSellerProducts"
-        ) || "[]"
-      );
+    if (
+      event.key === "bismiOrders"
+    ) {
+
+      orders =
+        readStorage(
+          "bismiOrders",
+          []
+        );
+
+    }
 
 
-    /* REBUILD SHOP PRODUCTS */
+    if (
+      event.key ===
+      "bismiSellerProducts"
+    ) {
 
-    const defaultProducts = [
+      sellerProducts =
+        readStorage(
+          "bismiSellerProducts",
+          []
+        );
 
-      {
-        id: 1,
-        name: "Vivo Y17s (4GB • 128GB)",
-        category: "Mobiles",
-        price: 32999,
-        oldPrice: 38999,
-        rating: 4.6,
-        emoji: "📱",
-        image: "file_00000000b420821195f2136d2d25828a.png",
-        description:
-          "Vivo Y17s smartphone with 4GB RAM and 128GB storage. A practical choice for everyday use."
-      },
-
-      {
-        id: 2,
-        name: "Wireless Bluetooth Headphones",
-        category: "Electronics",
-        price: 4499,
-        oldPrice: 5999,
-        rating: 4.5,
-        emoji: "🎧",
-        image: "",
-        description:
-          "Comfortable wireless headphones for music, calls and everyday entertainment."
-      },
-
-      {
-        id: 3,
-        name: "Premium Casual T-Shirt",
-        category: "Fashion",
-        price: 1499,
-        oldPrice: 1999,
-        rating: 4.4,
-        emoji: "👕",
-        image: "",
-        description:
-          "Soft and comfortable casual T-shirt suitable for everyday wear."
-      },
-
-      {
-        id: 4,
-        name: "Modern Table Lamp",
-        category: "Home",
-        price: 2499,
-        oldPrice: 3299,
-        rating: 4.3,
-        emoji: "💡",
-        image: "",
-        description:
-          "Simple modern table lamp for bedrooms, study areas and workspaces."
-      },
-
-      {
-        id: 5,
-        name: "Beauty Care Set",
-        category: "Beauty",
-        price: 1999,
-        oldPrice: 2699,
-        rating: 4.5,
-        emoji: "💄",
-        image: "",
-        description:
-          "Everyday beauty and personal-care essentials in one convenient set."
-      },
-
-      {
-        id: 6,
-        name: "Daily Grocery Pack",
-        category: "Grocery",
-        price: 1799,
-        oldPrice: 2199,
-        rating: 4.2,
-        emoji: "🛒",
-        image: "",
-        description:
-          "Useful daily grocery essentials for your home."
-      },
-
-      {
-        id: 7,
-        name: "Football Training Ball",
-        category: "Sports",
-        price: 1899,
-        oldPrice: 2399,
-        rating: 4.4,
-        emoji: "⚽",
-        image: "",
-        description:
-          "Durable football for training, practice and recreational play."
-      },
-
-      {
-        id: 8,
-        name: "Kids Teddy Bear",
-        category: "Kids",
-        price: 1299,
-        oldPrice: 1799,
-        rating: 4.6,
-        emoji: "🧸",
-        image: "",
-        description:
-          "Soft and cuddly teddy bear for kids."
-      }
-
-    ];
+    }
 
 
-    products.length = 0;
+    rebuildProducts();
 
-
-    defaultProducts.forEach(function(product) {
-
-      products.push(product);
-
-    });
-
-
-    loadSellerProductsIntoShop();
-
-
-    updateBadges();
 
     renderHomeProducts();
 
@@ -3094,43 +3511,102 @@ window.addEventListener(
     renderOrders();
 
     renderSellerCenter();
+
+    renderSellerProducts();
+
+    renderSellerOrders();
+
+    renderSellerEarnings();
+
+    updateBadges();
 
   }
 );
 
 
 /* =====================================================
-   SAFETY:
-   IF SCRIPT IS LOADED AFTER DOM READY
+   PAGE VISIBILITY SYNC
+   Useful after returning to app/tab
+===================================================== */
+
+document.addEventListener(
+  "visibilitychange",
+  function() {
+
+    if (
+      document.visibilityState ===
+      "visible"
+    ) {
+
+      cart =
+        readStorage(
+          "bismiCart",
+          []
+        );
+
+
+      wishlist =
+        readStorage(
+          "bismiWishlist",
+          []
+        );
+
+
+      orders =
+        readStorage(
+          "bismiOrders",
+          []
+        );
+
+
+      sellerProducts =
+        readStorage(
+          "bismiSellerProducts",
+          []
+        );
+
+
+      rebuildProducts();
+
+
+      renderHomeProducts();
+
+      renderProducts(products);
+
+      renderCart();
+
+      renderWishlist();
+
+      renderOrders();
+
+      renderSellerCenter();
+
+      updateBadges();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SAFETY INITIALIZATION
 ===================================================== */
 
 if (
-  document.readyState === "interactive" ||
-  document.readyState === "complete"
+  document.readyState ===
+    "interactive" ||
+  document.readyState ===
+    "complete"
 ) {
 
-  if (
-    document.getElementById("homeProducts")
-  ) {
+  setTimeout(
+    function() {
 
-    loadSellerProductsIntoShop();
+      initializeApp();
 
-    renderHomeProducts();
-
-    renderProducts(products);
-
-    renderCart();
-
-    renderWishlist();
-
-    renderOrders();
-
-    renderAccount();
-
-    updateBadges();
-
-    renderSellerCenter();
-
-  }
+    },
+    0
+  );
 
 }

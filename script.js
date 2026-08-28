@@ -1592,3 +1592,768 @@ window.addEventListener(
 
   }
 );
+/* =====================================================
+   SELLER CENTER
+===================================================== */
+
+let sellerProducts =
+  JSON.parse(localStorage.getItem("bismiSellerProducts")) || [];
+
+
+/* SELLER CENTER OPEN */
+
+function sellerCenter(){
+
+  closeSellerPanels();
+
+  showScreen("sellerCenter");
+
+  renderSellerCenter();
+
+}
+
+
+/* SELLER CENTER STATS */
+
+function renderSellerCenter(){
+
+  const productCount =
+    document.getElementById("sellerProductCount");
+
+  const orderCount =
+    document.getElementById("sellerOrderCount");
+
+  const earnings =
+    document.getElementById("sellerEarnings");
+
+
+  if(productCount)
+    productCount.textContent =
+      sellerProducts.length;
+
+
+  const sellerOrders =
+    getSellerOrders();
+
+
+  if(orderCount)
+    orderCount.textContent =
+      sellerOrders.length;
+
+
+  const total =
+    calculateSellerEarnings();
+
+
+  if(earnings)
+    earnings.textContent =
+      money(total.net);
+
+}
+
+
+/* CLOSE ALL SELLER PANELS */
+
+function closeSellerPanels(){
+
+  const panels = [
+    "addProductPanel",
+    "sellerProductsPanel",
+    "sellerOrdersPanel",
+    "sellerEarningsPanel"
+  ];
+
+
+  panels.forEach(function(id){
+
+    const panel =
+      document.getElementById(id);
+
+    if(panel)
+      panel.style.display = "none";
+
+  });
+
+}
+
+
+/* CLOSE CURRENT PANEL */
+
+function closeSellerPanel(){
+
+  closeSellerPanels();
+
+}
+
+
+/* ADD PRODUCT PANEL */
+
+function openAddProduct(){
+
+  closeSellerPanels();
+
+  const panel =
+    document.getElementById(
+      "addProductPanel"
+    );
+
+  if(panel)
+    panel.style.display = "block";
+
+
+  const name =
+    document.getElementById(
+      "sellerProductName"
+    );
+
+  if(name)
+    name.focus();
+
+}
+
+
+/* ADD SELLER PRODUCT */
+
+function addSellerProduct(){
+
+  const name =
+    document.getElementById(
+      "sellerProductName"
+    ).value.trim();
+
+
+  const category =
+    document.getElementById(
+      "sellerProductCategory"
+    ).value;
+
+
+  const price =
+    Number(
+      document.getElementById(
+        "sellerProductPrice"
+      ).value
+    );
+
+
+  const oldPrice =
+    Number(
+      document.getElementById(
+        "sellerProductOldPrice"
+      ).value
+    );
+
+
+  const emoji =
+    document.getElementById(
+      "sellerProductEmoji"
+    ).value.trim()
+    || "📦";
+
+
+  const description =
+    document.getElementById(
+      "sellerProductDescription"
+    ).value.trim();
+
+
+  /* VALIDATION */
+
+  if(!name){
+
+    toast(
+      "Please enter product name."
+    );
+
+    return;
+
+  }
+
+
+  if(!price || price <= 0){
+
+    toast(
+      "Please enter a valid price."
+    );
+
+    return;
+
+  }
+
+
+  if(oldPrice && oldPrice < price){
+
+    toast(
+      "Old price should be higher than selling price."
+    );
+
+    return;
+
+  }
+
+
+  /* CREATE PRODUCT */
+
+  const newProduct = {
+
+    id:
+      Date.now(),
+
+    name:
+      name,
+
+    category:
+      category,
+
+    price:
+      price,
+
+    oldPrice:
+      oldPrice || price,
+
+    rating:
+      4.5,
+
+    emoji:
+      emoji,
+
+    image:
+      "",
+
+    description:
+      description ||
+      "Quality product available at BismiMart."
+
+  };
+
+
+  /* SAVE SELLER PRODUCT */
+
+  sellerProducts.push(
+    newProduct
+  );
+
+
+  localStorage.setItem(
+    "bismiSellerProducts",
+    JSON.stringify(sellerProducts)
+  );
+
+
+  /* ALSO ADD TO MAIN PRODUCT LIST */
+
+  products.push(
+    newProduct
+  );
+
+
+  /* CLEAR FORM */
+
+  document.getElementById(
+    "sellerProductName"
+  ).value = "";
+
+
+  document.getElementById(
+    "sellerProductPrice"
+  ).value = "";
+
+
+  document.getElementById(
+    "sellerProductOldPrice"
+  ).value = "";
+
+
+  document.getElementById(
+    "sellerProductEmoji"
+  ).value = "";
+
+
+  document.getElementById(
+    "sellerProductDescription"
+  ).value = "";
+
+
+  /* REFRESH APP */
+
+  renderHomeProducts();
+
+  renderProducts(products);
+
+  renderSellerCenter();
+
+  showSellerProducts();
+
+  toast(
+    "Product added successfully! 📦"
+  );
+
+}
+
+
+/* SELLER PRODUCTS */
+
+function showSellerProducts(){
+
+  closeSellerPanels();
+
+
+  const panel =
+    document.getElementById(
+      "sellerProductsPanel"
+    );
+
+
+  if(panel)
+    panel.style.display = "block";
+
+
+  renderSellerProducts();
+
+}
+
+
+/* RENDER SELLER PRODUCTS */
+
+function renderSellerProducts(){
+
+  const box =
+    document.getElementById(
+      "sellerProductsList"
+    );
+
+
+  if(!box)return;
+
+
+  if(!sellerProducts.length){
+
+    box.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          📦
+        </div>
+
+        <h2>
+          No Products Yet
+        </h2>
+
+        <p>
+          Add your first product
+          to start selling.
+        </p>
+
+        <button
+          class="primary-btn"
+          style="margin-top:15px"
+          onclick="openAddProduct()"
+        >
+          ➕ Add Product
+        </button>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML =
+    sellerProducts.map(function(product){
+
+      return `
+
+        <div class="seller-product-item">
+
+          <div class="seller-product-icon">
+
+            ${product.emoji}
+
+          </div>
+
+
+          <div class="seller-product-info">
+
+            <strong>
+              ${escapeHtml(product.name)}
+            </strong>
+
+            <small>
+              ${escapeHtml(product.category)}
+            </small>
+
+            <b>
+              ${money(product.price)}
+            </b>
+
+          </div>
+
+
+          <button
+            class="remove-btn"
+            onclick="deleteSellerProduct(${product.id})"
+          >
+            🗑️
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* DELETE SELLER PRODUCT */
+
+function deleteSellerProduct(id){
+
+  id = Number(id);
+
+
+  const product =
+    sellerProducts.find(
+      p => p.id === id
+    );
+
+
+  if(!product)return;
+
+
+  sellerProducts =
+    sellerProducts.filter(
+      p => p.id !== id
+    );
+
+
+  localStorage.setItem(
+    "bismiSellerProducts",
+    JSON.stringify(sellerProducts)
+  );
+
+
+  /* REMOVE FROM MAIN PRODUCTS */
+
+  const index =
+    products.findIndex(
+      p => p.id === id
+    );
+
+
+  if(index !== -1)
+    products.splice(index,1);
+
+
+  renderSellerProducts();
+
+  renderSellerCenter();
+
+  renderHomeProducts();
+
+  renderProducts(products);
+
+
+  toast(
+    "Product removed."
+  );
+
+}
+
+
+/* SELLER ORDERS */
+
+function showSellerOrders(){
+
+  closeSellerPanels();
+
+
+  const panel =
+    document.getElementById(
+      "sellerOrdersPanel"
+    );
+
+
+  if(panel)
+    panel.style.display = "block";
+
+
+  renderSellerOrders();
+
+}
+
+
+/* GET SELLER ORDERS */
+
+function getSellerOrders(){
+
+  return orders.filter(function(order){
+
+    return order.items.some(function(item){
+
+      return sellerProducts.some(function(product){
+
+        return product.id === Number(item.id);
+
+      });
+
+    });
+
+  });
+
+}
+
+
+/* RENDER SELLER ORDERS */
+
+function renderSellerOrders(){
+
+  const box =
+    document.getElementById(
+      "sellerOrdersList"
+    );
+
+
+  if(!box)return;
+
+
+  const sellerOrders =
+    getSellerOrders();
+
+
+  if(!sellerOrders.length){
+
+    box.innerHTML = `
+
+      <div class="empty">
+
+        <div class="empty-icon">
+          🛍️
+        </div>
+
+        <h2>
+          No Seller Orders
+        </h2>
+
+        <p>
+          Customer orders containing
+          your products will appear here.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  box.innerHTML =
+    sellerOrders.map(function(order){
+
+      const sellerItems =
+        order.items.filter(function(item){
+
+          return sellerProducts.some(
+            product =>
+              product.id === Number(item.id)
+          );
+
+        });
+
+
+      let sellerTotal = 0;
+
+
+      sellerItems.forEach(function(item){
+
+        const product =
+          sellerProducts.find(
+            p => p.id === Number(item.id)
+          );
+
+
+        if(product){
+
+          sellerTotal +=
+            product.price * item.qty;
+
+        }
+
+      });
+
+
+      return `
+
+        <div class="order-card">
+
+          <div>
+
+            <strong>
+              Order #${escapeHtml(order.id)}
+            </strong>
+
+            <p
+              style="
+                color:#777;
+                font-size:12px;
+                margin-top:5px;
+              "
+            >
+              ${escapeHtml(order.date)}
+            </p>
+
+            <p style="margin-top:7px">
+
+              ${sellerItems.length}
+              seller item(s)
+
+              •
+              ${money(sellerTotal)}
+
+            </p>
+
+          </div>
+
+
+          <div class="order-status">
+
+            ${escapeHtml(order.status)}
+
+          </div>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* SELLER EARNINGS */
+
+function showSellerEarnings(){
+
+  closeSellerPanels();
+
+
+  const panel =
+    document.getElementById(
+      "sellerEarningsPanel"
+    );
+
+
+  if(panel)
+    panel.style.display = "block";
+
+
+  renderSellerEarnings();
+
+}
+
+
+/* CALCULATE EARNINGS */
+
+function calculateSellerEarnings(){
+
+  let totalSales = 0;
+
+
+  const sellerOrders =
+    getSellerOrders();
+
+
+  sellerOrders.forEach(function(order){
+
+    order.items.forEach(function(item){
+
+      const product =
+        sellerProducts.find(
+          p => p.id === Number(item.id)
+        );
+
+
+      if(product){
+
+        totalSales +=
+          product.price * item.qty;
+
+      }
+
+    });
+
+  });
+
+
+  /* DEMO COMMISSION */
+
+  const commission =
+    totalSales * 0.10;
+
+
+  const net =
+    totalSales - commission;
+
+
+  return {
+
+    sales: totalSales,
+
+    commission:
+      commission,
+
+    net:
+      net
+
+  };
+
+}
+
+
+/* RENDER EARNINGS */
+
+function renderSellerEarnings(){
+
+  const data =
+    calculateSellerEarnings();
+
+
+  const totalSales =
+    document.getElementById(
+      "sellerTotalSales"
+    );
+
+
+  const commission =
+    document.getElementById(
+      "sellerCommission"
+    );
+
+
+  const net =
+    document.getElementById(
+      "sellerNetEarnings"
+    );
+
+
+  if(totalSales)
+    totalSales.textContent =
+      money(data.sales);
+
+
+  if(commission)
+    commission.textContent =
+      money(data.commission);
+
+
+  if(net)
+    net.textContent =
+      money(data.net);
+
+}

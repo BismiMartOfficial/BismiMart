@@ -1,12 +1,11 @@
 /* =====================================================
    BISMI MART
    COMPLETE CORRECTED SCRIPT
-   Seller + Customer Marketplace
 ===================================================== */
 
 
 /* =====================================================
-   PRODUCTS
+   DEFAULT PRODUCTS
 ===================================================== */
 
 const products = [
@@ -119,14 +118,17 @@ const products = [
 
 
 /* =====================================================
-   SELLER PRODUCTS
+   LOCAL STORAGE DATA
 ===================================================== */
 
-/*
-   Seller products are saved separately in localStorage.
-   On every page load they are automatically restored
-   into the main products array.
-*/
+let cart =
+  JSON.parse(localStorage.getItem("bismiCart") || "[]");
+
+let wishlist =
+  JSON.parse(localStorage.getItem("bismiWishlist") || "[]");
+
+let orders =
+  JSON.parse(localStorage.getItem("bismiOrders") || "[]");
 
 let sellerProducts =
   JSON.parse(
@@ -135,34 +137,67 @@ let sellerProducts =
 
 
 /* =====================================================
-   RESTORE SELLER PRODUCTS
+   VARIABLES
 ===================================================== */
 
-function restoreSellerProducts() {
+let currentProductId = null;
+let toastTimer = null;
+
+
+/* =====================================================
+   LOAD SELLER PRODUCTS INTO SHOP
+   IMPORTANT FOR REFRESH
+===================================================== */
+
+function loadSellerProductsIntoShop() {
 
   sellerProducts.forEach(function(sellerProduct) {
+
+    const id = Number(sellerProduct.id);
 
     const exists =
       products.some(function(product) {
 
-        return product.id === Number(sellerProduct.id);
+        return Number(product.id) === id;
 
       });
 
-    if(!exists) {
+
+    if (!exists) {
 
       products.push({
-        id: Number(sellerProduct.id),
-        name: sellerProduct.name,
-        category: sellerProduct.category,
-        price: Number(sellerProduct.price),
-        oldPrice: Number(sellerProduct.oldPrice),
-        rating: Number(sellerProduct.rating) || 4.5,
-        emoji: sellerProduct.emoji || "📦",
-        image: sellerProduct.image || "",
+
+        id: id,
+
+        name:
+          sellerProduct.name || "Product",
+
+        category:
+          sellerProduct.category || "Other",
+
+        price:
+          Number(sellerProduct.price) || 0,
+
+        oldPrice:
+          Number(sellerProduct.oldPrice) ||
+          Number(sellerProduct.price) ||
+          0,
+
+        rating:
+          Number(sellerProduct.rating) || 4.5,
+
+        emoji:
+          sellerProduct.emoji || "📦",
+
+        image:
+          sellerProduct.image || "",
+
         description:
           sellerProduct.description ||
-          "Quality product available at BismiMart."
+          "Quality product available at BismiMart.",
+
+        sellerProduct: true
+
       });
 
     }
@@ -172,50 +207,16 @@ function restoreSellerProducts() {
 }
 
 
-/*
-   IMPORTANT:
-   Restore seller products BEFORE rendering anything.
-*/
-
-restoreSellerProducts();
-
-
 /* =====================================================
-   CUSTOMER DATA
-===================================================== */
-
-let cart =
-  JSON.parse(
-    localStorage.getItem("bismiCart") || "[]"
-  );
-
-let wishlist =
-  JSON.parse(
-    localStorage.getItem("bismiWishlist") || "[]"
-  );
-
-let orders =
-  JSON.parse(
-    localStorage.getItem("bismiOrders") || "[]"
-  );
-
-
-/* =====================================================
-   CURRENT PRODUCT
-===================================================== */
-
-let currentProductId = null;
-
-let toastTimer = null;
-
-
-/* =====================================================
-   START APP
+   APP START
 ===================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
   function() {
+
+    /* VERY IMPORTANT */
+    loadSellerProductsIntoShop();
 
     renderHomeProducts();
 
@@ -231,6 +232,8 @@ document.addEventListener(
 
     updateBadges();
 
+    renderSellerCenter();
+
     showScreen("home", false);
 
   }
@@ -238,7 +241,7 @@ document.addEventListener(
 
 
 /* =====================================================
-   SAVE CUSTOMER DATA
+   SAVE DATA
 ===================================================== */
 
 function saveData() {
@@ -258,27 +261,18 @@ function saveData() {
     JSON.stringify(orders)
   );
 
+  localStorage.setItem(
+    "bismiSellerProducts",
+    JSON.stringify(sellerProducts)
+  );
+
   updateBadges();
 
 }
 
 
 /* =====================================================
-   SAVE SELLER PRODUCTS
-===================================================== */
-
-function saveSellerProducts() {
-
-  localStorage.setItem(
-    "bismiSellerProducts",
-    JSON.stringify(sellerProducts)
-  );
-
-}
-
-
-/* =====================================================
-   MONEY FORMAT
+   MONEY
 ===================================================== */
 
 function money(value) {
@@ -297,13 +291,11 @@ function money(value) {
 
 function getProduct(id) {
 
-  return products.find(
-    function(product) {
+  return products.find(function(product) {
 
-      return product.id === Number(id);
+    return Number(product.id) === Number(id);
 
-    }
-  );
+  });
 
 }
 
@@ -314,19 +306,17 @@ function getProduct(id) {
 
 function escapeHtml(text) {
 
-  return String(text || "").replace(
+  return String(text ?? "").replace(
     /[&<>"']/g,
-    function(character) {
+    function(c) {
 
       return {
-
         "&": "&amp;",
         "<": "&lt;",
         ">": "&gt;",
         '"': "&quot;",
         "'": "&#039;"
-
-      }[character];
+      }[c];
 
     }
   );
@@ -340,7 +330,7 @@ function escapeHtml(text) {
 
 function imageHTML(product) {
 
-  if(product.image) {
+  if (product.image) {
 
     return `
 
@@ -365,7 +355,7 @@ function imageHTML(product) {
           height:100%;
         "
       >
-        ${escapeHtml(product.emoji)}
+        ${product.emoji || "📦"}
       </span>
 
     `;
@@ -385,7 +375,7 @@ function imageHTML(product) {
         font-size:70px;
       "
     >
-      ${escapeHtml(product.emoji)}
+      ${product.emoji || "📦"}
     </span>
 
   `;
@@ -394,7 +384,7 @@ function imageHTML(product) {
 
 
 /* =====================================================
-   SCREEN NAVIGATION
+   SCREEN SYSTEM
 ===================================================== */
 
 function showScreen(screen, scroll = true) {
@@ -402,14 +392,14 @@ function showScreen(screen, scroll = true) {
   const target =
     document.getElementById(screen);
 
-  if(!target) return;
+  if (!target) return;
 
 
   document
     .querySelectorAll(".screen")
-    .forEach(function(section) {
+    .forEach(function(s) {
 
-      section.classList.remove("active");
+      s.classList.remove("active");
 
     });
 
@@ -417,68 +407,58 @@ function showScreen(screen, scroll = true) {
   target.classList.add("active");
 
 
-  /*
-     Bottom navigation
-  */
-
   document
     .querySelectorAll(".nav-btn")
-    .forEach(function(button) {
+    .forEach(function(btn) {
 
-      button.classList.toggle(
+      btn.classList.toggle(
         "active",
-        button.dataset.screen === screen
+        btn.dataset.screen === screen
       );
 
     });
 
 
-  /*
-     Refresh dynamic screens
-  */
-
-  if(screen === "cart") {
+  if (screen === "cart") {
 
     renderCart();
 
   }
 
 
-  if(screen === "wishlist") {
+  if (screen === "wishlist") {
 
     renderWishlist();
 
   }
 
 
-  if(screen === "orders") {
+  if (screen === "orders") {
 
     renderOrders();
 
   }
 
 
-  if(screen === "account") {
+  if (screen === "account") {
 
     renderAccount();
 
   }
 
 
-  if(screen === "sellerCenter") {
+  if (screen === "sellerCenter") {
 
     renderSellerCenter();
 
   }
 
 
-  if(scroll) {
+  if (scroll) {
 
     window.scrollTo({
-
       top: 0,
       behavior: "smooth"
-
     });
 
   }
@@ -521,15 +501,14 @@ function updateBadges() {
     document.getElementById("wishBadge");
 
 
-  if(cartBadge) {
+  if (cartBadge) {
 
-    cartBadge.textContent =
-      cartCount;
+    cartBadge.textContent = cartCount;
 
   }
 
 
-  if(wishBadge) {
+  if (wishBadge) {
 
     wishBadge.textContent =
       wishlist.length;
@@ -548,7 +527,7 @@ function renderHomeProducts() {
   const box =
     document.getElementById("homeProducts");
 
-  if(!box) return;
+  if (!box) return;
 
 
   box.innerHTML =
@@ -569,10 +548,10 @@ function renderProducts(list) {
   const box =
     document.getElementById("productList");
 
-  if(!box) return;
+  if (!box) return;
 
 
-  if(!list || !list.length) {
+  if (!list.length) {
 
     box.innerHTML = `
 
@@ -632,12 +611,11 @@ function productCard(product) {
 
         ${imageHTML(product)}
 
-
         <button
           class="wish-btn"
           onclick="
             event.stopPropagation();
-            toggleWishlist(${product.id});
+            toggleWishlist(${product.id})
           "
         >
           ${wished ? "❤️" : "♡"}
@@ -648,46 +626,30 @@ function productCard(product) {
 
       <div class="product-info">
 
-
         <div class="product-name">
-
           ${escapeHtml(product.name)}
-
         </div>
 
 
         <div class="rating">
-
-          ⭐ ${product.rating}
-
+          ⭐ ${Number(product.rating || 4.5).toFixed(1)}
         </div>
 
 
         <div class="price-row">
 
           <span class="price">
-
             ${money(product.price)}
-
           </span>
 
-
           ${
-            Number(product.oldPrice) >
-            Number(product.price)
-              ?
-
-            `
-            <span class="old-price">
-
-              ${money(product.oldPrice)}
-
-            </span>
-            `
-
-              :
-
-            ""
+            Number(product.oldPrice) > Number(product.price)
+              ? `
+                <span class="old-price">
+                  ${money(product.oldPrice)}
+                </span>
+              `
+              : ""
           }
 
         </div>
@@ -695,14 +657,11 @@ function productCard(product) {
 
         <div class="product-actions">
 
-
           <button
             class="add-btn"
             onclick="addToCart(${product.id})"
           >
-
             🛒 Add
-
           </button>
 
 
@@ -710,14 +669,10 @@ function productCard(product) {
             class="buy-btn"
             onclick="openProduct(${product.id})"
           >
-
             View
-
           </button>
 
-
         </div>
-
 
       </div>
 
@@ -737,31 +692,22 @@ function openProduct(id) {
   const product =
     getProduct(id);
 
-  if(!product) {
-
-    toast("Product not found.");
-
-    return;
-
-  }
+  if (!product) return;
 
 
   currentProductId =
-    product.id;
+    Number(product.id);
 
 
   const image =
     document.getElementById("detailImage");
 
 
-  if(image) {
+  if (image) {
 
-    image.innerHTML =
-      product.image
+    if (product.image) {
 
-        ?
-
-        `
+      image.innerHTML = `
 
         <img
           src="${escapeHtml(product.image)}"
@@ -784,14 +730,14 @@ function openProduct(id) {
             height:100%;
           "
         >
-          ${escapeHtml(product.emoji)}
+          ${product.emoji || "📦"}
         </span>
 
-        `
+      `;
 
-        :
+    } else {
 
-        `
+      image.innerHTML = `
 
         <span
           style="
@@ -803,10 +749,12 @@ function openProduct(id) {
             height:100%;
           "
         >
-          ${escapeHtml(product.emoji)}
+          ${product.emoji || "📦"}
         </span>
 
-        `;
+      `;
+
+    }
 
   }
 
@@ -814,25 +762,31 @@ function openProduct(id) {
   const name =
     document.getElementById("detailName");
 
-  if(name)
+  if (name) {
+
     name.textContent =
       product.name;
+
+  }
 
 
   const price =
     document.getElementById("detailPrice");
 
-  if(price)
+  if (price) {
+
     price.textContent =
       money(product.price);
+
+  }
 
 
   const oldPrice =
     document.getElementById("detailOldPrice");
 
-  if(oldPrice) {
+  if (oldPrice) {
 
-    if(
+    if (
       Number(product.oldPrice) >
       Number(product.price)
     ) {
@@ -852,21 +806,25 @@ function openProduct(id) {
   const rating =
     document.getElementById("detailRating");
 
-  if(rating)
+  if (rating) {
+
     rating.textContent =
       "⭐⭐⭐⭐⭐ " +
-      product.rating;
+      Number(product.rating || 4.5).toFixed(1);
+
+  }
 
 
   const description =
-    document.querySelector(
-      ".detail-description"
-    );
+    document.querySelector(".detail-description");
 
+  if (description) {
 
-  if(description)
     description.textContent =
-      product.description;
+      product.description ||
+      "Quality product available at BismiMart.";
+
+  }
 
 
   showScreen("detail");
@@ -875,35 +833,31 @@ function openProduct(id) {
 
 
 /* =====================================================
-   CATEGORY
+   CATEGORY FILTER
 ===================================================== */
 
 function openCategory(category) {
 
   const filtered =
-    products.filter(
-      function(product) {
+    products.filter(function(product) {
 
-        return (
-          String(product.category)
-            .toLowerCase() ===
-          String(category)
-            .toLowerCase()
-        );
+      return (
+        String(product.category).toLowerCase() ===
+        String(category).toLowerCase()
+      );
 
-      }
-    );
+    });
 
 
   const title =
-    document.getElementById(
-      "productsTitle"
-    );
+    document.getElementById("productsTitle");
 
+  if (title) {
 
-  if(title)
     title.textContent =
       category;
+
+  }
 
 
   renderProducts(filtered);
@@ -914,12 +868,12 @@ function openCategory(category) {
 
 
 /* =====================================================
-   SEARCH ENTER
+   SEARCH
 ===================================================== */
 
 function searchKey(event) {
 
-  if(event.key === "Enter") {
+  if (event.key === "Enter") {
 
     searchProducts();
 
@@ -928,19 +882,12 @@ function searchKey(event) {
 }
 
 
-/* =====================================================
-   SEARCH PRODUCTS
-===================================================== */
-
 function searchProducts() {
 
   const input =
-    document.getElementById(
-      "searchInput"
-    );
+    document.getElementById("searchInput");
 
-
-  if(!input) return;
+  if (!input) return;
 
 
   const query =
@@ -949,17 +896,17 @@ function searchProducts() {
       .toLowerCase();
 
 
-  if(!query) {
+  if (!query) {
 
     const title =
-      document.getElementById(
-        "productsTitle"
-      );
+      document.getElementById("productsTitle");
 
+    if (title) {
 
-    if(title)
       title.textContent =
         "All Products";
+
+    }
 
 
     renderProducts(products);
@@ -972,42 +919,40 @@ function searchProducts() {
 
 
   const results =
-    products.filter(
-      function(product) {
+    products.filter(function(product) {
 
-        const name =
-          String(product.name)
-            .toLowerCase();
+      return (
 
-        const category =
-          String(product.category)
-            .toLowerCase();
+        String(product.name)
+          .toLowerCase()
+          .includes(query)
 
-        const description =
-          String(product.description || "")
-            .toLowerCase();
+        ||
 
+        String(product.category)
+          .toLowerCase()
+          .includes(query)
 
-        return (
-          name.includes(query) ||
-          category.includes(query) ||
-          description.includes(query)
-        );
+        ||
 
-      }
-    );
+        String(product.description || "")
+          .toLowerCase()
+          .includes(query)
+
+      );
+
+    });
 
 
   const title =
-    document.getElementById(
-      "productsTitle"
-    );
+    document.getElementById("productsTitle");
 
+  if (title) {
 
-  if(title)
     title.textContent =
-      "Search: " +
-      input.value.trim();
+      "Search: " + input.value.trim();
+
+  }
 
 
   renderProducts(results);
@@ -1015,7 +960,7 @@ function searchProducts() {
   showScreen("products");
 
 
-  if(!results.length) {
+  if (!results.length) {
 
     toast(
       "No product found for your search."
@@ -1035,20 +980,12 @@ function addToCart(id, qty = 1) {
   const product =
     getProduct(id);
 
-  if(!product) {
-
-    toast("Product not found.");
-
-    return;
-
-  }
+  if (!product) return;
 
 
-  qty =
-    Number(qty);
+  qty = Number(qty);
 
-
-  if(!Number.isFinite(qty) || qty <= 0) {
+  if (!qty || qty < 1) {
 
     qty = 1;
 
@@ -1056,23 +993,18 @@ function addToCart(id, qty = 1) {
 
 
   const existing =
-    cart.find(
-      function(item) {
+    cart.find(function(item) {
 
-        return (
-          Number(item.id) ===
-          Number(product.id)
-        );
+      return Number(item.id) ===
+        Number(product.id);
 
-      }
-    );
+    });
 
 
-  if(existing) {
+  if (existing) {
 
     existing.qty =
-      Number(existing.qty || 0) +
-      qty;
+      Number(existing.qty || 0) + qty;
 
   } else {
 
@@ -1091,7 +1023,6 @@ function addToCart(id, qty = 1) {
 
   renderCart();
 
-
   toast(
     product.name +
     " added to cart 🛒"
@@ -1101,47 +1032,36 @@ function addToCart(id, qty = 1) {
 
 
 /* =====================================================
-   ADD CURRENT PRODUCT
+   CURRENT PRODUCT CART
 ===================================================== */
 
 function addCurrentProduct() {
 
-  if(!currentProductId) {
+  if (currentProductId) {
 
-    toast("Please select a product.");
-
-    return;
+    addToCart(currentProductId);
 
   }
-
-
-  addToCart(
-    currentProductId
-  );
 
 }
 
 
 /* =====================================================
-   CHANGE CART QTY
+   CHANGE CART QUANTITY
 ===================================================== */
 
 function changeQty(id, amount) {
 
   const item =
-    cart.find(
-      function(cartItem) {
+    cart.find(function(i) {
 
-        return (
-          Number(cartItem.id) ===
-          Number(id)
-        );
+      return Number(i.id) ===
+        Number(id);
 
-      }
-    );
+    });
 
 
-  if(!item) return;
+  if (!item) return;
 
 
   item.qty =
@@ -1149,19 +1069,15 @@ function changeQty(id, amount) {
     Number(amount);
 
 
-  if(item.qty <= 0) {
+  if (item.qty <= 0) {
 
     cart =
-      cart.filter(
-        function(cartItem) {
+      cart.filter(function(i) {
 
-          return (
-            Number(cartItem.id) !==
-            Number(id)
-          );
+        return Number(i.id) !==
+          Number(id);
 
-        }
-      );
+      });
 
   }
 
@@ -1174,85 +1090,27 @@ function changeQty(id, amount) {
 
 
 /* =====================================================
-   REMOVE CART PRODUCT
+   REMOVE FROM CART
 ===================================================== */
 
 function removeFromCart(id) {
 
   cart =
-    cart.filter(
-      function(item) {
+    cart.filter(function(i) {
 
-        return (
-          Number(item.id) !==
-          Number(id)
-        );
+      return Number(i.id) !==
+        Number(id);
 
-      }
-    );
+    });
 
 
   saveData();
 
   renderCart();
 
-
   toast(
     "Product removed from cart"
   );
-
-}
-
-
-/* =====================================================
-   CART TOTAL
-===================================================== */
-
-function getCartTotals() {
-
-  let subtotal = 0;
-
-
-  cart.forEach(
-    function(item) {
-
-      const product =
-        getProduct(item.id);
-
-
-      if(product) {
-
-        subtotal +=
-          Number(product.price) *
-          Number(item.qty || 0);
-
-      }
-
-    }
-  );
-
-
-  const delivery =
-    subtotal >= 3000
-      ? 0
-      : subtotal > 0
-        ? 199
-        : 0;
-
-
-  const total =
-    subtotal + delivery;
-
-
-  return {
-
-    subtotal: subtotal,
-
-    delivery: delivery,
-
-    total: total
-
-  };
 
 }
 
@@ -1264,37 +1122,26 @@ function getCartTotals() {
 function renderCart() {
 
   const list =
-    document.getElementById(
-      "cartList"
-    );
+    document.getElementById("cartList");
 
   const summary =
-    document.getElementById(
-      "cartSummary"
-    );
+    document.getElementById("cartSummary");
 
 
-  if(!list || !summary) return;
+  if (!list || !summary) return;
 
 
-  /*
-     Remove invalid cart products
-  */
+  /* REMOVE INVALID PRODUCTS */
 
   cart =
-    cart.filter(
-      function(item) {
+    cart.filter(function(item) {
 
-        return (
-          getProduct(item.id) &&
-          Number(item.qty) > 0
-        );
+      return !!getProduct(item.id);
 
-      }
-    );
+    });
 
 
-  if(!cart.length) {
+  if (!cart.length) {
 
     list.innerHTML = `
 
@@ -1313,21 +1160,17 @@ function renderCart() {
           to continue shopping.
         </p>
 
-
         <button
           class="primary-btn"
           style="margin-top:15px"
           onclick="showScreen('products')"
         >
-
           Start Shopping
-
         </button>
 
       </div>
 
     `;
-
 
     summary.innerHTML = "";
 
@@ -1339,122 +1182,114 @@ function renderCart() {
 
 
   list.innerHTML =
-    cart
-      .map(
-        function(item) {
+    cart.map(function(item) {
 
-          const product =
-            getProduct(item.id);
+      const p =
+        getProduct(item.id);
 
-          if(!product)
-            return "";
+      if (!p) return "";
 
 
-          const itemTotal =
-            Number(product.price) *
-            Number(item.qty);
+      return `
+
+        <div class="cart-item">
+
+          <div class="cart-thumb">
+            ${imageHTML(p)}
+          </div>
 
 
-          return `
+          <div>
 
-            <div class="cart-item">
-
-
-              <div class="cart-thumb">
-
-                ${imageHTML(product)}
-
-              </div>
+            <div class="cart-name">
+              ${escapeHtml(p.name)}
+            </div>
 
 
-              <div>
+            <div class="cart-price">
+              ${money(
+                Number(p.price) *
+                Number(item.qty)
+              )}
+            </div>
 
 
-                <div class="cart-name">
-
-                  ${escapeHtml(product.name)}
-
-                </div>
-
-
-                <div class="cart-price">
-
-                  ${money(itemTotal)}
-
-                </div>
-
-
-                <div class="qty-controls">
-
-
-                  <button
-                    onclick="changeQty(${product.id},-1)"
-                  >
-
-                    −
-
-                  </button>
-
-
-                  <strong>
-
-                    ${item.qty}
-
-                  </strong>
-
-
-                  <button
-                    onclick="changeQty(${product.id},1)"
-                  >
-
-                    +
-
-                  </button>
-
-
-                </div>
-
-
-                <button
-                  class="remove-btn"
-                  onclick="removeFromCart(${product.id})"
-                >
-
-                  Remove
-
-                </button>
-
-
-              </div>
-
+            <div class="qty-controls">
 
               <button
-                class="remove-btn"
-                onclick="removeFromCart(${product.id})"
+                onclick="changeQty(${p.id},-1)"
               >
-
-                ✕
-
+                −
               </button>
 
 
+              <strong>
+                ${item.qty}
+              </strong>
+
+
+              <button
+                onclick="changeQty(${p.id},1)"
+              >
+                +
+              </button>
+
             </div>
 
-          `;
 
-        }
-      )
-      .join("");
+            <button
+              class="remove-btn"
+              onclick="removeFromCart(${p.id})"
+            >
+              Remove
+            </button>
+
+          </div>
 
 
-  const totals =
-    getCartTotals();
+          <button
+            class="remove-btn"
+            onclick="removeFromCart(${p.id})"
+          >
+            ✕
+          </button>
+
+        </div>
+
+      `;
+
+    }).join("");
+
+
+  const subtotal =
+    cart.reduce(function(total, item) {
+
+      const p =
+        getProduct(item.id);
+
+      if (!p) return total;
+
+
+      return total +
+        Number(p.price) *
+        Number(item.qty || 0);
+
+    }, 0);
+
+
+  const delivery =
+    subtotal >= 3000
+      ? 0
+      : 199;
+
+
+  const total =
+    subtotal + delivery;
 
 
   summary.innerHTML = `
 
     <div class="cart-summary">
-
 
       <div class="summary-row">
 
@@ -1463,7 +1298,7 @@ function renderCart() {
         </span>
 
         <strong>
-          ${money(totals.subtotal)}
+          ${money(subtotal)}
         </strong>
 
       </div>
@@ -1476,28 +1311,24 @@ function renderCart() {
         </span>
 
         <strong>
-
           ${
-            totals.delivery === 0
+            delivery === 0
               ? "FREE"
-              : money(totals.delivery)
+              : money(delivery)
           }
-
         </strong>
 
       </div>
 
 
-      <div
-        class="summary-row summary-total"
-      >
+      <div class="summary-row summary-total">
 
         <span>
           Total
         </span>
 
         <strong>
-          ${money(totals.total)}
+          ${money(total)}
         </strong>
 
       </div>
@@ -1507,11 +1338,8 @@ function renderCart() {
         class="primary-btn checkout-btn"
         onclick="checkout()"
       >
-
         Proceed to Checkout
-
       </button>
-
 
     </div>
 
@@ -1529,27 +1357,10 @@ function renderCart() {
 
 function buyCurrentProduct() {
 
-  if(!currentProductId) {
-
-    toast("Please select a product.");
-
-    return;
-
-  }
+  if (!currentProductId) return;
 
 
-  /*
-     Add product to cart.
-  */
-
-  addToCart(
-    currentProductId
-  );
-
-
-  /*
-     Open cart.
-  */
+  addToCart(currentProductId);
 
   showScreen("cart");
 
@@ -1562,7 +1373,7 @@ function buyCurrentProduct() {
 
 function checkout() {
 
-  if(!cart.length) {
+  if (!cart.length) {
 
     toast(
       "Your cart is empty."
@@ -1573,13 +1384,47 @@ function checkout() {
   }
 
 
-  const totals =
-    getCartTotals();
+  const validCart =
+    cart.filter(function(item) {
+
+      return !!getProduct(item.id);
+
+    });
 
 
-  /*
-     Create order.
-  */
+  if (!validCart.length) {
+
+    toast(
+      "No valid products in cart."
+    );
+
+    return;
+
+  }
+
+
+  const subtotal =
+    validCart.reduce(function(total, item) {
+
+      const p =
+        getProduct(item.id);
+
+      return total +
+        Number(p.price) *
+        Number(item.qty || 0);
+
+    }, 0);
+
+
+  const delivery =
+    subtotal >= 3000
+      ? 0
+      : 199;
+
+
+  const total =
+    subtotal + delivery;
+
 
   const order = {
 
@@ -1593,24 +1438,26 @@ function checkout() {
       new Date().toLocaleString(),
 
     items:
-      cart.map(
-        function(item) {
+      validCart.map(function(item) {
 
-          return {
+        return {
 
-            id:
-              Number(item.id),
+          id: Number(item.id),
 
-            qty:
-              Number(item.qty)
+          qty: Number(item.qty || 1)
 
-          };
+        };
 
-        }
-      ),
+      }),
+
+    subtotal:
+      subtotal,
+
+    delivery:
+      delivery,
 
     total:
-      totals.total,
+      total,
 
     status:
       "Order Placed"
@@ -1619,11 +1466,6 @@ function checkout() {
 
 
   orders.unshift(order);
-
-
-  /*
-     Empty cart.
-  */
 
   cart = [];
 
@@ -1636,44 +1478,37 @@ function checkout() {
 
   renderSellerCenter();
 
-
   toast(
     "Order placed successfully! 📦"
   );
 
 
-  setTimeout(
-    function() {
+  setTimeout(function() {
 
-      showScreen("orders");
+    showScreen("orders");
 
-    },
-    600
-  );
+  }, 600);
 
 }
 
 
 /* =====================================================
-   WISHLIST TOGGLE
+   WISHLIST
 ===================================================== */
 
 function toggleWishlist(id) {
 
-  id =
-    Number(id);
+  id = Number(id);
 
 
-  if(wishlist.includes(id)) {
+  if (wishlist.includes(id)) {
 
     wishlist =
-      wishlist.filter(
-        function(productId) {
+      wishlist.filter(function(x) {
 
-          return productId !== id;
+        return Number(x) !== id;
 
-        }
-      );
+      });
 
 
     toast(
@@ -1684,7 +1519,6 @@ function toggleWishlist(id) {
 
     wishlist.push(id);
 
-
     toast(
       "Added to wishlist ❤️"
     );
@@ -1694,12 +1528,9 @@ function toggleWishlist(id) {
 
   saveData();
 
-
   renderHomeProducts();
 
-  renderProducts(
-    products
-  );
+  renderProducts(products);
 
   renderWishlist();
 
@@ -1713,26 +1544,32 @@ function toggleWishlist(id) {
 function renderWishlist() {
 
   const box =
-    document.getElementById(
-      "wishlistList"
-    );
+    document.getElementById("wishlistList");
 
-  if(!box) return;
+  if (!box) return;
+
+
+  /* REMOVE PRODUCTS THAT NO LONGER EXIST */
+
+  wishlist =
+    wishlist.filter(function(id) {
+
+      return !!getProduct(id);
+
+    });
 
 
   const saved =
     wishlist
-      .map(
-        function(id) {
+      .map(function(id) {
 
-          return getProduct(id);
+        return getProduct(id);
 
-        }
-      )
+      })
       .filter(Boolean);
 
 
-  if(!saved.length) {
+  if (!saved.length) {
 
     box.innerHTML = `
 
@@ -1754,15 +1591,12 @@ function renderWishlist() {
           to save it here.
         </p>
 
-
         <button
           class="primary-btn"
           style="margin-top:15px"
           onclick="showScreen('products')"
         >
-
           Browse Products
-
         </button>
 
       </div>
@@ -1789,14 +1623,12 @@ function renderWishlist() {
 function renderOrders() {
 
   const box =
-    document.getElementById(
-      "ordersList"
-    );
+    document.getElementById("ordersList");
 
-  if(!box) return;
+  if (!box) return;
 
 
-  if(!orders.length) {
+  if (!orders.length) {
 
     box.innerHTML = `
 
@@ -1815,15 +1647,12 @@ function renderOrders() {
           will appear here.
         </p>
 
-
         <button
           class="primary-btn"
           style="margin-top:15px"
           onclick="showScreen('products')"
         >
-
           Start Shopping
-
         </button>
 
       </div>
@@ -1836,82 +1665,68 @@ function renderOrders() {
 
 
   box.innerHTML =
-    orders
-      .map(
-        function(order) {
+    orders.map(function(order) {
 
-          const count =
-            (order.items || [])
-              .reduce(
-                function(total, item) {
+      const count =
+        (order.items || []).reduce(
+          function(total, item) {
 
-                  return (
-                    total +
-                    Number(item.qty || 0)
-                  );
+            return total +
+              Number(item.qty || 0);
 
-                },
-                0
-              );
+          },
+          0
+        );
 
 
-          return `
+      return `
 
-            <div class="order-card">
+        <div class="order-card">
 
+          <div>
 
-              <div>
-
-                <strong>
-
-                  Order #${escapeHtml(order.id)}
-
-                </strong>
+            <strong>
+              Order #${escapeHtml(order.id)}
+            </strong>
 
 
-                <p
-                  style="
-                    color:#777;
-                    font-size:12px;
-                    margin-top:5px;
-                  "
-                >
-
-                  ${escapeHtml(order.date)}
-
-                </p>
+            <p
+              style="
+                color:#777;
+                font-size:12px;
+                margin-top:5px;
+              "
+            >
+              ${escapeHtml(order.date)}
+            </p>
 
 
-                <p
-                  style="margin-top:7px"
-                >
+            <p style="margin-top:7px">
 
-                  ${count} item(s)
+              ${count} item(s)
 
-                  •
+              •
+              
+              ${money(order.total)}
 
-                  ${money(order.total)}
+            </p>
 
-                </p>
-
-
-              </div>
+          </div>
 
 
-              <div class="order-status">
+          <div class="order-status">
 
-                ${escapeHtml(order.status)}
+            ${escapeHtml(
+              order.status || "Order Placed"
+            )}
 
-              </div>
+          </div>
 
+        </div>
 
-            </div>
+      `;
 
-          `;
-
-        }
-      )
-      .join("");
+    }).join("");
 
 }
 
@@ -1923,22 +1738,18 @@ function renderOrders() {
 function renderAccount() {
 
   const box =
-    document.getElementById(
-      "accountContent"
-    );
+    document.getElementById("accountContent");
 
-  if(!box) return;
+  if (!box) return;
 
 
   box.innerHTML = `
 
     <div class="account-hero">
 
-
       <h2>
         Welcome to BismiMart 👋
       </h2>
-
 
       <p>
         Login or create an account
@@ -1951,18 +1762,14 @@ function renderAccount() {
           display:flex;
           gap:8px;
           margin-top:15px;
-          flex-wrap:wrap;
         "
       >
-
 
         <button
           class="secondary-btn"
           onclick="loginDemo()"
         >
-
           🔐 Login
-
         </button>
 
 
@@ -1970,20 +1777,15 @@ function renderAccount() {
           class="secondary-btn"
           onclick="signupDemo()"
         >
-
           ✨ Create Account
-
         </button>
 
-
       </div>
-
 
     </div>
 
 
     <div class="account-menu">
-
 
       <button
         onclick="showScreen('orders')"
@@ -2060,7 +1862,6 @@ function renderAccount() {
 
       </button>
 
-
     </div>
 
   `;
@@ -2069,7 +1870,7 @@ function renderAccount() {
 
 
 /* =====================================================
-   LOGIN
+   LOGIN / SIGNUP DEMO
 ===================================================== */
 
 function loginDemo() {
@@ -2081,10 +1882,6 @@ function loginDemo() {
 }
 
 
-/* =====================================================
-   SIGN UP
-===================================================== */
-
 function signupDemo() {
 
   toast(
@@ -2095,59 +1892,14 @@ function signupDemo() {
 
 
 /* =====================================================
-   TOAST
-===================================================== */
-
-function toast(message) {
-
-  const box =
-    document.getElementById(
-      "toast"
-    );
-
-  if(!box) return;
-
-
-  clearTimeout(
-    toastTimer
-  );
-
-
-  box.textContent =
-    message;
-
-
-  box.classList.add(
-    "show"
-  );
-
-
-  toastTimer =
-    setTimeout(
-      function() {
-
-        box.classList.remove(
-          "show"
-        );
-
-      },
-      2200
-    );
-
-}
-
-
-/* =====================================================
-   SELLER CENTER OPEN
+   SELLER CENTER
 ===================================================== */
 
 function sellerCenter() {
 
   closeSellerPanels();
 
-  showScreen(
-    "sellerCenter"
-  );
+  showScreen("sellerCenter");
 
   renderSellerCenter();
 
@@ -2165,10 +1917,12 @@ function renderSellerCenter() {
       "sellerProductCount"
     );
 
+
   const orderCount =
     document.getElementById(
       "sellerOrderCount"
     );
+
 
   const earnings =
     document.getElementById(
@@ -2176,7 +1930,7 @@ function renderSellerCenter() {
     );
 
 
-  if(productCount) {
+  if (productCount) {
 
     productCount.textContent =
       sellerProducts.length;
@@ -2188,7 +1942,7 @@ function renderSellerCenter() {
     getSellerOrders();
 
 
-  if(orderCount) {
+  if (orderCount) {
 
     orderCount.textContent =
       sellerOrders.length;
@@ -2200,7 +1954,7 @@ function renderSellerCenter() {
     calculateSellerEarnings();
 
 
-  if(earnings) {
+  if (earnings) {
 
     earnings.textContent =
       money(data.net);
@@ -2211,7 +1965,7 @@ function renderSellerCenter() {
 
 
 /* =====================================================
-   CLOSE ALL SELLER PANELS
+   CLOSE SELLER PANELS
 ===================================================== */
 
 function closeSellerPanels() {
@@ -2229,22 +1983,19 @@ function closeSellerPanels() {
   ];
 
 
-  panels.forEach(
-    function(id) {
+  panels.forEach(function(id) {
 
-      const panel =
-        document.getElementById(id);
+    const panel =
+      document.getElementById(id);
 
+    if (panel) {
 
-      if(panel) {
-
-        panel.style.display =
-          "none";
-
-      }
+      panel.style.display =
+        "none";
 
     }
-  );
+
+  });
 
 }
 
@@ -2275,7 +2026,7 @@ function openAddProduct() {
     );
 
 
-  if(panel) {
+  if (panel) {
 
     panel.style.display =
       "block";
@@ -2289,9 +2040,13 @@ function openAddProduct() {
     );
 
 
-  if(name) {
+  if (name) {
 
-    name.focus();
+    setTimeout(function() {
+
+      name.focus();
+
+    }, 100);
 
   }
 
@@ -2309,25 +2064,30 @@ function addSellerProduct() {
       "sellerProductName"
     );
 
+
   const categoryInput =
     document.getElementById(
       "sellerProductCategory"
     );
+
 
   const priceInput =
     document.getElementById(
       "sellerProductPrice"
     );
 
+
   const oldPriceInput =
     document.getElementById(
       "sellerProductOldPrice"
     );
 
+
   const emojiInput =
     document.getElementById(
       "sellerProductEmoji"
     );
+
 
   const descriptionInput =
     document.getElementById(
@@ -2335,7 +2095,7 @@ function addSellerProduct() {
     );
 
 
-  if(
+  if (
     !nameInput ||
     !categoryInput ||
     !priceInput ||
@@ -2345,7 +2105,7 @@ function addSellerProduct() {
   ) {
 
     toast(
-      "Seller form is not available."
+      "Seller form could not be loaded."
     );
 
     return;
@@ -2362,15 +2122,11 @@ function addSellerProduct() {
 
 
   const price =
-    Number(
-      priceInput.value
-    );
+    Number(priceInput.value);
 
 
   const oldPrice =
-    Number(
-      oldPriceInput.value
-    );
+    Number(oldPriceInput.value);
 
 
   const emoji =
@@ -2382,12 +2138,9 @@ function addSellerProduct() {
     descriptionInput.value.trim();
 
 
-  /* =================================================
-     VALIDATION
-  ================================================= */
+  /* VALIDATION */
 
-
-  if(!name) {
+  if (!name) {
 
     toast(
       "Please enter product name."
@@ -2398,10 +2151,7 @@ function addSellerProduct() {
   }
 
 
-  if(
-    !Number.isFinite(price) ||
-    price <= 0
-  ) {
+  if (!price || price <= 0) {
 
     toast(
       "Please enter a valid price."
@@ -2412,7 +2162,7 @@ function addSellerProduct() {
   }
 
 
-  if(
+  if (
     oldPrice &&
     oldPrice < price
   ) {
@@ -2426,13 +2176,27 @@ function addSellerProduct() {
   }
 
 
-  /*
-     Generate unique seller product ID.
-  */
+  /* UNIQUE ID */
 
-  const newId =
+  let newId =
     Date.now();
 
+
+  while (
+    products.some(function(product) {
+
+      return Number(product.id) ===
+        Number(newId);
+
+    })
+  ) {
+
+    newId++;
+
+  }
+
+
+  /* CREATE PRODUCT */
 
   const newProduct = {
 
@@ -2449,9 +2213,7 @@ function addSellerProduct() {
       price,
 
     oldPrice:
-      oldPrice > 0
-        ? oldPrice
-        : price,
+      oldPrice || price,
 
     rating:
       4.5,
@@ -2464,37 +2226,35 @@ function addSellerProduct() {
 
     description:
       description ||
-      "Quality product available at BismiMart."
+      "Quality product available at BismiMart.",
+
+    sellerProduct:
+      true
 
   };
 
 
-  /* =================================================
-     SAVE SELLER PRODUCT
-  ================================================= */
-
+  /* SAVE SELLER PRODUCT */
 
   sellerProducts.push(
     newProduct
   );
 
 
-  saveSellerProducts();
+  localStorage.setItem(
+    "bismiSellerProducts",
+    JSON.stringify(sellerProducts)
+  );
 
 
-  /*
-     Add to current main product list.
-  */
+  /* ADD TO MAIN SHOP ARRAY */
 
   products.push(
     newProduct
   );
 
 
-  /* =================================================
-     CLEAR FORM
-  ================================================= */
-
+  /* CLEAR FORM */
 
   nameInput.value = "";
 
@@ -2507,16 +2267,18 @@ function addSellerProduct() {
   descriptionInput.value = "";
 
 
-  /* =================================================
-     REFRESH EVERYTHING
-  ================================================= */
-
+  /* REFRESH EVERYTHING */
 
   renderHomeProducts();
 
   renderProducts(products);
 
   renderSellerCenter();
+
+  renderSellerProducts();
+
+
+  /* OPEN MY PRODUCTS */
 
   showSellerProducts();
 
@@ -2529,7 +2291,7 @@ function addSellerProduct() {
 
 
 /* =====================================================
-   SHOW SELLER PRODUCTS
+   SELLER PRODUCTS
 ===================================================== */
 
 function showSellerProducts() {
@@ -2543,7 +2305,7 @@ function showSellerProducts() {
     );
 
 
-  if(panel) {
+  if (panel) {
 
     panel.style.display =
       "block";
@@ -2567,10 +2329,11 @@ function renderSellerProducts() {
       "sellerProductsList"
     );
 
-  if(!box) return;
+
+  if (!box) return;
 
 
-  if(!sellerProducts.length) {
+  if (!sellerProducts.length) {
 
     box.innerHTML = `
 
@@ -2580,26 +2343,21 @@ function renderSellerProducts() {
           📦
         </div>
 
-
         <h2>
           No Products Yet
         </h2>
-
 
         <p>
           Add your first product
           to start selling.
         </p>
 
-
         <button
           class="primary-btn"
           style="margin-top:15px"
           onclick="openAddProduct()"
         >
-
           ➕ Add Product
-
         </button>
 
       </div>
@@ -2613,64 +2371,50 @@ function renderSellerProducts() {
 
   box.innerHTML =
     sellerProducts
-      .map(
-        function(product) {
+      .map(function(product) {
 
-          return `
+        return `
 
-            <div class="seller-product-item">
+          <div class="seller-product-item">
 
+            <div class="seller-product-icon">
 
-              <div class="seller-product-icon">
-
-                ${escapeHtml(product.emoji)}
-
-              </div>
-
-
-              <div class="seller-product-info">
-
-
-                <strong>
-
-                  ${escapeHtml(product.name)}
-
-                </strong>
-
-
-                <small>
-
-                  ${escapeHtml(product.category)}
-
-                </small>
-
-
-                <b>
-
-                  ${money(product.price)}
-
-                </b>
-
-
-              </div>
-
-
-              <button
-                class="remove-btn"
-                onclick="deleteSellerProduct(${product.id})"
-              >
-
-                🗑️
-
-              </button>
-
+              ${product.emoji || "📦"}
 
             </div>
 
-          `;
 
-        }
-      )
+            <div class="seller-product-info">
+
+              <strong>
+                ${escapeHtml(product.name)}
+              </strong>
+
+
+              <small>
+                ${escapeHtml(product.category)}
+              </small>
+
+
+              <b>
+                ${money(product.price)}
+              </b>
+
+            </div>
+
+
+            <button
+              class="remove-btn"
+              onclick="deleteSellerProduct(${product.id})"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+        `;
+
+      })
       .join("");
 
 }
@@ -2682,63 +2426,47 @@ function renderSellerProducts() {
 
 function deleteSellerProduct(id) {
 
-  id =
-    Number(id);
+  id = Number(id);
 
 
   const product =
-    sellerProducts.find(
-      function(item) {
+    sellerProducts.find(function(p) {
 
-        return (
-          Number(item.id) === id
-        );
+      return Number(p.id) === id;
 
-      }
-    );
+    });
 
 
-  if(!product) {
-
-    toast(
-      "Product not found."
-    );
-
-    return;
-
-  }
+  if (!product) return;
 
 
-  /*
-     Remove from seller products.
-  */
+  /* REMOVE FROM SELLER PRODUCTS */
 
   sellerProducts =
-    sellerProducts.filter(
-      function(item) {
+    sellerProducts.filter(function(p) {
 
-        return (
-          Number(item.id) !== id
-        );
+      return Number(p.id) !== id;
 
-      }
-    );
+    });
 
 
-  saveSellerProducts();
+  /* SAVE */
+
+  localStorage.setItem(
+    "bismiSellerProducts",
+    JSON.stringify(sellerProducts)
+  );
 
 
-  /*
-     Remove from main products.
-  */
+  /* REMOVE FROM MAIN PRODUCTS */
 
-  for(
+  for (
     let i = products.length - 1;
     i >= 0;
     i--
   ) {
 
-    if(
+    if (
       Number(products[i].id) === id
     ) {
 
@@ -2749,36 +2477,24 @@ function deleteSellerProduct(id) {
   }
 
 
-  /*
-     Remove from wishlist.
-  */
-
-  wishlist =
-    wishlist.filter(
-      function(productId) {
-
-        return (
-          Number(productId) !== id
-        );
-
-      }
-    );
-
-
-  /*
-     Remove from cart.
-  */
+  /* REMOVE FROM CART */
 
   cart =
-    cart.filter(
-      function(item) {
+    cart.filter(function(item) {
 
-        return (
-          Number(item.id) !== id
-        );
+      return Number(item.id) !== id;
 
-      }
-    );
+    });
+
+
+  /* REMOVE FROM WISHLIST */
+
+  wishlist =
+    wishlist.filter(function(itemId) {
+
+      return Number(itemId) !== id;
+
+    });
 
 
   saveData();
@@ -2792,58 +2508,13 @@ function deleteSellerProduct(id) {
 
   renderProducts(products);
 
-  renderWishlist();
-
   renderCart();
+
+  renderWishlist();
 
 
   toast(
     "Product removed."
-  );
-
-}
-
-
-/* =====================================================
-   GET SELLER ORDERS
-===================================================== */
-
-function getSellerOrders() {
-
-  if(!sellerProducts.length) {
-
-    return [];
-
-  }
-
-
-  const sellerProductIds =
-    sellerProducts.map(
-      function(product) {
-
-        return Number(product.id);
-
-      }
-    );
-
-
-  return orders.filter(
-    function(order) {
-
-      return (
-        Array.isArray(order.items) &&
-        order.items.some(
-          function(item) {
-
-            return sellerProductIds.includes(
-              Number(item.id)
-            );
-
-          }
-        )
-      );
-
-    }
   );
 
 }
@@ -2864,7 +2535,7 @@ function showSellerOrders() {
     );
 
 
-  if(panel) {
+  if (panel) {
 
     panel.style.display =
       "block";
@@ -2873,6 +2544,35 @@ function showSellerOrders() {
 
 
   renderSellerOrders();
+
+}
+
+
+/* =====================================================
+   GET SELLER ORDERS
+===================================================== */
+
+function getSellerOrders() {
+
+  return orders.filter(function(order) {
+
+    if (!order.items) return false;
+
+
+    return order.items.some(function(item) {
+
+      return sellerProducts.some(
+        function(product) {
+
+          return Number(product.id) ===
+            Number(item.id);
+
+        }
+      );
+
+    });
+
+  });
 
 }
 
@@ -2889,14 +2589,14 @@ function renderSellerOrders() {
     );
 
 
-  if(!box) return;
+  if (!box) return;
 
 
   const sellerOrders =
     getSellerOrders();
 
 
-  if(!sellerOrders.length) {
+  if (!sellerOrders.length) {
 
     box.innerHTML = `
 
@@ -2906,11 +2606,9 @@ function renderSellerOrders() {
           🛍️
         </div>
 
-
         <h2>
           No Seller Orders
         </h2>
-
 
         <p>
           Customer orders containing
@@ -2928,139 +2626,106 @@ function renderSellerOrders() {
 
   box.innerHTML =
     sellerOrders
-      .map(
-        function(order) {
+      .map(function(order) {
 
-          /*
-             Only this seller's products
-             are included.
-          */
+        const sellerItems =
+          order.items.filter(function(item) {
 
-          const sellerItems =
-            order.items.filter(
-              function(item) {
+            return sellerProducts.some(
+              function(product) {
 
-                return sellerProducts.some(
-                  function(product) {
+                return Number(product.id) ===
+                  Number(item.id);
 
-                    return (
-                      Number(product.id) ===
-                      Number(item.id)
-                    );
+              }
+            );
 
-                  }
-                );
+          });
+
+
+        let sellerTotal = 0;
+
+
+        sellerItems.forEach(function(item) {
+
+          const product =
+            sellerProducts.find(
+              function(p) {
+
+                return Number(p.id) ===
+                  Number(item.id);
 
               }
             );
 
 
-          let sellerTotal =
-            0;
+          if (product) {
+
+            sellerTotal +=
+              Number(product.price) *
+              Number(item.qty || 0);
+
+          }
+
+        });
 
 
-          sellerItems.forEach(
-            function(item) {
+        return `
 
-              const product =
-                sellerProducts.find(
-                  function(product) {
+          <div class="order-card">
 
-                    return (
-                      Number(product.id) ===
-                      Number(item.id)
-                    );
+            <div>
 
-                  }
-                );
+              <strong>
+                Order #${escapeHtml(order.id)}
+              </strong>
 
 
-              if(product) {
-
-                sellerTotal +=
-                  Number(product.price) *
-                  Number(item.qty || 0);
-
-              }
-
-            }
-          );
-
-
-          const itemCount =
-            sellerItems.reduce(
-              function(total, item) {
-
-                return (
-                  total +
-                  Number(item.qty || 0)
-                );
-
-              },
-              0
-            );
+              <p
+                style="
+                  color:#777;
+                  font-size:12px;
+                  margin-top:5px;
+                "
+              >
+                ${escapeHtml(order.date)}
+              </p>
 
 
-          return `
+              <p style="margin-top:7px">
 
-            <div class="order-card">
+                ${sellerItems.reduce(
+                  function(total, item) {
+                    return total +
+                      Number(item.qty || 0);
+                  },
+                  0
+                )}
+                item(s)
 
+                •
 
-              <div>
+                ${money(sellerTotal)}
 
-
-                <strong>
-
-                  Order #${escapeHtml(order.id)}
-
-                </strong>
-
-
-                <p
-                  style="
-                    color:#777;
-                    font-size:12px;
-                    margin-top:5px;
-                  "
-                >
-
-                  ${escapeHtml(order.date)}
-
-                </p>
-
-
-                <p
-                  style="
-                    margin-top:7px
-                  "
-                >
-
-                  ${itemCount}
-                  seller item(s)
-
-                  •
-
-                  ${money(sellerTotal)}
-
-                </p>
-
-
-              </div>
-
-
-              <div class="order-status">
-
-                ${escapeHtml(order.status)}
-
-              </div>
-
+              </p>
 
             </div>
 
-          `;
 
-        }
-      )
+            <div class="order-status">
+
+              ${escapeHtml(
+                order.status ||
+                "Order Placed"
+              )}
+
+            </div>
+
+          </div>
+
+        `;
+
+      })
       .join("");
 
 }
@@ -3081,7 +2746,7 @@ function showSellerEarnings() {
     );
 
 
-  if(panel) {
+  if (panel) {
 
     panel.style.display =
       "block";
@@ -3100,68 +2765,51 @@ function showSellerEarnings() {
 
 function calculateSellerEarnings() {
 
-  let totalSales =
-    0;
+  let totalSales = 0;
 
 
   const sellerOrders =
     getSellerOrders();
 
 
-  sellerOrders.forEach(
-    function(order) {
+  sellerOrders.forEach(function(order) {
 
-      if(
-        !Array.isArray(order.items)
-      ) {
+    if (!order.items) return;
 
-        return;
+
+    order.items.forEach(function(item) {
+
+      const product =
+        sellerProducts.find(
+          function(p) {
+
+            return Number(p.id) ===
+              Number(item.id);
+
+          }
+        );
+
+
+      if (product) {
+
+        totalSales +=
+          Number(product.price) *
+          Number(item.qty || 0);
 
       }
 
+    });
 
-      order.items.forEach(
-        function(item) {
-
-          const product =
-            sellerProducts.find(
-              function(sellerProduct) {
-
-                return (
-                  Number(sellerProduct.id) ===
-                  Number(item.id)
-                );
-
-              }
-            );
+  });
 
 
-          if(product) {
-
-            totalSales +=
-              Number(product.price) *
-              Number(item.qty || 0);
-
-          }
-
-        }
-      );
-
-    }
-  );
-
-
-  /*
-     BismiMart commission = 10%
-  */
+  /* 10% BISMI MART COMMISSION */
 
   const commission =
     totalSales * 0.10;
 
 
-  /*
-     Seller receives 90%.
-  */
+  /* 90% SELLER */
 
   const net =
     totalSales - commission;
@@ -3211,7 +2859,7 @@ function renderSellerEarnings() {
     );
 
 
-  if(totalSales) {
+  if (totalSales) {
 
     totalSales.textContent =
       money(data.sales);
@@ -3219,7 +2867,7 @@ function renderSellerEarnings() {
   }
 
 
-  if(commission) {
+  if (commission) {
 
     commission.textContent =
       money(data.commission);
@@ -3227,12 +2875,44 @@ function renderSellerEarnings() {
   }
 
 
-  if(net) {
+  if (net) {
 
     net.textContent =
       money(data.net);
 
   }
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function toast(message) {
+
+  const box =
+    document.getElementById("toast");
+
+  if (!box) return;
+
+
+  clearTimeout(toastTimer);
+
+
+  box.textContent =
+    message;
+
+
+  box.classList.add("show");
+
+
+  toastTimer =
+    setTimeout(function() {
+
+      box.classList.remove("show");
+
+    }, 2200);
 
 }
 
@@ -3277,12 +2957,128 @@ window.addEventListener(
       );
 
 
-    /*
-       Restore seller products after
-       storage changes as well.
-    */
+    /* REBUILD SHOP PRODUCTS */
 
-    restoreSellerProducts();
+    const defaultProducts = [
+
+      {
+        id: 1,
+        name: "Vivo Y17s (4GB • 128GB)",
+        category: "Mobiles",
+        price: 32999,
+        oldPrice: 38999,
+        rating: 4.6,
+        emoji: "📱",
+        image: "file_00000000b420821195f2136d2d25828a.png",
+        description:
+          "Vivo Y17s smartphone with 4GB RAM and 128GB storage. A practical choice for everyday use."
+      },
+
+      {
+        id: 2,
+        name: "Wireless Bluetooth Headphones",
+        category: "Electronics",
+        price: 4499,
+        oldPrice: 5999,
+        rating: 4.5,
+        emoji: "🎧",
+        image: "",
+        description:
+          "Comfortable wireless headphones for music, calls and everyday entertainment."
+      },
+
+      {
+        id: 3,
+        name: "Premium Casual T-Shirt",
+        category: "Fashion",
+        price: 1499,
+        oldPrice: 1999,
+        rating: 4.4,
+        emoji: "👕",
+        image: "",
+        description:
+          "Soft and comfortable casual T-shirt suitable for everyday wear."
+      },
+
+      {
+        id: 4,
+        name: "Modern Table Lamp",
+        category: "Home",
+        price: 2499,
+        oldPrice: 3299,
+        rating: 4.3,
+        emoji: "💡",
+        image: "",
+        description:
+          "Simple modern table lamp for bedrooms, study areas and workspaces."
+      },
+
+      {
+        id: 5,
+        name: "Beauty Care Set",
+        category: "Beauty",
+        price: 1999,
+        oldPrice: 2699,
+        rating: 4.5,
+        emoji: "💄",
+        image: "",
+        description:
+          "Everyday beauty and personal-care essentials in one convenient set."
+      },
+
+      {
+        id: 6,
+        name: "Daily Grocery Pack",
+        category: "Grocery",
+        price: 1799,
+        oldPrice: 2199,
+        rating: 4.2,
+        emoji: "🛒",
+        image: "",
+        description:
+          "Useful daily grocery essentials for your home."
+      },
+
+      {
+        id: 7,
+        name: "Football Training Ball",
+        category: "Sports",
+        price: 1899,
+        oldPrice: 2399,
+        rating: 4.4,
+        emoji: "⚽",
+        image: "",
+        description:
+          "Durable football for training, practice and recreational play."
+      },
+
+      {
+        id: 8,
+        name: "Kids Teddy Bear",
+        category: "Kids",
+        price: 1299,
+        oldPrice: 1799,
+        rating: 4.6,
+        emoji: "🧸",
+        image: "",
+        description:
+          "Soft and cuddly teddy bear for kids."
+      }
+
+    ];
+
+
+    products.length = 0;
+
+
+    defaultProducts.forEach(function(product) {
+
+      products.push(product);
+
+    });
+
+
+    loadSellerProductsIntoShop();
 
 
     updateBadges();
@@ -3304,5 +3100,37 @@ window.addEventListener(
 
 
 /* =====================================================
-   END BISMI MART SCRIPT
+   SAFETY:
+   IF SCRIPT IS LOADED AFTER DOM READY
 ===================================================== */
+
+if (
+  document.readyState === "interactive" ||
+  document.readyState === "complete"
+) {
+
+  if (
+    document.getElementById("homeProducts")
+  ) {
+
+    loadSellerProductsIntoShop();
+
+    renderHomeProducts();
+
+    renderProducts(products);
+
+    renderCart();
+
+    renderWishlist();
+
+    renderOrders();
+
+    renderAccount();
+
+    updateBadges();
+
+    renderSellerCenter();
+
+  }
+
+}

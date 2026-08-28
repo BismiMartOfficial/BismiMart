@@ -553,6 +553,433 @@
     <div id="accountContent"></div>
 
 </section>
+      <!-- =====================================================
+     SELLER CENTER
+===================================================== --><section id="sellerCenter" class="screen"><div class="page-header">
+
+    <button class="back-btn"
+            onclick="showScreen('account')">
+        ←
+    </button>
+
+    <div>
+        <span class="page-kicker">SELLER PANEL</span>
+        <h1>Seller Center</h1>
+    </div>
+
+</div>
+
+
+<!-- SELLER WELCOME -->
+
+<div class="seller-hero">
+
+    <div>
+        <span class="seller-label">
+            BISMI MART SELLER
+        </span>
+
+        <h2>
+            Welcome, Seller 👋
+        </h2>
+
+        <p>
+            Manage your products,
+            orders and earnings in one place.
+        </p>
+    </div>
+
+    <div class="seller-hero-icon">
+        🏪
+    </div>
+
+</div>
+
+
+<!-- SELLER STATS -->
+
+<div class="seller-stats">
+
+    <div class="seller-stat">
+        <span>📦</span>
+        <strong id="sellerProductCount">0</strong>
+        <small>Products</small>
+    </div>
+
+    <div class="seller-stat">
+        <span>🛍️</span>
+        <strong id="sellerOrderCount">0</strong>
+        <small>Orders</small>
+    </div>
+
+    <div class="seller-stat">
+        <span>💰</span>
+        <strong id="sellerEarnings">
+            Rs. 0
+        </strong>
+        <small>Earnings</small>
+    </div>
+
+</div>
+
+
+<!-- SELLER ACTIONS -->
+
+<div class="seller-section-title">
+
+    <span class="section-kicker">
+        MANAGE STORE
+    </span>
+
+    <h2>Seller Tools</h2>
+
+</div>
+
+
+<div class="seller-menu">
+
+    <button onclick="openAddProduct()">
+
+        <span class="seller-menu-icon">
+            ➕
+        </span>
+
+        <span class="seller-menu-text">
+            <strong>Add New Product</strong>
+            <small>
+                Add a product to BismiMart
+            </small>
+        </span>
+
+        <span class="seller-arrow">
+            ›
+        </span>
+
+    </button>
+
+
+    <button onclick="showSellerProducts()">
+
+        <span class="seller-menu-icon">
+            📦
+        </span>
+
+        <span class="seller-menu-text">
+            <strong>My Products</strong>
+            <small>
+                Manage your listed products
+            </small>
+        </span>
+
+        <span class="seller-arrow">
+            ›
+        </span>
+
+    </button>
+
+
+    <button onclick="showSellerOrders()">
+
+        <span class="seller-menu-icon">
+            🛍️
+        </span>
+
+        <span class="seller-menu-text">
+            <strong>Seller Orders</strong>
+            <small>
+                View customer orders
+            </small>
+        </span>
+
+        <span class="seller-arrow">
+            ›
+        </span>
+
+    </button>
+
+
+    <button onclick="showSellerEarnings()">
+
+        <span class="seller-menu-icon">
+            💰
+        </span>
+
+        <span class="seller-menu-text">
+            <strong>Earnings</strong>
+            <small>
+                View your sales and earnings
+            </small>
+        </span>
+
+        <span class="seller-arrow">
+            ›
+        </span>
+
+    </button>
+
+</div>
+
+
+<!-- ADD PRODUCT -->
+
+<div id="addProductPanel"
+     class="seller-panel"
+     style="display:none;">
+
+    <div class="seller-panel-header">
+
+        <div>
+            <span class="section-kicker">
+                NEW LISTING
+            </span>
+
+            <h2>Add Product</h2>
+        </div>
+
+        <button
+            class="seller-close-btn"
+            onclick="closeSellerPanel()">
+            ✕
+        </button>
+
+    </div>
+
+
+    <div class="seller-form">
+
+        <label>
+            Product Name
+        </label>
+
+        <input
+            id="sellerProductName"
+            type="text"
+            placeholder="Enter product name">
+
+
+        <label>
+            Category
+        </label>
+
+        <select id="sellerProductCategory">
+
+            <option value="Mobiles">
+                Mobiles
+            </option>
+
+            <option value="Electronics">
+                Electronics
+            </option>
+
+            <option value="Fashion">
+                Fashion
+            </option>
+
+            <option value="Home">
+                Home
+            </option>
+
+            <option value="Beauty">
+                Beauty
+            </option>
+
+            <option value="Grocery">
+                Grocery
+            </option>
+
+            <option value="Sports">
+                Sports
+            </option>
+
+            <option value="Kids">
+                Kids
+            </option>
+
+        </select>
+
+
+        <label>
+            Price
+        </label>
+
+        <input
+            id="sellerProductPrice"
+            type="number"
+            min="1"
+            placeholder="Enter selling price">
+
+
+        <label>
+            Old Price
+        </label>
+
+        <input
+            id="sellerProductOldPrice"
+            type="number"
+            min="1"
+            placeholder="Enter old price">
+
+
+        <label>
+            Product Emoji
+        </label>
+
+        <input
+            id="sellerProductEmoji"
+            type="text"
+            maxlength="4"
+            placeholder="📱">
+
+
+        <label>
+            Description
+        </label>
+
+        <textarea
+            id="sellerProductDescription"
+            rows="4"
+            placeholder="Describe your product"></textarea>
+
+
+        <button
+            class="primary-btn seller-submit-btn"
+            onclick="addSellerProduct()">
+
+            ➕ Add Product
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- MY PRODUCTS -->
+
+<div id="sellerProductsPanel"
+     class="seller-panel"
+     style="display:none;">
+
+    <div class="seller-panel-header">
+
+        <div>
+            <span class="section-kicker">
+                STORE
+            </span>
+
+            <h2>My Products</h2>
+        </div>
+
+        <button
+            class="seller-close-btn"
+            onclick="closeSellerPanel()">
+            ✕
+        </button>
+
+    </div>
+
+
+    <div id="sellerProductsList"></div>
+
+</div>
+
+
+<!-- SELLER ORDERS -->
+
+<div id="sellerOrdersPanel"
+     class="seller-panel"
+     style="display:none;">
+
+    <div class="seller-panel-header">
+
+        <div>
+            <span class="section-kicker">
+                SALES
+            </span>
+
+            <h2>Seller Orders</h2>
+        </div>
+
+        <button
+            class="seller-close-btn"
+            onclick="closeSellerPanel()">
+            ✕
+        </button>
+
+    </div>
+
+
+    <div id="sellerOrdersList"></div>
+
+</div>
+
+
+<!-- EARNINGS -->
+
+<div id="sellerEarningsPanel"
+     class="seller-panel"
+     style="display:none;">
+
+    <div class="seller-panel-header">
+
+        <div>
+            <span class="section-kicker">
+                MONEY
+            </span>
+
+            <h2>Earnings</h2>
+        </div>
+
+        <button
+            class="seller-close-btn"
+            onclick="closeSellerPanel()">
+            ✕
+        </button>
+
+    </div>
+
+
+    <div class="earnings-card">
+
+        <span>
+            Total Sales
+        </span>
+
+        <strong id="sellerTotalSales">
+            Rs. 0
+        </strong>
+
+    </div>
+
+
+    <div class="earnings-card">
+
+        <span>
+            BismiMart Commission
+        </span>
+
+        <strong id="sellerCommission">
+            Rs. 0
+        </strong>
+
+    </div>
+
+
+    <div class="earnings-card">
+
+        <span>
+            Seller Earnings
+        </span>
+
+        <strong id="sellerNetEarnings">
+            Rs. 0
+        </strong>
+
+    </div>
+
+</div>
+
+</section>
 
 
 <!-- =====================================================

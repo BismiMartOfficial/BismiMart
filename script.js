@@ -24,7 +24,7 @@ const defaultProducts = [
       "Vivo Y17s smartphone with 4GB RAM and 128GB storage. A practical choice for everyday use."
   },
 
-  {
+  { 
     id: 2,
     name: "Wireless Bluetooth Headphones",
     category: "Electronics",
@@ -2134,147 +2134,14 @@ function renderOrders() {
 }
 
 
-/* =====================================================
-   ACCOUNT
-===================================================== */
 
-function renderAccount() {
+        
 
-  const box =
-    document.getElementById(
-      "accountContent"
-    );
-
-
-  if (!box) {
-    return;
-  }
-
-
-  box.innerHTML = `
-
-    <div class="account-hero">
-
-      <h2>
-        Welcome to BismiMart 👋
-      </h2>
-
-      <p>
-        Login or create an account
-        to manage your shopping.
-      </p>
-
-
-      <div
-        style="
-          display:flex;
-          gap:8px;
-          margin-top:15px;
-        "
-      >
-
-        <button
-          class="secondary-btn"
-          onclick="loginDemo()"
-        >
-          🔐 Login
-        </button>
-
-
-        <button
-          class="secondary-btn"
-          onclick="signupDemo()"
-        >
-          ✨ Create Account
-        </button>
-
-      </div>
+      
 
     </div>
 
 
-    <div class="account-menu">
-
-      <button
-        onclick="showScreen('orders')"
-      >
-
-        <span class="menu-icon">
-          📦
-        </span>
-
-        <span>
-          My Orders
-        </span>
-
-        <span style="margin-left:auto">
-          ›
-        </span>
-
-      </button>
-
-
-      <button
-        onclick="showScreen('wishlist')"
-      >
-
-        <span class="menu-icon">
-          ❤️
-        </span>
-
-        <span>
-          Wishlist
-        </span>
-
-        <span style="margin-left:auto">
-          ›
-        </span>
-
-      </button>
-
-
-      <button
-        onclick="sellerCenter()"
-      >
-
-        <span class="menu-icon">
-          🏪
-        </span>
-
-        <span>
-          Seller Center
-        </span>
-
-        <span style="margin-left:auto">
-          ›
-        </span>
-
-      </button>
-
-
-      <button
-        onclick="showScreen('cart')"
-      >
-
-        <span class="menu-icon">
-          🛒
-        </span>
-
-        <span>
-          My Cart
-        </span>
-
-        <span style="margin-left:auto">
-          ›
-        </span>
-
-      </button>
-
-    </div>
-
-  `;
-
-}
 /* =====================================================
    ACCOUNT + REAL LOGIN / SIGNUP
 ===================================================== */

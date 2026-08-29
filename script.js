@@ -2275,28 +2275,1324 @@ function renderAccount() {
   `;
 
 }
+/* =====================================================
+   ACCOUNT + REAL LOGIN / SIGNUP
+===================================================== */
+
+/*
+   IMPORTANT:
+   GitHub Pages frontend cannot run server.js itself.
+
+   When your Express backend is deployed, put its URL here.
+
+   Example:
+   const BISMI_API_URL =
+     "https://bismimart-backend.onrender.com";
+
+   For now it is empty so the frontend will clearly
+   tell us that the backend URL still needs to be connected.
+*/
+
+const BISMI_API_URL = "";
 
 
 /* =====================================================
-   LOGIN / SIGNUP DEMO
+   CURRENT USER
+===================================================== */
+
+let currentUser =
+  readStorage(
+    "bismiCurrentUser",
+    null
+  );
+
+
+/* =====================================================
+   AUTH TOKEN
+===================================================== */
+
+function getAuthToken() {
+
+  try {
+
+    return localStorage.getItem(
+      "bismiAuthToken"
+    ) || "";
+
+  } catch (error) {
+
+    return "";
+
+  }
+
+}
+
+
+/* =====================================================
+   SAVE AUTH SESSION
+===================================================== */
+
+function saveAuthSession(
+  token,
+  user
+) {
+
+  try {
+
+    if (token) {
+
+      localStorage.setItem(
+        "bismiAuthToken",
+        token
+      );
+
+    }
+
+    if (user) {
+
+      currentUser =
+        user;
+
+      localStorage.setItem(
+        "bismiCurrentUser",
+        JSON.stringify(user)
+      );
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Auth session save error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   CLEAR AUTH SESSION
+===================================================== */
+
+function clearAuthSession() {
+
+  currentUser = null;
+
+  try {
+
+    localStorage.removeItem(
+      "bismiAuthToken"
+    );
+
+    localStorage.removeItem(
+      "bismiCurrentUser"
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "Auth session clear error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   ACCOUNT
+===================================================== */
+
+function renderAccount() {
+
+  const box =
+    document.getElementById(
+      "accountContent"
+    );
+
+
+  if (!box) {
+    return;
+  }
+
+
+  /*
+     LOGGED-IN USER
+  */
+
+  if (currentUser) {
+
+    renderLoggedInAccount();
+
+    return;
+
+  }
+
+
+  /*
+     LOGGED-OUT USER
+  */
+
+  box.innerHTML = `
+
+    <div class="account-hero">
+
+      <h2>
+        Welcome to BismiMart 👋
+      </h2>
+
+      <p>
+        Login or create an account
+        to manage your shopping.
+      </p>
+
+
+      <div
+        style="
+          display:flex;
+          gap:8px;
+          margin-top:15px;
+        "
+      >
+
+        <button
+          class="secondary-btn"
+          onclick="loginDemo()"
+        >
+          🔐 Login
+        </button>
+
+
+        <button
+          class="secondary-btn"
+          onclick="signupDemo()"
+        >
+          ✨ Create Account
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="account-menu">
+
+      <button
+        onclick="showScreen('orders')"
+      >
+
+        <span class="menu-icon">
+          📦
+        </span>
+
+        <span>
+          My Orders
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+
+      <button
+        onclick="showScreen('wishlist')"
+      >
+
+        <span class="menu-icon">
+          ❤️
+        </span>
+
+        <span>
+          Wishlist
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+
+      <button
+        onclick="sellerCenter()"
+      >
+
+        <span class="menu-icon">
+          🏪
+        </span>
+
+        <span>
+          Seller Center
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+
+      <button
+        onclick="showScreen('cart')"
+      >
+
+        <span class="menu-icon">
+          🛒
+        </span>
+
+        <span>
+          My Cart
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =====================================================
+   LOGGED-IN ACCOUNT
+===================================================== */
+
+function renderLoggedInAccount() {
+
+  const box =
+    document.getElementById(
+      "accountContent"
+    );
+
+
+  if (!box) {
+    return;
+  }
+
+
+  const name =
+    escapeHtml(
+      currentUser?.name ||
+      "BismiMart User"
+    );
+
+
+  const mobile =
+    escapeHtml(
+      currentUser?.mobile ||
+      ""
+    );
+
+
+  const email =
+    escapeHtml(
+      currentUser?.email ||
+      ""
+    );
+
+
+  box.innerHTML = `
+
+    <div class="account-profile-card">
+
+      <div class="profile-avatar">
+        👤
+      </div>
+
+
+      <div class="profile-info">
+
+        <span>
+          Welcome back 👋
+        </span>
+
+        <h2>
+          ${name}
+        </h2>
+
+        ${
+          mobile
+            ? `
+              <p>
+                📱 ${mobile}
+              </p>
+            `
+            : ""
+        }
+
+        ${
+          email
+            ? `
+              <p>
+                ✉️ ${email}
+              </p>
+            `
+            : ""
+        }
+
+      </div>
+
+    </div>
+
+
+    <div class="account-menu">
+
+      <button
+        onclick="showScreen('orders')"
+      >
+
+        <span class="menu-icon">
+          📦
+        </span>
+
+        <span>
+          My Orders
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+
+      <button
+        onclick="showScreen('wishlist')"
+      >
+
+        <span class="menu-icon">
+          ❤️
+        </span>
+
+        <span>
+          Wishlist
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+
+      <button
+        onclick="sellerCenter()"
+      >
+
+        <span class="menu-icon">
+          🏪
+        </span>
+
+        <span>
+          Seller Center
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+
+      <button
+        onclick="showScreen('cart')"
+      >
+
+        <span class="menu-icon">
+          🛒
+        </span>
+
+        <span>
+          My Cart
+        </span>
+
+        <span style="margin-left:auto">
+          ›
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <button
+      class="logout-btn"
+      onclick="logoutUser()"
+    >
+      🚪 Logout
+    </button>
+
+  `;
+
+}
+
+
+/* =====================================================
+   REAL LOGIN SCREEN
 ===================================================== */
 
 function loginDemo() {
 
-  toast(
-    "Login screen is ready for backend connection."
-  );
+  const box =
+    document.getElementById(
+      "accountContent"
+    );
+
+
+  if (!box) {
+    return;
+  }
+
+
+  box.innerHTML = `
+
+    <div class="auth-card">
+
+      <button
+        type="button"
+        class="auth-back"
+        onclick="renderAccount()"
+      >
+        ← Back
+      </button>
+
+
+      <div class="auth-icon">
+        🔐
+      </div>
+
+
+      <h2>
+        Login to BismiMart
+      </h2>
+
+
+      <p class="auth-subtitle">
+        Login with your mobile number
+        or email address.
+      </p>
+
+
+      <form
+        class="auth-form"
+        onsubmit="submitLogin(event)"
+      >
+
+        <label>
+          Email or Mobile Number
+        </label>
+
+
+        <input
+          id="loginIdentifier"
+          type="text"
+          placeholder="03XXXXXXXXX or email"
+          autocomplete="username"
+          required
+        >
+
+
+        <label>
+          Password
+        </label>
+
+
+        <input
+          id="loginPassword"
+          type="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          minlength="6"
+          required
+        >
+
+
+        <button
+          type="submit"
+          class="primary-btn auth-submit"
+          id="loginSubmitButton"
+        >
+          🔐 Login
+        </button>
+
+      </form>
+
+
+      <div class="auth-switch">
+
+        Don't have an account?
+
+        <button
+          type="button"
+          onclick="signupDemo()"
+        >
+          Create Account
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  const input =
+    document.getElementById(
+      "loginIdentifier"
+    );
+
+
+  if (input) {
+
+    setTimeout(
+      function() {
+
+        input.focus();
+
+      },
+      100
+    );
+
+  }
 
 }
 
+
+/* =====================================================
+   REAL CREATE ACCOUNT SCREEN
+===================================================== */
 
 function signupDemo() {
 
+  const box =
+    document.getElementById(
+      "accountContent"
+    );
+
+
+  if (!box) {
+    return;
+  }
+
+
+  box.innerHTML = `
+
+    <div class="auth-card">
+
+      <button
+        type="button"
+        class="auth-back"
+        onclick="renderAccount()"
+      >
+        ← Back
+      </button>
+
+
+      <div class="auth-icon">
+        ✨
+      </div>
+
+
+      <h2>
+        Create BismiMart Account
+      </h2>
+
+
+      <p class="auth-subtitle">
+        Create your account to start
+        shopping on BismiMart.
+      </p>
+
+
+      <form
+        class="auth-form"
+        onsubmit="submitSignup(event)"
+      >
+
+        <label>
+          Full Name
+        </label>
+
+
+        <input
+          id="signupName"
+          type="text"
+          placeholder="Enter your full name"
+          autocomplete="name"
+          minlength="2"
+          required
+        >
+
+
+        <label>
+          Mobile Number
+        </label>
+
+
+        <input
+          id="signupMobile"
+          type="tel"
+          placeholder="03XXXXXXXXX"
+          autocomplete="tel"
+          required
+        >
+
+
+        <label>
+          Email
+          <span class="optional">
+            (Optional)
+          </span>
+        </label>
+
+
+        <input
+          id="signupEmail"
+          type="email"
+          placeholder="example@email.com"
+          autocomplete="email"
+        >
+
+
+        <label>
+          Password
+        </label>
+
+
+        <input
+          id="signupPassword"
+          type="password"
+          placeholder="Minimum 6 characters"
+          autocomplete="new-password"
+          minlength="6"
+          required
+        >
+
+
+        <label>
+          Confirm Password
+        </label>
+
+
+        <input
+          id="signupConfirmPassword"
+          type="password"
+          placeholder="Re-enter password"
+          autocomplete="new-password"
+          minlength="6"
+          required
+        >
+
+
+        <button
+          type="submit"
+          class="primary-btn auth-submit"
+          id="signupSubmitButton"
+        >
+          ✨ Create Account
+        </button>
+
+      </form>
+
+
+      <div class="auth-switch">
+
+        Already have an account?
+
+        <button
+          type="button"
+          onclick="loginDemo()"
+        >
+          Login
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+
+
+  const input =
+    document.getElementById(
+      "signupName"
+    );
+
+
+  if (input) {
+
+    setTimeout(
+      function() {
+
+        input.focus();
+
+      },
+      100
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   REAL LOGIN REQUEST
+===================================================== */
+
+async function submitLogin(event) {
+
+  event.preventDefault();
+
+
+  const identifier =
+    document.getElementById(
+      "loginIdentifier"
+    )?.value.trim();
+
+
+  const password =
+    document.getElementById(
+      "loginPassword"
+    )?.value || "";
+
+
+  const button =
+    document.getElementById(
+      "loginSubmitButton"
+    );
+
+
+  if (
+    !identifier ||
+    !password
+  ) {
+
+    toast(
+      "Please fill all fields."
+    );
+
+    return;
+
+  }
+
+
+  /*
+     BACKEND URL CHECK
+  */
+
+  if (!BISMI_API_URL) {
+
+    toast(
+      "Backend is not connected yet."
+    );
+
+    return;
+
+  }
+
+
+  if (button) {
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Logging in...";
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        BISMI_API_URL +
+        "/api/login",
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          credentials:
+            "include",
+
+          body:
+            JSON.stringify({
+
+              identifier:
+                identifier,
+
+              password:
+                password
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+
+      throw new Error(
+        data.message ||
+        "Login failed."
+      );
+
+    }
+
+
+    saveAuthSession(
+      data.token,
+      data.user
+    );
+
+
+    toast(
+      "Login successful! 👋"
+    );
+
+
+    renderAccount();
+
+
+  } catch (error) {
+
+    console.error(
+      "Login error:",
+      error
+    );
+
+
+    toast(
+      error.message ||
+      "Unable to login."
+    );
+
+
+    if (button) {
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "🔐 Login";
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   REAL SIGNUP REQUEST
+===================================================== */
+
+async function submitSignup(event) {
+
+  event.preventDefault();
+
+
+  const name =
+    document.getElementById(
+      "signupName"
+    )?.value.trim();
+
+
+  const mobile =
+    document.getElementById(
+      "signupMobile"
+    )?.value.trim();
+
+
+  const email =
+    document.getElementById(
+      "signupEmail"
+    )?.value.trim();
+
+
+  const password =
+    document.getElementById(
+      "signupPassword"
+    )?.value || "";
+
+
+  const confirmPassword =
+    document.getElementById(
+      "signupConfirmPassword"
+    )?.value || "";
+
+
+  const button =
+    document.getElementById(
+      "signupSubmitButton"
+    );
+
+
+  if (
+    !name ||
+    !mobile ||
+    !password ||
+    !confirmPassword
+  ) {
+
+    toast(
+      "Please fill all required fields."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    name.length < 2
+  ) {
+
+    toast(
+      "Name must contain at least 2 characters."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    password.length < 6
+  ) {
+
+    toast(
+      "Password must be at least 6 characters."
+    );
+
+    return;
+
+  }
+
+
+  if (
+    password !==
+    confirmPassword
+  ) {
+
+    toast(
+      "Passwords do not match."
+    );
+
+    return;
+
+  }
+
+
+  if (!BISMI_API_URL) {
+
+    toast(
+      "Backend is not connected yet."
+    );
+
+    return;
+
+  }
+
+
+  if (button) {
+
+    button.disabled =
+      true;
+
+    button.textContent =
+      "Creating Account...";
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        BISMI_API_URL +
+        "/api/signup",
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          credentials:
+            "include",
+
+          body:
+            JSON.stringify({
+
+              name:
+                name,
+
+              mobile:
+                mobile,
+
+              email:
+                email,
+
+              password:
+                password
+
+            })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      !response.ok ||
+      !data.success
+    ) {
+
+      throw new Error(
+        data.message ||
+        "Unable to create account."
+      );
+
+    }
+
+
+    saveAuthSession(
+      data.token,
+      data.user
+    );
+
+
+    toast(
+      "Account created successfully! 🎉"
+    );
+
+
+    renderAccount();
+
+
+  } catch (error) {
+
+    console.error(
+      "Signup error:",
+      error
+    );
+
+
+    toast(
+      error.message ||
+      "Unable to create account."
+    );
+
+
+    if (button) {
+
+      button.disabled =
+        false;
+
+      button.textContent =
+        "✨ Create Account";
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logoutUser() {
+
+  const token =
+    getAuthToken();
+
+
+  /*
+     Tell backend to destroy session.
+  */
+
+  if (
+    BISMI_API_URL &&
+    token
+  ) {
+
+    try {
+
+      await fetch(
+        BISMI_API_URL +
+        "/api/logout",
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + token
+
+          },
+
+          credentials:
+            "include"
+
+        }
+      );
+
+    } catch (error) {
+
+      console.warn(
+        "Logout request failed:",
+        error
+      );
+
+    }
+
+  }
+
+
+  clearAuthSession();
+
+
+  renderAccount();
+
+
   toast(
-    "Create Account is ready for backend connection."
+    "You have been logged out."
   );
 
 }
+
+
+/* =====================================================
+   CHECK SAVED LOGIN
+===================================================== */
+
+async function checkSavedLogin() {
+
+  const token =
+    getAuthToken();
+
+
+  if (
+    !token ||
+    !BISMI_API_URL
+  ) {
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        BISMI_API_URL +
+        "/api/me",
+        {
+
+          method:
+            "GET",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + token
+
+          },
+
+          credentials:
+            "include"
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (
+      response.ok &&
+      data.success &&
+      data.user
+    ) {
+
+      currentUser =
+        data.user;
+
+
+      localStorage.setItem(
+        "bismiCurrentUser",
+        JSON.stringify(
+          data.user
+        )
+      );
+
+
+      renderAccount();
+
+    } else {
+
+      clearAuthSession();
+
+      renderAccount();
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Session check failed:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   AUTH INITIALIZATION
+===================================================== */
+
+checkSavedLogin();
 
 
 /* =====================================================

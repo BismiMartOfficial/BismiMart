@@ -15,7 +15,8 @@ CONFIG
 */
 
 const USERS_FILE = path.join(__dirname, "users.json");
-
+const PRODUCTS_FILE = path.join(__dirname, "products.json");
+const ORDERS_FILE = path.join(__dirname, "orders.json");
 /*
 =====================================================
 MIDDLEWARE
@@ -905,7 +906,8 @@ app.listen(
   () => {
 
     ensureUsersFile();
-
+    ensureJsonFile(PRODUCTS_FILE);
+    ensureJsonFile(ORDERS_FILE);
     console.log(
       `BismiMart server running on port ${PORT}`
     );

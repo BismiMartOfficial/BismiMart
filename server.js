@@ -54,7 +54,65 @@ function ensureUsersFile() {
   }
 
 }
+function ensureJsonFile(filePath) {
 
+  if (!fs.existsSync(filePath)) {
+
+    fs.writeFileSync(
+      filePath,
+      "[]",
+      "utf8"
+    );
+
+  }
+
+}
+
+function readJsonFile(filePath) {
+
+  ensureJsonFile(filePath);
+
+  try {
+
+    const data =
+      fs.readFileSync(
+        filePath,
+        "utf8"
+      );
+
+    const parsed =
+      JSON.parse(data);
+
+    return Array.isArray(parsed)
+      ? parsed
+      : [];
+
+  } catch (error) {
+
+    console.error(
+      `Database read error (${filePath}):`,
+      error
+    );
+
+    return [];
+
+  }
+
+}
+
+function writeJsonFile(filePath, data) {
+
+  fs.writeFileSync(
+    filePath,
+    JSON.stringify(
+      data,
+      null,
+      2
+    ),
+    "utf8"
+  );
+
+}
 function readUsers() {
 
   ensureUsersFile();
